@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.concretes;
+package com.umutdoruk.hrms.entities.concretes;
 
 
 import jakarta.persistence.*;
@@ -19,7 +19,7 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "email")
+    @Column(name = "e_mail")
     private String email;
 
     @Column(name = "password")
@@ -28,9 +28,9 @@ public class User {
     @Column(name = "confirm_password")
     private String confirmPassword;
 
-    @Column(name = "create_date")
+    @Column(name = "created_date")
     private Date createdDate;
 
-    @Column(name = "active")
+    @Column(name = "is_active")
     private boolean isActive;
 }
