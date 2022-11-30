@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -29,7 +29,7 @@ public class User {
     private String confirmPassword;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @Column(name = "is_active")
     private boolean isActive;
