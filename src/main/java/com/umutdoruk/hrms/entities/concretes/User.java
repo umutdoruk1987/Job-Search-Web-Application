@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -19,7 +20,7 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "e_mail")
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password")
@@ -31,6 +32,6 @@ public class User {
     @Column(name = "created_date")
     private LocalDate createdDate;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "active")
+    private boolean active;
 }
