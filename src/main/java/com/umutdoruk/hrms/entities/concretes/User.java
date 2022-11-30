@@ -1,17 +1,18 @@
-package com.umutdoruk.hrms.concretes;
+package com.umutdoruk.hrms.entities.concretes;
 
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -28,9 +29,9 @@ public class User {
     @Column(name = "confirm_password")
     private String confirmPassword;
 
-    @Column(name = "create_date")
-    private Date createdDate;
+    @Column(name = "created_date")
+    private LocalDate createdDate;
 
     @Column(name = "active")
-    private boolean isActive;
+    private boolean active;
 }
