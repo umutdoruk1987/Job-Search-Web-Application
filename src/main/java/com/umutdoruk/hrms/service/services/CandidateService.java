@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.service.abstracts;
+package com.umutdoruk.hrms.service.services;
 
 import com.umutdoruk.hrms.entities.concretes.Candidate;
 import java.util.List;

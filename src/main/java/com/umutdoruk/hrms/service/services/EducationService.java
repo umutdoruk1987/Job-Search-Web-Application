@@ -1,11 +1,13 @@
-package com.umutdoruk.hrms.repository;
+package com.umutdoruk.hrms.service.services;
 
 import com.umutdoruk.hrms.entities.concretes.Education;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface EducationRepository extends JpaRepository<Education,Integer> {
+public interface EducationService {
+
+    void add(Education education);
+    List<Education> getAll();
     List<Education> findAllByOrderByGraduationDateAsc();
     List<Education> findAllByOrderByGraduationDateDesc();
 }

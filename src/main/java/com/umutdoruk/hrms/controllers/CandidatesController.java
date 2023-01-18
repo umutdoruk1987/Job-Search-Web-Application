@@ -1,7 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.entities.concretes.Candidate;
-import com.umutdoruk.hrms.service.abstracts.CandidateService;
+import com.umutdoruk.hrms.service.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
