@@ -17,7 +17,7 @@ import java.util.List;
 public class JobType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "job_type_id")
     private int jobTypeId;
 
