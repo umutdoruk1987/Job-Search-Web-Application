@@ -20,9 +20,6 @@ public class Education {
     @Column(name = "education_id")
     private int educationId;
 
-    @Column(name = "candidate_id")
-    private int candidateId;
-
     @Column(name = "school_name")
     private String schoolName;
 
