@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class JobAdvertisement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "job_advertisement_id")
     private int jobAdvertisementId;
 
@@ -41,23 +41,23 @@ public class JobAdvertisement {
     private boolean active;
 
     @ManyToOne()
-    @Column(name = "city")
+    @JoinColumn(name = "city")
     private City city;
 
     @ManyToOne()
-    @Column(name = "job_position_id")
+    @JoinColumn(name = "job_position_id")
     private JobPosition jobPosition;
 
     @ManyToOne()
-    @Column(name = "job_type_id")
+    @JoinColumn(name = "job_type_id")
     private JobType jobType;
 
     @ManyToOne()
-    @Column(name = "type_of_work_id")
+    @JoinColumn(name = "type_of_work_id")
     private TypeOfWork typeOfWork;
 
     @ManyToOne()
-    @Column(name = "employer_id")
+    @JoinColumn(name = "employer_id")
     private Employer employer;
 
 
