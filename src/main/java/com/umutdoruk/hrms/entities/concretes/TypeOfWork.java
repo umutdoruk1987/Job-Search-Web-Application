@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -16,15 +15,12 @@ import java.util.List;
 public class TypeOfWork {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "type_of_work_id")
     private int typeOfWorkId;
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "created_date")
-    private LocalDate createdDate;
 
     @Column(name = "active")
     private boolean active;
