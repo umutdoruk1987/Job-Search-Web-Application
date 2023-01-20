@@ -20,14 +20,32 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    public void create(City city) {
+        cityRepository.save(city);
+    }
+
+    @Override
+    public void update(String cityName) {
+        City city = cityRepository.findByCityName(cityName);
+        city.setCityName(cityName);
+        cityRepository.save(city);
+    }
+
+    @Override
+    public void delete(Long id) {
+        cityRepository.deleteById(id);
+    }
+
+    @Override
     public List<City> getAll() {
         return cityRepository.findAll();
     }
 
     @Override
-    public City getById(int id) {
+    public City getById(Long id) {
         return cityRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("City is not found"));
     }
+
 }
 
