@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.controllers;
 
-import com.umutdoruk.hrms.entities.concretes.City;
+import com.umutdoruk.hrms.entities.City;
 import com.umutdoruk.hrms.service.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

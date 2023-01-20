@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.controllers;
 
-import com.umutdoruk.hrms.entities.concretes.TypeOfWork;
+import com.umutdoruk.hrms.entities.TypeOfWork;
 import com.umutdoruk.hrms.service.services.TypeOfWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

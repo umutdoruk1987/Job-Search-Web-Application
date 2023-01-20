@@ -1,29 +1,29 @@
-package com.umutdoruk.hrms.entities.concretes;
+package com.umutdoruk.hrms.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.util.List;
-
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "job_positions")
-public class JobPosition {
+@PrimaryKeyJoinColumn(name = "user_id")
+@Table(name = "employers")
+public class Employer extends User{
 
+    @Column(name = "company_name")
+    private String companyName;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "job_position_id")
-    private int jobPositionId;
+    @Column(name = "website")
+    private String website;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
 
     @Column(name = "created_date")
     private LocalDate createdDate;
@@ -31,9 +31,7 @@ public class JobPosition {
     @Column(name = "active")
     private boolean active;
 
-    @OneToMany(mappedBy = "jobPosition")
+    @OneToMany(mappedBy = "employer")
     private List<JobAdvertisement> jobAdvertisements;
-
-
 
 }

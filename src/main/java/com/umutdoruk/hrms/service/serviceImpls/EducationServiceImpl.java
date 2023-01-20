@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.Education;
+import com.umutdoruk.hrms.entities.Education;
 import com.umutdoruk.hrms.repository.EducationRepository;
 import com.umutdoruk.hrms.service.services.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;

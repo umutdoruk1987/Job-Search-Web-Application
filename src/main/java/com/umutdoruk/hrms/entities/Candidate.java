@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.entities.concretes;
+package com.umutdoruk.hrms.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

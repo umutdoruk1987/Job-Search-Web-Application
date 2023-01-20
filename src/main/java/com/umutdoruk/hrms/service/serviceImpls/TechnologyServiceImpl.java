@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.Technology;
+import com.umutdoruk.hrms.entities.Technology;
 import com.umutdoruk.hrms.repository.TechnologyRepository;
 import com.umutdoruk.hrms.service.services.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;

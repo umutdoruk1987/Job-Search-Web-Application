@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.repository;
 
-import com.umutdoruk.hrms.entities.concretes.JobAdvertisement;
+import com.umutdoruk.hrms.entities.JobAdvertisement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

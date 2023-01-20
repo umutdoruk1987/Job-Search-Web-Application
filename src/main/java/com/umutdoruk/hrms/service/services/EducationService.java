@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.Education;
+import com.umutdoruk.hrms.entities.Education;
 
 import java.util.List;
 

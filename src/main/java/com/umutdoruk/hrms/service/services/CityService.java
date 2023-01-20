@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.City;
+import com.umutdoruk.hrms.entities.City;
 
 import java.util.List;
 

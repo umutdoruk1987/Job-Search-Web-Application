@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.Resume;
+import com.umutdoruk.hrms.entities.Resume;
 import com.umutdoruk.hrms.repository.ResumeRepository;
 import com.umutdoruk.hrms.service.services.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;

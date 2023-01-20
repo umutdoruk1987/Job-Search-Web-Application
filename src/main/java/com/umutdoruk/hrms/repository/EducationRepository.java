@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.repository;
 
-import com.umutdoruk.hrms.entities.concretes.Education;
+import com.umutdoruk.hrms.entities.Education;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

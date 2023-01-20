@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.City;
+import com.umutdoruk.hrms.entities.City;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.CityRepository;
 import com.umutdoruk.hrms.service.services.CityService;

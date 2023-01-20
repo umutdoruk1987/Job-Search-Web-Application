@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.ForeignLanguage;
+import com.umutdoruk.hrms.entities.ForeignLanguage;
 
 import java.util.List;
 

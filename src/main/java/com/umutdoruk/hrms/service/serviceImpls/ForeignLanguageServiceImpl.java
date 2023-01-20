@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.ForeignLanguage;
+import com.umutdoruk.hrms.entities.ForeignLanguage;
 import com.umutdoruk.hrms.repository.ForeignLanguageRepository;
 import com.umutdoruk.hrms.service.services.ForeignLanguageService;
 import org.springframework.beans.factory.annotation.Autowired;

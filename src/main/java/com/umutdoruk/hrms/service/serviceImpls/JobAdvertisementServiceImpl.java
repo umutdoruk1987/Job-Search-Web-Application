@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.JobAdvertisement;
+import com.umutdoruk.hrms.entities.JobAdvertisement;
 import com.umutdoruk.hrms.repository.JobAdvertisementRepository;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;

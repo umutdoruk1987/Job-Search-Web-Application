@@ -1,7 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
-import com.umutdoruk.hrms.entities.concretes.Candidate;
-import com.umutdoruk.hrms.service.abstracts.CandidateService;
+import com.umutdoruk.hrms.entities.Candidate;
+import com.umutdoruk.hrms.service.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +26,14 @@ public class CandidatesController {
     }
 
     @GetMapping("/getByEmail")
-    public ResponseEntity<List<Candidate>>  getByEmail(String email) {
-        return ResponseEntity.ok(this.candidateService.findByEmployerEmail(email));
+    public ResponseEntity<Candidate>  getByEmail(String email) {
+        return ResponseEntity.ok(candidateService.findByEmail(email));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Candidate candidate){
-        this.candidateService.add(candidate);
-        return ResponseEntity.ok(HttpStatus.CREATED);
+    public HttpStatus add(@RequestBody Candidate candidate){
+        candidateService.add(candidate);
+        return HttpStatus.CREATED;
     }
 
 

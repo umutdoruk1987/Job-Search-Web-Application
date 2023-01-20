@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.controllers;
 
-import com.umutdoruk.hrms.entities.concretes.JobPosition;
+import com.umutdoruk.hrms.entities.JobPosition;
 import com.umutdoruk.hrms.service.services.JobPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

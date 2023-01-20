@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.Resume;
+import com.umutdoruk.hrms.entities.Resume;
 
 import java.util.List;
 

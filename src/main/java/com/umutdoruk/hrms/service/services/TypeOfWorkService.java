@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.TypeOfWork;
+import com.umutdoruk.hrms.entities.TypeOfWork;
 
 import java.util.List;
 

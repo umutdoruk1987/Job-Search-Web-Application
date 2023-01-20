@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.JobPosition;
+import com.umutdoruk.hrms.entities.JobPosition;
 
 import java.util.List;
 

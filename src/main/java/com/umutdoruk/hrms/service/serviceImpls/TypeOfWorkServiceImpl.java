@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.TypeOfWork;
+import com.umutdoruk.hrms.entities.TypeOfWork;
 import com.umutdoruk.hrms.repository.TypeOfWorkRepository;
 import com.umutdoruk.hrms.service.services.TypeOfWorkService;
 import org.springframework.beans.factory.annotation.Autowired;

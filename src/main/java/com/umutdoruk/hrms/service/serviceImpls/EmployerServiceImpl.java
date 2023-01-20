@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.entities.concretes.Employer;
+import com.umutdoruk.hrms.entities.Employer;
 import com.umutdoruk.hrms.repository.EmployerRepository;
 import com.umutdoruk.hrms.service.services.EmployerService;
 import com.umutdoruk.hrms.service.services.UserService;

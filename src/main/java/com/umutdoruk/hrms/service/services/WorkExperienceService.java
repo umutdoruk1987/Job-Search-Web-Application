@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.WorkExperience;
+import com.umutdoruk.hrms.entities.WorkExperience;
 
 import java.util.List;
 

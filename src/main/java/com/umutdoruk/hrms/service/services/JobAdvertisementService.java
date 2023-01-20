@@ -1,6 +1,6 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.concretes.JobAdvertisement;
+import com.umutdoruk.hrms.entities.JobAdvertisement;
 
 import java.util.List;
 
