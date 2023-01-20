@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @Entity
@@ -25,7 +24,8 @@ public class Technology {
     @Column(name = "active")
     private boolean active;
 
-    @OneToMany(mappedBy = "technology")
-    private List<Resume> resumes;
+    @ManyToOne
+    @JoinColumn(name = "resume_id")
+    private Resume resume;
 }
 

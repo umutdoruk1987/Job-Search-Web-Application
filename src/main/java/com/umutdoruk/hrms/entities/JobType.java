@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -24,14 +23,7 @@ public class JobType {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "created_date")
-    private LocalDate createdDate;
-
-    @Column(name = "active")
-    private boolean active;
-
     @OneToMany(mappedBy = "jobType")
     private List<JobAdvertisement> jobAdvertisements;
-
 
 }

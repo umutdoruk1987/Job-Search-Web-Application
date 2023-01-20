@@ -32,5 +32,6 @@ public class WorkExperience {
     private Date endDate;
 
     @ManyToOne()
+    @JoinColumn(name = "resume_id")
     private Resume resume;
 }

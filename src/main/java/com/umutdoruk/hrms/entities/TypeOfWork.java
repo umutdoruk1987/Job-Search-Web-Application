@@ -22,9 +22,6 @@ public class TypeOfWork {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "active")
-    private boolean active;
-
     @OneToMany(mappedBy = "typeOfWork")
     private List<JobAdvertisement> jobAdvertisements;
 

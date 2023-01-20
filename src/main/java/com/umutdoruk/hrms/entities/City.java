@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -23,12 +22,7 @@ public class City {
     @Column(name = "city_name")
     private String cityName;
 
-    @Column(name = "create_date")
-    private Date createDate;
-
-    @Column(name = "active")
-    private boolean active;
-
     @OneToMany(mappedBy = "city")
+    @JoinColumn(name = "jobAdvertisement_id")
     private List<JobAdvertisement> jobAdvertisements;
 }

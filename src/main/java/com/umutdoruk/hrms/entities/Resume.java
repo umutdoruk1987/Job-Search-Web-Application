@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,11 +22,11 @@ public class Resume {
     @Column(name = "cover_letter")
     private String coverLetter;
 
-    @Column(name = "github_link")
-    private String githubLink;
+    @Column(name = "github_url")
+    private String githubUrl;
 
-    @Column(name = "linkedin_link")
-    private String linkedinLink;
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -36,19 +37,20 @@ public class Resume {
     @Column(name = "active")
     private boolean active;
 
-    @OneToMany()
-    private Education education;
+    @OneToMany(mappedBy = "resume")
+    private List<Education> education;
 
-    @OneToMany()
-    private Technology technology;
+    @OneToMany(mappedBy = "resume")
+    private List<Technology> technology;
 
-    @OneToMany()
-    private WorkExperience workExperience;
+    @OneToMany(mappedBy = "resume")
+    private List<WorkExperience> workExperience;
 
-    @OneToMany()
-    private ForeignLanguage foreignLanguage;
+    @OneToMany(mappedBy = "resume")
+    private List<ForeignLanguage> foreignLanguage;
 
-    @OneToOne()
+    @OneToOne(mappedBy = "resume")
+    @JoinColumn(name = "candidate_id")
     private Candidate candidate;
 
 }

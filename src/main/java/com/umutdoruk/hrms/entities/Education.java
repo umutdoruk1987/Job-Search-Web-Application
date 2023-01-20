@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -29,13 +28,8 @@ public class Education {
     @Column(name = "graduation_date")
     private Date graduationDate;
 
-    @Column(name = "create_date")
-    private Date createDate;
-
-    @Column(name = "active")
-    private boolean active;
-
     @ManyToOne
-    private List<Resume> resumes;
+    @JoinColumn(name = "resume_id")
+    private Resume resume;
 
 }
