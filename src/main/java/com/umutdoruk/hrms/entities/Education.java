@@ -17,7 +17,7 @@ public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "education_id")
-    private int educationId;
+    private Long educationId;
 
     @Column(name = "school_name")
     private String schoolName;

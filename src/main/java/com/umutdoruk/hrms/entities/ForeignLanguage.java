@@ -15,7 +15,7 @@ public class ForeignLanguage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "foreign_language_id")
-    private int foreignLanguageId;
+    private Long foreignLanguageId;
 
     @Column(name = "language_name")
     private String languageName;

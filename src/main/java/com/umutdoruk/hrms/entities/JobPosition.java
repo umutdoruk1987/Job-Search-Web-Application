@@ -17,7 +17,7 @@ public class JobPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "job_position_id")
-    private int jobPositionId;
+    private Long jobPositionId;
 
     @Column(name = "name")
     private String name;

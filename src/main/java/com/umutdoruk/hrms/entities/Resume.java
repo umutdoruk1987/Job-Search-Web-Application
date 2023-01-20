@@ -17,7 +17,7 @@ public class Resume {
     @Id
     @Column(name = "resume_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int resumeId;
+    private Long resumeId;
 
     @Column(name = "cover_letter")
     private String coverLetter;

@@ -17,16 +17,16 @@ public class JobAdvertisement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "job_advertisement_id")
-    private int jobAdvertisementId;
+    private Long jobAdvertisementId;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "min_salary")
-    private int minSalary;
+    private Long minSalary;
 
     @Column(name = "max_salary")
-    private int maxSalary;
+    private Long maxSalary;
 
     @Column(name = "number_of_open_job_position")
     private int numberOfOpenJobPosition;
