@@ -22,20 +22,17 @@ public class CandidatesController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Candidate>> getAll(){
-        return ResponseEntity.ok(this.candidateService.getAll());
+        return ResponseEntity.ok(candidateService.getAll());
     }
 
     @GetMapping("/getByEmail")
-    public ResponseEntity<List<Candidate>>  getByEmail(String email) {
-        return ResponseEntity.ok(this.candidateService.findByEmployerEmail(email));
+    public ResponseEntity<Candidate>  getByEmail(String email) {
+        return ResponseEntity.ok(candidateService.findByEmail(email));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Candidate candidate){
-        this.candidateService.add(candidate);
-        return ResponseEntity.ok(HttpStatus.CREATED);
+    public HttpStatus add(@RequestBody Candidate candidate){
+        candidateService.add(candidate);
+        return HttpStatus.CREATED;
     }
-
-
-
 }

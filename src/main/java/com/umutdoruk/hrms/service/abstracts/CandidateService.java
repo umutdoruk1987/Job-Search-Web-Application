@@ -7,6 +7,6 @@ public interface CandidateService {
 
     void add(Candidate candidate);
     List<Candidate> getAll();
-    List<Candidate> findByEmployerEmail(String email);
+    Candidate findByEmail(String email);
 
 }
