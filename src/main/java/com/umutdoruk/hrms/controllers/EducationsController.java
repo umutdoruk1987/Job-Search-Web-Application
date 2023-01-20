@@ -32,6 +32,24 @@ public class EducationsController {
         return HttpStatus.CREATED;
     }
 
+    @DeleteMapping("/delete/{id}")
+    public HttpStatus delete(@PathVariable Long id) {
+        educationService.delete(id);
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody Education education) {
+        educationService.update(education);
+        return HttpStatus.OK;
+    }
+
+    @GetMapping("/getBy/{id}")
+    public ResponseEntity<Education> getById(@PathVariable Long id){
+        Education education = educationService.getById(id);
+        return new ResponseEntity<>(education,HttpStatus.OK);
+    }
+
     @GetMapping("/findAllByOrderByGraduationDateAsc")
     public ResponseEntity<List<Education>> getAllByOrderByGraduationDateAsc(){
         List<Education> educationList = educationService.findAllByOrderByGraduationDateAsc();
