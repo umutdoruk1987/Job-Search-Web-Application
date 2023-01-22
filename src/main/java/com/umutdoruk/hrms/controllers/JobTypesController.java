@@ -21,7 +21,7 @@ public class JobTypesController {
     }
 
     @PostMapping
-    public HttpStatus create(@RequestBody JobType jobType){
+    public HttpStatus add(@RequestBody JobType jobType){
         jobTypeService.add(jobType);
         return HttpStatus.CREATED;
     }
@@ -33,9 +33,20 @@ public class JobTypesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JobType> getById(@PathVariable int id){
+    public ResponseEntity<JobType> getById(@PathVariable Long id){
         JobType jobType = jobTypeService.getById(id);
         return new ResponseEntity<>(jobType,HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public HttpStatus delete(@PathVariable Long id) {
+        jobTypeService.delete(id);
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody JobType jobType) {
+        jobTypeService.update(jobType);
+        return HttpStatus.OK;
+    }
 }

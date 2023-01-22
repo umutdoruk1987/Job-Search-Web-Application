@@ -8,5 +8,7 @@ public interface JobTypeService {
 
     void add(JobType jobType);
     List<JobType> getAll();
-    JobType getById(int id);
+    JobType getById(Long id);
+    void update (JobType jobType);
+    void delete (Long id);
 }

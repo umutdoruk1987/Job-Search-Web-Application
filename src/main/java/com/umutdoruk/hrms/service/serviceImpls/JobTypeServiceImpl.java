@@ -22,6 +22,9 @@ public class JobTypeServiceImpl implements JobTypeService {
 
     @Override
     public void add(JobType jobType) {
+        if (jobType == null) {
+            throw new NotFoundException("No Job Type record found to add");
+        }
         jobTypeRepository.save(jobType);
     }
 
@@ -31,8 +34,24 @@ public class JobTypeServiceImpl implements JobTypeService {
     }
 
     @Override
-    public JobType getById(int id) {
+    public JobType getById(Long id) {
         return jobTypeRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Job Type is not found"));
+    }
+
+    @Override
+    public void update(JobType jobType) {
+        JobType jobTypeToUpdate = jobTypeRepository.findById(jobType.getJobTypeId())
+                .orElseThrow(()-> new NotFoundException("Job Type is not found"));
+
+        jobTypeToUpdate.setName(jobType.getName());
+        jobTypeRepository.save(jobTypeToUpdate);
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!(jobTypeRepository.existsById(id)))
+            throw new NotFoundException("Job Type is not found");
+        jobTypeRepository.deleteById(id);
     }
 }
