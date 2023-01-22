@@ -1,6 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
 import com.umutdoruk.hrms.entities.JobPosition;
+import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.JobPositionRepository;
 import com.umutdoruk.hrms.service.services.JobPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,37 @@ public class JobPositionServiceImpl implements JobPositionService {
 
     @Override
     public void add(JobPosition jobPosition) {
+        if (jobPosition == null) {
+            throw new NotFoundException("No Job Position record found to add");
+        }
         jobPositionRepository.save(jobPosition);
     }
 
     @Override
     public List<JobPosition> findByName(String jobPositionName) {
-        return jobPositionRepository.findByName(jobPositionName);
+
+        List<JobPosition> jobPositionList = jobPositionRepository.findByName(jobPositionName);
+        if (jobPositionList.isEmpty()) {
+            throw new NotFoundException("No Job Position record found with name: " + jobPositionName);
+        }
+
+        return jobPositionList;
+    }
+
+    @Override
+    public void update(JobPosition jobPosition) {
+        JobPosition jobPositionToUpdate = jobPositionRepository.findById(jobPosition.getJobPositionId())
+                .orElseThrow(()-> new NotFoundException("Job Position is not found"));
+
+        jobPositionToUpdate.setName(jobPosition.getName());
+        jobPositionRepository.save(jobPositionToUpdate);
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!(jobPositionRepository.existsById(id)))
+            throw new NotFoundException("Job Position is not found");
+        jobPositionRepository.deleteById(id);
     }
 
 }
