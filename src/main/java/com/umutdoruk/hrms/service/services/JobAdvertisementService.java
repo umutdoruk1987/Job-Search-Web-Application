@@ -8,10 +8,11 @@ public interface JobAdvertisementService {
 
     void add(JobAdvertisement jobAdvertisement);
     void update(JobAdvertisement jobAdvertisement);
+    void delete(Long id);
     List<JobAdvertisement> getAll();
-    JobAdvertisement getById(int id);
+    JobAdvertisement getById(Long id);
     List<JobAdvertisement> findByActiveTrue();
     List<JobAdvertisement> findByActiveTrueAndCreateDateAsc();
     List<JobAdvertisement> findByActiveTrueOrderByCreateDateDesc();
-    List<JobAdvertisement> findByActiveTrueAndEmployer(int employerId);
+    List<JobAdvertisement> findByActiveTrueAndEmployer(Long employerId);
 }

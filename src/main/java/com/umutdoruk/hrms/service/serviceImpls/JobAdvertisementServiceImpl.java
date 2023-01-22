@@ -1,6 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
 import com.umutdoruk.hrms.entities.JobAdvertisement;
+import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.JobAdvertisementRepository;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,45 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
 
     @Override
     public void add(JobAdvertisement jobAdvertisement) {
+        if (jobAdvertisement == null) {
+            throw new NotFoundException("No job Advertisement record found to add");
+        }
+
         jobAdvertisementRepository.save(jobAdvertisement);
     }
 
     @Override
     public void update(JobAdvertisement jobAdvertisement) {
-        jobAdvertisementRepository.save(jobAdvertisement);
+
+        JobAdvertisement jobAdvertisementToUpdate = jobAdvertisementRepository.findById(jobAdvertisement.getJobAdvertisementId())
+                .orElseThrow(()-> new NotFoundException("Job Advertisement is not found"));
+
+        jobAdvertisementToUpdate.setJobPosition(jobAdvertisement.getJobPosition());
+        jobAdvertisementToUpdate.setJobType(jobAdvertisement.getJobType());
+        jobAdvertisementToUpdate.setCity(jobAdvertisement.getCity());
+        jobAdvertisementToUpdate.setMinSalary(jobAdvertisement.getMinSalary());
+        jobAdvertisementToUpdate.setMaxSalary(jobAdvertisement.getMaxSalary());
+        jobAdvertisementToUpdate.setNumberOfOpenJobPosition(jobAdvertisement.getNumberOfOpenJobPosition());
+        jobAdvertisementToUpdate.setApplicationDeadline(jobAdvertisement.getApplicationDeadline());
+        jobAdvertisementToUpdate.setDescription(jobAdvertisement.getDescription());
+        jobAdvertisementToUpdate.setTypeOfWork(jobAdvertisement.getTypeOfWork());
+        jobAdvertisementToUpdate.setCity(jobAdvertisement.getCity());
+
+        jobAdvertisementRepository.save(jobAdvertisementToUpdate);
+    }
+
+    @Override
+    public JobAdvertisement getById(Long id) {
+        return jobAdvertisementRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Job Advertisement is not found"));
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!(jobAdvertisementRepository.existsById(id)))
+            throw new NotFoundException("Job Advertisement is not found");
+
+        jobAdvertisementRepository.deleteById(id);
     }
 
     @Override
@@ -44,7 +78,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     }
 
     @Override
-    public List<JobAdvertisement> findByActiveTrueAndEmployer(int employerId) {
+    public List<JobAdvertisement> findByActiveTrueAndEmployer(Long employerId) {
         return jobAdvertisementRepository.findByActiveTrueAndEmployerId(employerId);
     }
 
@@ -53,9 +87,5 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
         return jobAdvertisementRepository.findAll();
     }
 
-    @Override
-    public JobAdvertisement getById(int id) {
-        return jobAdvertisementRepository.findById(id);
-    }
 
 }

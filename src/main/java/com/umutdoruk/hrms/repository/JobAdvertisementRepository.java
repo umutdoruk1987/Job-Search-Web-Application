@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JobAdvertisementRepository extends JpaRepository<JobAdvertisement,Integer> {
+public interface JobAdvertisementRepository extends JpaRepository<JobAdvertisement,Long> {
     List<JobAdvertisement> findByActiveTrue();
     List<JobAdvertisement> findByActiveTrueOrderByCreateDateAsc();
     List<JobAdvertisement> findByActiveTrueOrderByCreateDateDesc();
-    List<JobAdvertisement> findByActiveTrueAndEmployerId(int employerId);
-    JobAdvertisement findById(int id);
+    List<JobAdvertisement> findByActiveTrueAndEmployerId(Long employerId);
 }

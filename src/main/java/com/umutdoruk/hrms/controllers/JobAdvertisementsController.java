@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/jobadvertisement")
+@RequestMapping("api/job_advertisement")
 public class JobAdvertisementsController {
 
     private final JobAdvertisementService jobAdvertisementService;
@@ -33,9 +33,21 @@ public class JobAdvertisementsController {
     }
 
     @GetMapping("/getById")
-    public ResponseEntity<JobAdvertisement> getById(@RequestParam int id){
+    public ResponseEntity<JobAdvertisement> getById(@RequestParam Long id){
         JobAdvertisement jobAdvertisement = jobAdvertisementService.getById(id);
         return new ResponseEntity<>(jobAdvertisement, HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public HttpStatus update(@RequestBody JobAdvertisement jobAdvertisement){
+        jobAdvertisementService.update(jobAdvertisement);
+        return HttpStatus.OK;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public HttpStatus delete(@PathVariable Long id) {
+        jobAdvertisementService.delete(id);
+        return HttpStatus.OK;
     }
 
     @GetMapping("/findByActiveTrue")
@@ -57,14 +69,9 @@ public class JobAdvertisementsController {
     }
 
     @GetMapping("/findByActiveTrueAndEmployerId")
-    public ResponseEntity<List<JobAdvertisement>> findByActiveTrueAndEmployer(int employerId){
+    public ResponseEntity<List<JobAdvertisement>> findByActiveTrueAndEmployer(Long employerId){
         List<JobAdvertisement> jobAdvertisementList = jobAdvertisementService.findByActiveTrueAndEmployer(employerId);
         return new ResponseEntity<>(jobAdvertisementList, HttpStatus.OK);
     }
 
-    @PostMapping("/update")
-    public HttpStatus update(@RequestBody JobAdvertisement jobAdvertisement){
-         this.jobAdvertisementService.update(jobAdvertisement);
-        return HttpStatus.OK;
-    }
 }
