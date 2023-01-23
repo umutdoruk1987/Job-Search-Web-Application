@@ -17,7 +17,7 @@ public class TypeOfWork {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "type_of_work_id")
-    private Long typeOfWorkId;
+    private Long id;
 
     @Column(name = "name")
     private String name;

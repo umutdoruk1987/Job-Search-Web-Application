@@ -8,5 +8,7 @@ public interface TypeOfWorkService {
 
     void add(TypeOfWork typeOfWork);
     List<TypeOfWork> getAll();
-    TypeOfWork getById(int id);
+    TypeOfWork getById(Long id);
+    void delete(Long id);
+    void update(TypeOfWork typeOfWork);
 }

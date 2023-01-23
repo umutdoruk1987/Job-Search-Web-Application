@@ -33,9 +33,21 @@ public class TypeOfWorksController {
     }
 
     @GetMapping("/{id}}")
-    public ResponseEntity<TypeOfWork> getById(@PathVariable ("id") int id){
+    public ResponseEntity<TypeOfWork> getById(@PathVariable ("id") Long id){
          TypeOfWork typeOfWork = typeOfWorkService.getById(id);
         return new ResponseEntity<>(typeOfWork, HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public HttpStatus update(@RequestBody TypeOfWork typeOfWork){
+        typeOfWorkService.update(typeOfWork);
+        return HttpStatus.OK;
+    }
+
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id){
+        typeOfWorkService.delete(id);
+        return HttpStatus.OK;
     }
 
 }
