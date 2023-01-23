@@ -16,13 +16,10 @@ public class Technology {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "technology_id")
-    private Long technologyId;
+    private Long id;
 
     @Column(name = "name")
     private String technologyName;
-
-    @Column(name = "active")
-    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "resume_id")

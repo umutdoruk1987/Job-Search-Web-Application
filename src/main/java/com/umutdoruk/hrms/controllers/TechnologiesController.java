@@ -33,8 +33,20 @@ public class TechnologiesController {
     }
 
     @GetMapping("/{id}")
-    public HttpStatus findById(@PathVariable("id") int id){
+    public HttpStatus findById(@PathVariable("id") Long id){
         technologyService.findById(id);
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/update")
+    public HttpStatus update(@RequestBody Technology technology){
+        technologyService.update(technology);
+        return HttpStatus.OK;
+    }
+
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id){
+        technologyService.delete(id);
         return HttpStatus.OK;
     }
 }
