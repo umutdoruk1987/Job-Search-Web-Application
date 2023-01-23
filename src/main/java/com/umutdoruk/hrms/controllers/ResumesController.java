@@ -25,9 +25,9 @@ public class ResumesController {
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/{id}}")
-    public ResponseEntity<Resume> findById(@PathVariable("id") int id){
-        Resume resume = resumeService.findByResumeId(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Resume> findById(@PathVariable("id") Long id){
+        Resume resume = resumeService.findResumeById(id);
         return new ResponseEntity<>(resume,HttpStatus.OK);
     }
 
@@ -43,4 +43,9 @@ public class ResumesController {
         return HttpStatus.OK;
     }
 
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id){
+        resumeService.delete(id);
+        return HttpStatus.OK;
+    }
 }
