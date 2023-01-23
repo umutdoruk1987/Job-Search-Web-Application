@@ -33,7 +33,7 @@ public class TechnologiesController {
     }
 
     @GetMapping("/{id}")
-    public HttpStatus findById(@PathVariable int id){
+    public HttpStatus findById(@PathVariable("id") int id){
         technologyService.findById(id);
         return HttpStatus.OK;
     }

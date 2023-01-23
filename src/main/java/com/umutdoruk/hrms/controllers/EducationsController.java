@@ -32,8 +32,8 @@ public class EducationsController {
         return HttpStatus.CREATED;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
         educationService.delete(id);
         return HttpStatus.OK;
     }
@@ -44,8 +44,8 @@ public class EducationsController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/getBy/{id}")
-    public ResponseEntity<Education> getById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Education> getById(@PathVariable("id") Long id){
         Education education = educationService.getById(id);
         return new ResponseEntity<>(education,HttpStatus.OK);
     }

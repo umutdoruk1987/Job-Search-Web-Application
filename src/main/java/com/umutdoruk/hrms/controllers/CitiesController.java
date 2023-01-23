@@ -27,14 +27,14 @@ public class CitiesController {
         return HttpStatus.CREATED;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
         cityService.delete(id);
         return HttpStatus.OK;
     }
 
-    @PutMapping("/update/{cityName}")
-    public HttpStatus update(@PathVariable String cityName) {
+    @PutMapping("/{cityName}")
+    public HttpStatus update(@PathVariable("cityName") String cityName) {
         cityService.update(cityName);
         return HttpStatus.OK;
     }
@@ -45,8 +45,8 @@ public class CitiesController {
         return new ResponseEntity<>(cityList, HttpStatus.OK);
     }
 
-    @GetMapping("/getBy/{id}")
-    public ResponseEntity<City> getById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<City> getById(@PathVariable("id") Long id){
          City city = cityService.getById(id);
         return new ResponseEntity<>(city,HttpStatus.OK);
     }

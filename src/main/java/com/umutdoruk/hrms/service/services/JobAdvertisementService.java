@@ -12,7 +12,7 @@ public interface JobAdvertisementService {
     List<JobAdvertisement> getAll();
     JobAdvertisement getById(Long id);
     List<JobAdvertisement> findByActiveTrue();
-    List<JobAdvertisement> findByActiveTrueAndCreateDateAsc();
-    List<JobAdvertisement> findByActiveTrueOrderByCreateDateDesc();
+    List<JobAdvertisement> findByActiveTrueAndCreatedDateAsc();
+    List<JobAdvertisement> findByActiveTrueOrderByCreatedDateDesc();
     List<JobAdvertisement> findByActiveTrueAndEmployer(Long employerId);
 }

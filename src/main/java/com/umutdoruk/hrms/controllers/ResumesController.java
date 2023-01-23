@@ -26,7 +26,7 @@ public class ResumesController {
     }
 
     @GetMapping("/{id}}")
-    public ResponseEntity<Resume> findById(@PathVariable int id){
+    public ResponseEntity<Resume> findById(@PathVariable("id") int id){
         Resume resume = resumeService.findByResumeId(id);
         return new ResponseEntity<>(resume,HttpStatus.OK);
     }

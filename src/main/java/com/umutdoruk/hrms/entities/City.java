@@ -17,12 +17,11 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "city_id")
-    private Long cityId;
+    private Long id;
 
     @Column(name = "city_name")
     private String cityName;
 
     @OneToMany(mappedBy = "city")
-    @JoinColumn(name = "jobAdvertisement_id")
     private List<JobAdvertisement> jobAdvertisements;
 }

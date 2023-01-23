@@ -32,14 +32,14 @@ public class JobPositionsController {
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/getByName/{jobPositionName}")
-    public ResponseEntity<List<JobPosition>> getByName(@PathVariable String jobPositionName){
+    @GetMapping("/{jobPositionName}")
+    public ResponseEntity<List<JobPosition>> getByName(@PathVariable("jobPositionName") String jobPositionName){
         List<JobPosition> jobPositionList = jobPositionService.findByName(jobPositionName);
         return new ResponseEntity<>(jobPositionList, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
         jobPositionService.delete(id);
         return HttpStatus.OK;
     }

@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface JobAdvertisementRepository extends JpaRepository<JobAdvertisement,Long> {
     List<JobAdvertisement> findByActiveTrue();
-    List<JobAdvertisement> findByActiveTrueOrderByCreateDateAsc();
-    List<JobAdvertisement> findByActiveTrueOrderByCreateDateDesc();
+    List<JobAdvertisement> findByActiveTrueOrderByCreatedDateAsc();
+    List<JobAdvertisement> findByActiveTrueOrderByCreatedDateDesc();
     List<JobAdvertisement> findByActiveTrueAndEmployerId(Long employerId);
 }

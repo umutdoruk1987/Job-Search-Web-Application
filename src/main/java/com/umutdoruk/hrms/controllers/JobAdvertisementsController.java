@@ -32,8 +32,8 @@ public class JobAdvertisementsController {
         return new ResponseEntity<>(jobAdvertisementList, HttpStatus.OK);
     }
 
-    @GetMapping("/getById")
-    public ResponseEntity<JobAdvertisement> getById(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<JobAdvertisement> getById(@PathVariable("id") Long id){
         JobAdvertisement jobAdvertisement = jobAdvertisementService.getById(id);
         return new ResponseEntity<>(jobAdvertisement, HttpStatus.OK);
     }
@@ -44,8 +44,8 @@ public class JobAdvertisementsController {
         return HttpStatus.OK;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
         jobAdvertisementService.delete(id);
         return HttpStatus.OK;
     }
@@ -56,15 +56,15 @@ public class JobAdvertisementsController {
         return new ResponseEntity<>(jobAdvertisementList, HttpStatus.OK);
     }
 
-    @GetMapping("/findByActiveTrueAndCreateDateAsc")
+    @GetMapping("/findByActiveTrueAndCreatedDateAsc")
     public ResponseEntity<List<JobAdvertisement>> findByActiveTrueAndCreateDateAsc(){
-        List<JobAdvertisement> jobAdvertisementList = jobAdvertisementService.findByActiveTrueAndCreateDateAsc();
+        List<JobAdvertisement> jobAdvertisementList = jobAdvertisementService.findByActiveTrueAndCreatedDateAsc();
         return new ResponseEntity<>(jobAdvertisementList, HttpStatus.OK);
     }
 
-    @GetMapping("/findByActiveTrueOrderByCreateDateDesc")
+    @GetMapping("/findByActiveTrueOrderByCreatedDateDesc")
     public ResponseEntity<List<JobAdvertisement>> findByActiveTrueAndCreateDateDesc(){
-        List<JobAdvertisement> jobAdvertisementList = jobAdvertisementService.findByActiveTrueOrderByCreateDateDesc();
+        List<JobAdvertisement> jobAdvertisementList = jobAdvertisementService.findByActiveTrueOrderByCreatedDateDesc();
         return new ResponseEntity<>(jobAdvertisementList, HttpStatus.OK);
     }
 

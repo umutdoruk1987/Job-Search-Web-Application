@@ -26,11 +26,7 @@ public class Candidate extends User {
     @Column(name = "year_of_birth")
     private LocalDate yearOfBirth;
 
-    @Column(name = "active")
-    private boolean active;
-
     @OneToOne(mappedBy = "candidate")
-    @JoinColumn(name = "resume_id")
     private Resume resume;
 
 }

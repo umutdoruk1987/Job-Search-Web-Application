@@ -41,7 +41,7 @@ public class JobTypeServiceImpl implements JobTypeService {
 
     @Override
     public void update(JobType jobType) {
-        JobType jobTypeToUpdate = jobTypeRepository.findById(jobType.getJobTypeId())
+        JobType jobTypeToUpdate = jobTypeRepository.findById(jobType.getId())
                 .orElseThrow(()-> new NotFoundException("Job Type is not found"));
 
         jobTypeToUpdate.setName(jobType.getName());

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,12 +16,12 @@ public class JobPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "job_position_id")
-    private Long jobPositionId;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
     @OneToOne(mappedBy = "jobPosition")
-    private List<JobAdvertisement> jobAdvertisements;
+    private JobAdvertisement jobAdvertisements;
 
 }

@@ -17,7 +17,7 @@ public class Resume {
     @Id
     @Column(name = "resume_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long resumeId;
+    private Long id;
 
     @Column(name = "cover_letter")
     private String coverLetter;
@@ -49,7 +49,7 @@ public class Resume {
     @OneToMany(mappedBy = "resume")
     private List<ForeignLanguage> foreignLanguage;
 
-    @OneToOne(mappedBy = "resume")
+    @OneToOne()
     @JoinColumn(name = "candidate_id")
     private Candidate candidate;
 

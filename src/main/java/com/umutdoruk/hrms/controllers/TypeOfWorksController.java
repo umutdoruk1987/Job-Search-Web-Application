@@ -32,8 +32,8 @@ public class TypeOfWorksController {
         return new ResponseEntity<>(typeOfWorkList, HttpStatus.OK);
     }
 
-    @GetMapping("/getById")
-    public ResponseEntity<TypeOfWork> getById(int id){
+    @GetMapping("/{id}}")
+    public ResponseEntity<TypeOfWork> getById(@PathVariable ("id") int id){
          TypeOfWork typeOfWork = typeOfWorkService.getById(id);
         return new ResponseEntity<>(typeOfWork, HttpStatus.OK);
     }

@@ -29,7 +29,7 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     public void update(Education education) {
-        Education educationForUpdate = educationRepository.findById(education.getEducationId())
+        Education educationForUpdate = educationRepository.findById(education.getId())
                 .orElseThrow(()-> new NotFoundException("Education is not found"));
 
         educationForUpdate.setSchoolName(education.getSchoolName());

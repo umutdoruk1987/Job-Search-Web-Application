@@ -33,13 +33,13 @@ public class JobTypesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JobType> getById(@PathVariable Long id){
+    public ResponseEntity<JobType> getById(@PathVariable("id") Long id){
         JobType jobType = jobTypeService.getById(id);
         return new ResponseEntity<>(jobType,HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
         jobTypeService.delete(id);
         return HttpStatus.OK;
     }

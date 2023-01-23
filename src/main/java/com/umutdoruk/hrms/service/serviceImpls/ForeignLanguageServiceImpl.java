@@ -29,7 +29,7 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
 
     @Override
     public void update(ForeignLanguage foreignLanguage) {
-        ForeignLanguage foreignLanguageToUpdate = foreignLanguageRepository.findById(foreignLanguage.getForeignLanguageId())
+        ForeignLanguage foreignLanguageToUpdate = foreignLanguageRepository.findById(foreignLanguage.getId())
                 .orElseThrow(()-> new NotFoundException("Foreign Language is not found"));
 
         foreignLanguageToUpdate.setLanguageName(foreignLanguage.getLanguageName());

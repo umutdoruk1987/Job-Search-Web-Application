@@ -26,7 +26,7 @@ public class CandidatesController {
     }
 
     @GetMapping("/getByEmail")
-    public ResponseEntity<Candidate>  getByEmail(String email) {
+    public ResponseEntity<Candidate>  getByEmail(@PathVariable("email") String email) {
         return ResponseEntity.ok(candidateService.findByEmail(email));
     }
 

@@ -31,7 +31,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     @Override
     public void update(JobAdvertisement jobAdvertisement) {
 
-        JobAdvertisement jobAdvertisementToUpdate = jobAdvertisementRepository.findById(jobAdvertisement.getJobAdvertisementId())
+        JobAdvertisement jobAdvertisementToUpdate = jobAdvertisementRepository.findById(jobAdvertisement.getId())
                 .orElseThrow(()-> new NotFoundException("Job Advertisement is not found"));
 
         jobAdvertisementToUpdate.setJobPosition(jobAdvertisement.getJobPosition());
@@ -68,13 +68,13 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     }
 
     @Override
-    public List<JobAdvertisement> findByActiveTrueAndCreateDateAsc() {
-        return jobAdvertisementRepository.findByActiveTrueOrderByCreateDateAsc();
+    public List<JobAdvertisement> findByActiveTrueAndCreatedDateAsc() {
+        return jobAdvertisementRepository.findByActiveTrueOrderByCreatedDateAsc();
     }
 
     @Override
-    public List<JobAdvertisement> findByActiveTrueOrderByCreateDateDesc() {
-        return jobAdvertisementRepository.findByActiveTrueOrderByCreateDateDesc();
+    public List<JobAdvertisement> findByActiveTrueOrderByCreatedDateDesc() {
+        return jobAdvertisementRepository.findByActiveTrueOrderByCreatedDateDesc();
     }
 
     @Override

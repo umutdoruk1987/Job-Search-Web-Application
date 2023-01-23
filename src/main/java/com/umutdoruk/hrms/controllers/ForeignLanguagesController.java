@@ -32,8 +32,8 @@ public class ForeignLanguagesController {
         return HttpStatus.CREATED;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
         foreignLanguageService.delete(id);
         return HttpStatus.OK;
     }
@@ -44,8 +44,8 @@ public class ForeignLanguagesController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/getBy/{id}")
-    public ResponseEntity<ForeignLanguage> getById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<ForeignLanguage> getById(@PathVariable("id") Long id){
         ForeignLanguage foreignLanguage = foreignLanguageService.getById(id);
         return new ResponseEntity<>(foreignLanguage,HttpStatus.OK);
     }

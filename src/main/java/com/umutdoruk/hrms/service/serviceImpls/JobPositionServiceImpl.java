@@ -44,7 +44,7 @@ public class JobPositionServiceImpl implements JobPositionService {
 
     @Override
     public void update(JobPosition jobPosition) {
-        JobPosition jobPositionToUpdate = jobPositionRepository.findById(jobPosition.getJobPositionId())
+        JobPosition jobPositionToUpdate = jobPositionRepository.findById(jobPosition.getId())
                 .orElseThrow(()-> new NotFoundException("Job Position is not found"));
 
         jobPositionToUpdate.setName(jobPosition.getName());

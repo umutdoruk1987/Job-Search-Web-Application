@@ -24,9 +24,6 @@ public class Employer extends User{
     @Column(name = "company_telephone_number")
     private String companyTelephoneNumber;
 
-    @Column(name = "active")
-    private boolean active;
-
     @OneToMany(mappedBy = "employer")
     private List<JobAdvertisement> jobAdvertisements;
 
