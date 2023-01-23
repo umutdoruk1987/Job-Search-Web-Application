@@ -53,6 +53,4 @@ public class CandidatesController {
         Candidate candidate = candidateService.findById(id);
         return new ResponseEntity<>(candidate,HttpStatus.OK);
     }
-
-
 }
