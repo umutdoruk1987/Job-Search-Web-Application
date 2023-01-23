@@ -37,4 +37,24 @@ public class EmployersController {
         Employer employer = employerService.findByEmail(email);
         return HttpStatus.OK;
     }
+
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
+        employerService.delete(id);
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody Employer employer) {
+        employerService.update(employer);
+        return HttpStatus.OK;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Employer> getById(@PathVariable("id") Long id){
+        Employer employer = employerService.findById(id);
+        return new ResponseEntity<>(employer,HttpStatus.OK);
+    }
+
+
 }
