@@ -36,6 +36,23 @@ public class CandidatesController {
         return HttpStatus.CREATED;
     }
 
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
+        candidateService.delete(id);
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody Candidate candidate) {
+        candidateService.update(candidate);
+        return HttpStatus.OK;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Candidate> getById(@PathVariable("id") Long id){
+        Candidate candidate = candidateService.findById(id);
+        return new ResponseEntity<>(candidate,HttpStatus.OK);
+    }
 
 
 }
