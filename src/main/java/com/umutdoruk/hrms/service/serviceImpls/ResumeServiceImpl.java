@@ -7,6 +7,7 @@ import com.umutdoruk.hrms.service.services.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,6 +25,7 @@ public class ResumeServiceImpl implements ResumeService {
         if (resume == null) {
             throw new NotFoundException("No Resume record found to add");
         }
+        resume.setCreateDate(LocalDate.now());
         resumeRepository.save(resume);
     }
 

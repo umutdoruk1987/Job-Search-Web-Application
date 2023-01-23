@@ -7,6 +7,7 @@ import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
             throw new NotFoundException("No job Advertisement record found to add");
         }
 
+        jobAdvertisement.setCreatedDate(LocalDate.now());
         jobAdvertisementRepository.save(jobAdvertisement);
     }
 

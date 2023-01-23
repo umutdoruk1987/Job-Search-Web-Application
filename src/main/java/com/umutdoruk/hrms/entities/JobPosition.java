@@ -22,6 +22,6 @@ public class JobPosition {
     private String name;
 
     @OneToOne(mappedBy = "jobPosition")
-    private JobAdvertisement jobAdvertisements;
+    private JobAdvertisement jobAdvertisement;
 
 }

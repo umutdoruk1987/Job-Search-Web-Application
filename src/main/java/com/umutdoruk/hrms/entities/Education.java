@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -23,10 +23,10 @@ public class Education {
     private String schoolName;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "graduation_date")
-    private Date graduationDate;
+    private LocalDate graduationDate;
 
     @ManyToOne
     @JoinColumn(name = "resume_id")
