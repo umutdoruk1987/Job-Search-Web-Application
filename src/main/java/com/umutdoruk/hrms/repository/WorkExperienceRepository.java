@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WorkExperienceRepository extends JpaRepository<WorkExperience,Integer> {
+public interface WorkExperienceRepository extends JpaRepository<WorkExperience,Long> {
     List<WorkExperience> findAllByOrderByEndDateDesc();
 }

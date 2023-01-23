@@ -9,4 +9,7 @@ public interface WorkExperienceService {
     void add(WorkExperience workExperience);
     List<WorkExperience> findAllByOrder();
     List<WorkExperience> getAll();
+    WorkExperience getById(Long id);
+    void delete(Long id);
+    void update(WorkExperience workExperience);
 }

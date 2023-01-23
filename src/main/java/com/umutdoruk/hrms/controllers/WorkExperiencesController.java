@@ -37,5 +37,23 @@ public class WorkExperiencesController {
         List<WorkExperience> workExperienceList = workExperienceService.findAllByOrder();
         return new ResponseEntity<>(workExperienceList,HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
+        workExperienceService.delete(id);
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody WorkExperience workExperience) {
+        workExperienceService.update(workExperience);
+        return HttpStatus.OK;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<WorkExperience> getById(@PathVariable("id") Long id){
+        WorkExperience workExperience = workExperienceService.getById(id);
+        return new ResponseEntity<>(workExperience,HttpStatus.OK);
+    }
 }
 

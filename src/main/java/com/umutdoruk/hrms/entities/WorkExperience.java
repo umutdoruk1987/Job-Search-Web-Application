@@ -17,7 +17,7 @@ public class WorkExperience {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "work_experience_id")
-    private Long workExperienceId;
+    private Long id;
 
     @Column(name = "job_name")
     private String jobName;
