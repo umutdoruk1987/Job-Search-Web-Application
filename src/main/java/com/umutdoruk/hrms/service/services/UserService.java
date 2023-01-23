@@ -4,4 +4,6 @@ import com.umutdoruk.hrms.entities.User;
 
 public interface UserService {
     void register(User user);
+    User findByEmail(String email);
+    Boolean isEmailExist(String email);
 }
