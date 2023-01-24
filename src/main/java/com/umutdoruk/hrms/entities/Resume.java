@@ -38,16 +38,16 @@ public class Resume {
     private boolean active;
 
     @OneToMany(mappedBy = "resume")
-    private List<Education> education;
+    private List<Education> educationList;
 
     @OneToMany(mappedBy = "resume")
-    private List<Technology> technology;
+    private List<Technology> technologyList;
 
     @OneToMany(mappedBy = "resume")
-    private List<WorkExperience> workExperience;
+    private List<WorkExperience> workExperienceList;
 
     @OneToMany(mappedBy = "resume")
-    private List<ForeignLanguage> foreignLanguage;
+    private List<ForeignLanguage> foreignLanguageList;
 
     @OneToOne()
     @JoinColumn(name = "candidate_id")

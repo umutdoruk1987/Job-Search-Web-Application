@@ -16,10 +16,5 @@ public class CandidateRequest {
     private String telephoneNumber;
     private LocalDate yearOfBirth;
     private Long resumeId;
-    private String email;
-    private String username;
-    private String password;
-    private String confirmPassword;
-    private Boolean isActive;
 
 }
