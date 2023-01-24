@@ -1,6 +1,9 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.EmployerRequest;
+import com.umutdoruk.hrms.DTO.response.EmployerResponse;
 import com.umutdoruk.hrms.entities.Employer;
+import com.umutdoruk.hrms.repository.EmployerRepository;
 import com.umutdoruk.hrms.service.services.EmployerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,28 +17,31 @@ import java.util.List;
 public class EmployersController {
 
     private final EmployerService employerService;
+    private final EmployerRepository employerRepository;
 
     @Autowired
-    public EmployersController(EmployerService employerService) {
+    public EmployersController(EmployerService employerService,
+                               EmployerRepository employerRepository) {
         this.employerService = employerService;
+        this.employerRepository = employerRepository;
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Employer>> getAll(){
-         List<Employer> employerList = employerService.getAll();
+    public ResponseEntity<List<EmployerResponse>> getAll(){
+         List<EmployerResponse> employerList = employerService.getAll();
         return new ResponseEntity<>(employerList, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public HttpStatus add(@RequestBody Employer employer){
-        employerService.add(employer);
+    public HttpStatus add(@RequestBody EmployerRequest employerRequest){
+        employerService.add(employerRequest);
         return HttpStatus.CREATED;
     }
 
     @GetMapping("/getByEmail")
-    public HttpStatus getByEmail(String email){
-        Employer employer = employerService.findByEmail(email);
-        return HttpStatus.OK;
+    public ResponseEntity<EmployerResponse> getByEmail(String email){
+        EmployerResponse employerResponse = employerService.findByEmail(email);
+        return new ResponseEntity<>(employerResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -45,15 +51,15 @@ public class EmployersController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody Employer employer) {
-        employerService.update(employer);
+    public HttpStatus update(@RequestBody EmployerRequest employerRequest) {
+        employerService.update(employerRequest);
         return HttpStatus.OK;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employer> getById(@PathVariable("id") Long id){
-        Employer employer = employerService.findById(id);
-        return new ResponseEntity<>(employer,HttpStatus.OK);
+    public ResponseEntity<EmployerResponse> getById(@PathVariable("id") Long id){
+        EmployerResponse employerResponse = employerService.findById(id);
+        return new ResponseEntity<>(employerResponse,HttpStatus.OK);
     }
 
 

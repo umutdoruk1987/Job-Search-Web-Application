@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.JobTypeRequest;
+import com.umutdoruk.hrms.DTO.response.JobTypeResponse;
 import com.umutdoruk.hrms.entities.JobType;
 import com.umutdoruk.hrms.service.services.JobTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +23,21 @@ public class JobTypesController {
     }
 
     @PostMapping
-    public HttpStatus add(@RequestBody JobType jobType){
-        jobTypeService.add(jobType);
+    public HttpStatus add(@RequestBody JobTypeRequest jobTypeRequest){
+        jobTypeService.add(jobTypeRequest);
         return HttpStatus.CREATED;
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<JobType>> getAll(){
-        List<JobType> jobTypeList = jobTypeService.getAll();
-        return new ResponseEntity<>(jobTypeList,HttpStatus.OK);
+    public ResponseEntity<List<JobTypeResponse>> getAll(){
+        List<JobTypeResponse> jobTypeResponseList = jobTypeService.getAll();
+        return new ResponseEntity<>(jobTypeResponseList,HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JobType> getById(@PathVariable("id") Long id){
-        JobType jobType = jobTypeService.getById(id);
-        return new ResponseEntity<>(jobType,HttpStatus.OK);
+    public ResponseEntity<JobTypeResponse> getById(@PathVariable("id") Long id){
+        JobTypeResponse jobTypeResponse = jobTypeService.getById(id);
+        return new ResponseEntity<>(jobTypeResponse,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -45,8 +47,8 @@ public class JobTypesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobType jobType) {
-        jobTypeService.update(jobType);
+    public HttpStatus update(@RequestBody JobTypeRequest jobTypeRequest) {
+        jobTypeService.update(jobTypeRequest);
         return HttpStatus.OK;
     }
 }

@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.CityRequest;
+import com.umutdoruk.hrms.DTO.response.CityResponse;
 import com.umutdoruk.hrms.entities.City;
 import com.umutdoruk.hrms.service.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,8 @@ public class CitiesController {
     }
 
     @PostMapping("/add")
-    public HttpStatus create(@RequestBody City city) {
-        cityService.create(city);
+    public HttpStatus create(@RequestBody CityRequest cityRequest) {
+        cityService.create(cityRequest);
         return HttpStatus.CREATED;
     }
 
@@ -40,14 +42,14 @@ public class CitiesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<City>> getAll(){
-        List<City> cityList = cityService.getAll();
-        return new ResponseEntity<>(cityList, HttpStatus.OK);
+    public ResponseEntity<List<CityResponse>> getAll(){
+        List<CityResponse> cityList = cityService.getAll();
+        return new ResponseEntity<CityResponse>(cityList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<City> getById(@PathVariable("id") Long id){
-         City city = cityService.getById(id);
-        return new ResponseEntity<>(city,HttpStatus.OK);
+    public ResponseEntity<CityResponse> getById(@PathVariable("id") Long id){
+         CityResponse cityResponse = cityService.getById(id);
+        return new ResponseEntity<>(cityResponse,HttpStatus.OK);
     }
 }

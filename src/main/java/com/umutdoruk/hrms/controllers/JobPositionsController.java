@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.JobPositionRequest;
+import com.umutdoruk.hrms.DTO.response.JobPositionResponse;
 import com.umutdoruk.hrms.entities.JobPosition;
 import com.umutdoruk.hrms.service.services.JobPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +23,21 @@ public class JobPositionsController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<JobPosition>> getAll(){
-        List<JobPosition> jobPositionList = jobPositionService.getAll();
-        return new ResponseEntity<>(jobPositionList, HttpStatus.OK);
+    public ResponseEntity<List<JobPositionResponse>> getAll(){
+        List<JobPositionResponse> jobPositionResponseList = jobPositionService.getAll();
+        return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public HttpStatus add(@RequestBody JobPosition jobPosition){
-        jobPositionService.add(jobPosition);
+    public HttpStatus add(@RequestBody JobPositionRequest jobPositionRequest){
+        jobPositionService.add(jobPositionRequest);
         return HttpStatus.CREATED;
     }
 
     @GetMapping("/{jobPositionName}")
-    public ResponseEntity<List<JobPosition>> getByName(@PathVariable("jobPositionName") String jobPositionName){
-        List<JobPosition> jobPositionList = jobPositionService.findByName(jobPositionName);
-        return new ResponseEntity<>(jobPositionList, HttpStatus.OK);
+    public ResponseEntity<List<JobPositionResponse>> getByName(@PathVariable("jobPositionName") String jobPositionName){
+        List<JobPositionResponse> jobPositionResponseList = jobPositionService.findByName(jobPositionName);
+        return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -45,8 +47,8 @@ public class JobPositionsController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobPosition jobPosition) {
-        jobPositionService.update(jobPosition);
+    public HttpStatus update(@RequestBody JobPositionRequest jobPositionRequest) {
+        jobPositionService.update(jobPositionRequest);
         return HttpStatus.OK;
     }
 }

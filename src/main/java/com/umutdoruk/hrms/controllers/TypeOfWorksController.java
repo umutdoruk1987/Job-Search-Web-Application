@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.TypeOfWorkRequest;
+import com.umutdoruk.hrms.DTO.response.TypeOfWorkResponse;
 import com.umutdoruk.hrms.entities.TypeOfWork;
 import com.umutdoruk.hrms.service.services.TypeOfWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +23,26 @@ public class TypeOfWorksController {
     }
 
     @PostMapping("/add")
-    public HttpStatus add (@RequestBody TypeOfWork typeOfWork){
-        typeOfWorkService.add(typeOfWork);
+    public HttpStatus add (@RequestBody TypeOfWorkRequest typeOfWorkRequest){
+        typeOfWorkService.add(typeOfWorkRequest);
         return HttpStatus.CREATED;
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<TypeOfWork>> getAll(){
-        List<TypeOfWork> typeOfWorkList = typeOfWorkService.getAll();
-        return new ResponseEntity<>(typeOfWorkList, HttpStatus.OK);
+    public ResponseEntity<List<TypeOfWorkResponse>> getAll(){
+        List<TypeOfWorkResponse> typeOfWorkResponseList = typeOfWorkService.getAll();
+        return new ResponseEntity<>(typeOfWorkResponseList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}}")
-    public ResponseEntity<TypeOfWork> getById(@PathVariable ("id") Long id){
-         TypeOfWork typeOfWork = typeOfWorkService.getById(id);
-        return new ResponseEntity<>(typeOfWork, HttpStatus.OK);
+    public ResponseEntity<TypeOfWorkResponse> getById(@PathVariable ("id") Long id){
+         TypeOfWorkResponse typeOfWorkResponse = typeOfWorkService.getById(id);
+        return new ResponseEntity<>(typeOfWorkResponse, HttpStatus.OK);
     }
 
     @PostMapping("/update")
-    public HttpStatus update(@RequestBody TypeOfWork typeOfWork){
-        typeOfWorkService.update(typeOfWork);
+    public HttpStatus update(@RequestBody TypeOfWorkRequest typeOfWorkRequest){
+        typeOfWorkService.update(typeOfWorkRequest);
         return HttpStatus.OK;
     }
 

@@ -1,6 +1,9 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.EducationRequest;
+import com.umutdoruk.hrms.DTO.response.EducationResponse;
 import com.umutdoruk.hrms.entities.Education;
+import com.umutdoruk.hrms.repository.EducationRepository;
 import com.umutdoruk.hrms.service.services.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,21 +17,24 @@ import java.util.List;
 public class EducationsController {
 
     private final EducationService educationService;
+    private final EducationRepository educationRepository;
 
     @Autowired
-    public EducationsController(EducationService educationService) {
+    public EducationsController(EducationService educationService,
+                                EducationRepository educationRepository) {
         this.educationService = educationService;
+        this.educationRepository = educationRepository;
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Education>> getAll(){
-        List<Education> educationList = educationService.getAll();
+    public ResponseEntity<List<EducationResponse>> getAll(){
+        List<EducationResponse> educationList = educationService.getAll();
         return new ResponseEntity<>(educationList, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public HttpStatus add(@RequestBody Education education){
-        educationService.add(education);
+    public HttpStatus add(@RequestBody EducationRequest educationRequest){
+        educationService.add(educationRequest);
         return HttpStatus.CREATED;
     }
 
@@ -39,26 +45,26 @@ public class EducationsController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody Education education) {
-        educationService.update(education);
+    public HttpStatus update(@RequestBody EducationRequest educationRequest) {
+        educationService.update(educationRequest);
         return HttpStatus.OK;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Education> getById(@PathVariable("id") Long id){
-        Education education = educationService.getById(id);
-        return new ResponseEntity<>(education,HttpStatus.OK);
+    public ResponseEntity<EducationResponse> getById(@PathVariable("id") Long id){
+        EducationResponse educationResponse = educationService.getById(id);
+        return new ResponseEntity<>(educationResponse,HttpStatus.OK);
     }
 
     @GetMapping("/findAllByOrderByGraduationDateAsc")
-    public ResponseEntity<List<Education>> getAllByOrderByGraduationDateAsc(){
-        List<Education> educationList = educationService.findAllByOrderByGraduationDateAsc();
+    public ResponseEntity<List<EducationResponse>> getAllByOrderByGraduationDateAsc(){
+        List<EducationResponse> educationList = educationService.findAllByOrderByGraduationDateAsc();
         return new ResponseEntity<>(educationList,HttpStatus.OK);
     }
 
     @GetMapping("/findAllByOrderByGraduationDateDesc")
-    public ResponseEntity<List<Education>> getAllByOrderByGraduationDateDesc(){
-        List<Education> educationList = educationService.findAllByOrderByGraduationDateDesc();
+    public ResponseEntity<List<EducationResponse>> getAllByOrderByGraduationDateDesc(){
+        List<EducationResponse> educationList = educationService.findAllByOrderByGraduationDateDesc();
         return new ResponseEntity<>(educationList,HttpStatus.OK);
     }
 }

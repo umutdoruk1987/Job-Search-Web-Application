@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.ForeignLanguageRequest;
+import com.umutdoruk.hrms.DTO.response.ForeignLanguageResponse;
 import com.umutdoruk.hrms.entities.ForeignLanguage;
 import com.umutdoruk.hrms.service.services.ForeignLanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +23,14 @@ public class ForeignLanguagesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<ForeignLanguage>> getAll(){
-        List<ForeignLanguage> foreignLanguageList = foreignLanguageService.getAll();
-        return new ResponseEntity<>(foreignLanguageList, HttpStatus.OK);
+    public ResponseEntity<List<ForeignLanguageResponse>> getAll(){
+        List<ForeignLanguageResponse> foreignLanguageResponsesList = foreignLanguageService.getAll();
+        return new ResponseEntity<>(foreignLanguageResponsesList, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public HttpStatus add(@RequestBody ForeignLanguage foreignLanguage){
-        foreignLanguageService.add(foreignLanguage);
+    public HttpStatus add(@RequestBody ForeignLanguageRequest foreignLanguageRequest){
+        foreignLanguageService.add(foreignLanguageRequest);
         return HttpStatus.CREATED;
     }
 
@@ -39,14 +41,14 @@ public class ForeignLanguagesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody ForeignLanguage foreignLanguage) {
-        foreignLanguageService.update(foreignLanguage);
+    public HttpStatus update(@RequestBody ForeignLanguageRequest foreignLanguageRequest) {
+        foreignLanguageService.update(foreignLanguageRequest);
         return HttpStatus.OK;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ForeignLanguage> getById(@PathVariable("id") Long id){
-        ForeignLanguage foreignLanguage = foreignLanguageService.getById(id);
-        return new ResponseEntity<>(foreignLanguage,HttpStatus.OK);
+    public ResponseEntity<ForeignLanguageResponse> getById(@PathVariable("id") Long id){
+        ForeignLanguageResponse foreignLanguageResponse = foreignLanguageService.getById(id);
+        return new ResponseEntity<>(foreignLanguageResponse,HttpStatus.OK);
     }
 }

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CandidateRequest {
-
+    
     private String firstName;
     private String lastName;
     private String telephoneNumber;

@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.TechnologyRequest;
+import com.umutdoruk.hrms.DTO.response.TechnologyResponse;
 import com.umutdoruk.hrms.entities.Technology;
 import com.umutdoruk.hrms.service.services.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +23,14 @@ public class TechnologiesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Technology>> getAll(){
-        List<Technology> technologyList = technologyService.getAll();
-        return new ResponseEntity<>(technologyList, HttpStatus.OK);
+    public ResponseEntity<List<TechnologyResponse>> getAll(){
+        List<TechnologyResponse> technologyResponseList = technologyService.getAll();
+        return new ResponseEntity<>(technologyResponseList, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public HttpStatus add(@RequestBody Technology technology){
-        technologyService.add(technology);
+    public HttpStatus add(@RequestBody TechnologyRequest technologyRequest){
+        technologyService.add(technologyRequest);
         return HttpStatus.CREATED;
     }
 
@@ -39,8 +41,8 @@ public class TechnologiesController {
     }
 
     @PostMapping("/update")
-    public HttpStatus update(@RequestBody Technology technology){
-        technologyService.update(technology);
+    public HttpStatus update(@RequestBody TechnologyRequest technologyRequest){
+        technologyService.update(technologyRequest);
         return HttpStatus.OK;
     }
 

@@ -1,6 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
-import com.umutdoruk.hrms.entities.Candidate;
+import com.umutdoruk.hrms.DTO.request.CandidateRequest;
+import com.umutdoruk.hrms.DTO.response.CandidateResponse;
 import com.umutdoruk.hrms.service.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +22,18 @@ public class CandidatesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Candidate>> getAll(){
-        return ResponseEntity.ok(this.candidateService.getAll());
+    public ResponseEntity<List<CandidateResponse>> getAll(){
+        return ResponseEntity.ok(candidateService.getAll());
     }
 
     @GetMapping("/getByEmail")
-    public ResponseEntity<Candidate>  getByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<CandidateResponse>  getByEmail(@PathVariable("email") String email) {
         return ResponseEntity.ok(candidateService.findByEmail(email));
     }
 
     @PostMapping("/add")
-    public HttpStatus add(@RequestBody Candidate candidate){
-        candidateService.add(candidate);
+    public HttpStatus add(@RequestBody CandidateRequest candidateRequest){
+        candidateService.add(candidateRequest);
         return HttpStatus.CREATED;
     }
 
@@ -43,14 +44,14 @@ public class CandidatesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody Candidate candidate) {
-        candidateService.update(candidate);
+    public HttpStatus update(@RequestBody CandidateRequest candidateRequest) {
+        candidateService.update(candidateRequest);
         return HttpStatus.OK;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Candidate> getById(@PathVariable("id") Long id){
-        Candidate candidate = candidateService.findById(id);
-        return new ResponseEntity<>(candidate,HttpStatus.OK);
+    public ResponseEntity<CandidateResponse> getById(@PathVariable("id") Long id){
+        CandidateResponse candidateResponse = candidateService.findById(id);
+        return new ResponseEntity<>(candidateResponse,HttpStatus.OK);
     }
 }

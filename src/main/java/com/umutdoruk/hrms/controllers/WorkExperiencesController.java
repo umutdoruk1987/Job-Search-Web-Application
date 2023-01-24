@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
+import com.umutdoruk.hrms.DTO.request.WorkExperienceRequest;
+import com.umutdoruk.hrms.DTO.response.WorkExperienceResponse;
 import com.umutdoruk.hrms.entities.WorkExperience;
 import com.umutdoruk.hrms.service.services.WorkExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +23,21 @@ public class WorkExperiencesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<WorkExperience>> getAll(){
-        List<WorkExperience> workExperienceList = workExperienceService.getAll();
-        return new ResponseEntity<>(workExperienceList, HttpStatus.OK);
+    public ResponseEntity<List<WorkExperienceResponse>> getAll(){
+        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.getAll();
+        return new ResponseEntity<>(workExperienceResponseList, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public HttpStatus add(@RequestBody WorkExperience workExperience){
-        workExperienceService.add(workExperience);
+    public HttpStatus add(@RequestBody WorkExperienceRequest workExperienceRequest){
+        workExperienceService.add(workExperienceRequest);
         return HttpStatus.CREATED;
     }
 
     @GetMapping("/findAllByOrderByEndDateDesc")
-    public ResponseEntity<List<WorkExperience>> findAllByOrderByEndDateDesc(){
-        List<WorkExperience> workExperienceList = workExperienceService.findAllByOrder();
-        return new ResponseEntity<>(workExperienceList,HttpStatus.OK);
+    public ResponseEntity<List<WorkExperienceResponse>> findAllByOrderByEndDateDesc(){
+        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.findAllByOrder();
+        return new ResponseEntity<>(workExperienceResponseList,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -45,15 +47,15 @@ public class WorkExperiencesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody WorkExperience workExperience) {
-        workExperienceService.update(workExperience);
+    public HttpStatus update(@RequestBody WorkExperienceRequest workExperienceRequest) {
+        workExperienceService.update(workExperienceRequest);
         return HttpStatus.OK;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WorkExperience> getById(@PathVariable("id") Long id){
-        WorkExperience workExperience = workExperienceService.getById(id);
-        return new ResponseEntity<>(workExperience,HttpStatus.OK);
+    public ResponseEntity<WorkExperienceResponse> getById(@PathVariable("id") Long id){
+        WorkExperienceResponse workExperienceResponse = workExperienceService.getById(id);
+        return new ResponseEntity<>(workExperienceResponse,HttpStatus.OK);
     }
 }
 
