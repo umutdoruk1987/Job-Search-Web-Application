@@ -11,9 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "employers")
-public class Employer extends User{
+public class Employer{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "employer_id")
+    private Long id;
 
     @Column(name = "company_name")
     private String companyName;
@@ -26,5 +30,8 @@ public class Employer extends User{
 
     @OneToMany(mappedBy = "employer")
     private List<JobAdvertisement> jobAdvertisements;
+
+    @OneToOne
+    private User user;
 
 }

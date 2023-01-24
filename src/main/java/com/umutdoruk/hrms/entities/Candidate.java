@@ -11,8 +11,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "candidates")
-@PrimaryKeyJoinColumn(name = "user_id")
-public class Candidate extends User {
+public class Candidate {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "candidate_id")
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -29,4 +33,6 @@ public class Candidate extends User {
     @OneToOne(mappedBy = "candidate")
     private Resume resume;
 
+    @OneToOne
+    private User user;
 }

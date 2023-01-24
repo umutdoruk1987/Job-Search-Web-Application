@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -37,4 +36,8 @@ public class User {
 
     @Column(name = "active")
     private boolean active;
+
+    @OneToOne
+    private Role role;
+
 }
