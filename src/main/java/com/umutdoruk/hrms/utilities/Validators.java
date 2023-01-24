@@ -1,50 +1,28 @@
 package com.umutdoruk.hrms.utilities;
 
-import com.umutdoruk.hrms.entities.Candidate;
-import com.umutdoruk.hrms.entities.Employer;
-import com.umutdoruk.hrms.entities.User;
-
-import java.util.Random;
+import com.umutdoruk.hrms.DTO.request.CandidateRequest;
+import com.umutdoruk.hrms.DTO.request.EmployerRequest;
+import com.umutdoruk.hrms.DTO.request.UserRequest;
 
 public class Validators {
 
-    public static boolean candidateValidator(Candidate candidate) {
-
-            return userValidator(candidate)
-                && !candidate.getFirstName().isEmpty()
-                && !candidate.getLastName().isEmpty()
-                && candidate.getTelephoneNumber().length() == 11;
+    public static boolean candidateValidator(CandidateRequest candidateRequest) {
+            return !candidateRequest.getFirstName().isEmpty()
+                && !candidateRequest.getLastName().isEmpty()
+                && candidateRequest.getTelephoneNumber().length() == 11;
     }
 
-    public static boolean employerValidator(Employer employer){
-
-        return userValidator(employer)
-                && !employer.getWebsite().isEmpty()
-                && !employer.getCompanyName().isEmpty()
-                && employer.getCompanyTelephoneNumber().length()==11;
+    public static boolean employerValidator(EmployerRequest employerRequest){
+        return !employerRequest.getWebsite().isEmpty()
+                && !employerRequest.getCompanyName().isEmpty()
+                && employerRequest.getCompanyTelephoneNumber().length()==11;
     }
 
-    public static boolean userValidator(User user) {
-        return
-                user.getEmail().contains("@")
-                && !user.getEmail().contains(" ")
-                && user.getPassword().length() >= 8
-                && user.getPassword().equals(user.getConfirmPassword());
+    public static boolean userValidator(UserRequest userRequest) {
+        return  userRequest.getEmail().contains("@")
+                && !userRequest.getEmail().contains(" ")
+                && userRequest.getPassword().length() >= 8
+                && userRequest.getPassword().equals(userRequest.getConfirmPassword());
     }
-
-    public static String createUsernameIfNoPresent(User user) {
-        String[] temp = user.getEmail().split("@");
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(temp[0]);
-
-        Random random = new Random();
-
-        for (int i = 0; i < 5; i++) {
-            stringBuilder.append(random.nextInt(9));
-        }
-        return stringBuilder.toString();
-    }
-
 
 }

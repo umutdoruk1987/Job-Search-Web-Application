@@ -1,5 +1,6 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
+import com.umutdoruk.hrms.DTO.request.UserRequest;
 import com.umutdoruk.hrms.entities.User;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.UserRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,5 +38,19 @@ public class UserServiceImpl implements UserService {
         Optional<?> user = userRepository.findByEmail(email);
 
         return user.isPresent();
+    }
+
+    public String createUsernameIfNoPresent(UserRequest userRequest) {
+        String[] temp = userRequest.getEmail().split("@");
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(temp[0]);
+
+        Random random = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            stringBuilder.append(random.nextInt(9));
+        }
+        return stringBuilder.toString();
     }
 }
