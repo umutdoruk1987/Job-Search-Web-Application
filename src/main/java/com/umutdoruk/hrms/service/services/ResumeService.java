@@ -1,14 +1,15 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.Resume;
+import com.umutdoruk.hrms.DTO.request.ResumeRequest;
+import com.umutdoruk.hrms.DTO.response.ResumeResponse;
 
 import java.util.List;
 
 public interface ResumeService {
 
-    void add(Resume resume);
-    Resume findResumeById(Long id);
-    List<Resume> getAll();
-    void update(Resume resume);
+    void add(ResumeRequest resumeRequest);
+    ResumeResponse findResumeById(Long id);
+    List<ResumeResponse> getAll();
+    void update(ResumeRequest resumeRequest);
     void delete(Long id);
 }

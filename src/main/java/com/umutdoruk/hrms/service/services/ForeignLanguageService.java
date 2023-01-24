@@ -1,14 +1,15 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.ForeignLanguage;
+import com.umutdoruk.hrms.DTO.request.ForeignLanguageRequest;
+import com.umutdoruk.hrms.DTO.response.ForeignLanguageResponse;
 
 import java.util.List;
 
 public interface ForeignLanguageService {
 
-    void add(ForeignLanguage foreignLanguage);
-    void update(ForeignLanguage foreignLanguage);
+    void add(ForeignLanguageRequest foreignLanguageRequest);
+    void update(ForeignLanguageRequest foreignLanguageRequest);
     void delete(Long id);
-    ForeignLanguage getById(Long id);
-    List<ForeignLanguage> getAll();
+    ForeignLanguageResponse getById(Long id);
+    List<ForeignLanguageResponse> getAll();
 }

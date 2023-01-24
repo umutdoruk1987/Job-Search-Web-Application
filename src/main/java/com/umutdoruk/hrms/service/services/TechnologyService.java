@@ -1,16 +1,15 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.Technology;
+import com.umutdoruk.hrms.DTO.request.TechnologyRequest;
+import com.umutdoruk.hrms.DTO.response.TechnologyResponse;
 
 import java.util.List;
 
 public interface TechnologyService {
 
-    void add(Technology technology);
-    List<Technology> getAll();
-    Technology findById(Long id);
+    void add(TechnologyRequest technologyRequest);
+    List<TechnologyResponse> getAll();
+    TechnologyResponse findById(Long id);
     void delete(Long id);
-    void update(Technology technology);
-
-
+    void update(TechnologyRequest technologyRequest);
 }

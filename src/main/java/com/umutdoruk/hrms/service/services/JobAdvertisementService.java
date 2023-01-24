@@ -1,18 +1,19 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.JobAdvertisement;
+import com.umutdoruk.hrms.DTO.request.JobAdvertisementRequest;
+import com.umutdoruk.hrms.DTO.response.JobAdvertisementResponse;
 
 import java.util.List;
 
 public interface JobAdvertisementService {
 
-    void add(JobAdvertisement jobAdvertisement);
-    void update(JobAdvertisement jobAdvertisement);
+    void add(JobAdvertisementRequest jobAdvertisementRequest);
+    void update(JobAdvertisementRequest jobAdvertisementRequest);
     void delete(Long id);
-    List<JobAdvertisement> getAll();
-    JobAdvertisement getById(Long id);
-    List<JobAdvertisement> findByActiveTrue();
-    List<JobAdvertisement> findByActiveTrueAndCreatedDateAsc();
-    List<JobAdvertisement> findByActiveTrueOrderByCreatedDateDesc();
-    List<JobAdvertisement> findByActiveTrueAndEmployer(Long employerId);
+    List<JobAdvertisementResponse> getAll();
+    JobAdvertisementResponse getById(Long id);
+    List<JobAdvertisementResponse> findByActiveTrue();
+    List<JobAdvertisementResponse> findByActiveTrueAndCreatedDateAsc();
+    List<JobAdvertisementResponse> findByActiveTrueOrderByCreatedDateDesc();
+    List<JobAdvertisementResponse> findByActiveTrueAndEmployer(Long employerId);
 }

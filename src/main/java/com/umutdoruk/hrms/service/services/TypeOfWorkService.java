@@ -1,14 +1,15 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.TypeOfWork;
+import com.umutdoruk.hrms.DTO.request.TypeOfWorkRequest;
+import com.umutdoruk.hrms.DTO.response.TypeOfWorkResponse;
 
 import java.util.List;
 
 public interface TypeOfWorkService {
 
-    void add(TypeOfWork typeOfWork);
-    List<TypeOfWork> getAll();
-    TypeOfWork getById(Long id);
+    void add(TypeOfWorkRequest typeOfWorkRequest);
+    List<TypeOfWorkResponse> getAll();
+    TypeOfWorkResponse getById(Long id);
     void delete(Long id);
-    void update(TypeOfWork typeOfWork);
+    void update(TypeOfWorkRequest typeOfWorkRequest);
 }

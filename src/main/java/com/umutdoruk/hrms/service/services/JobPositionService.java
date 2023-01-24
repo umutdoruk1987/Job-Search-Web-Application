@@ -1,14 +1,14 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.JobPosition;
+import com.umutdoruk.hrms.DTO.request.JobPositionRequest;
+import com.umutdoruk.hrms.DTO.response.JobPositionResponse;
 
 import java.util.List;
 
 public interface JobPositionService {
-    List<JobPosition> getAll();
-    void add(JobPosition jobPosition);
-    List<JobPosition> findByName(String jobPositionName);
-    void update (JobPosition jobPosition);
+    List<JobPositionResponse> getAll();
+    void add(JobPositionRequest jobPositionRequest);
+    List<JobPositionResponse> findByName(String jobPositionName);
+    void update (JobPositionRequest jobPositionRequest);
     void delete (Long id);
-
 }

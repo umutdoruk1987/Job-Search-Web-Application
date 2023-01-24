@@ -1,15 +1,16 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.WorkExperience;
+import com.umutdoruk.hrms.DTO.request.WorkExperienceRequest;
+import com.umutdoruk.hrms.DTO.response.WorkExperienceResponse;
 
 import java.util.List;
 
 public interface WorkExperienceService {
 
-    void add(WorkExperience workExperience);
-    List<WorkExperience> findAllByOrder();
-    List<WorkExperience> getAll();
-    WorkExperience getById(Long id);
+    void add(WorkExperienceRequest workExperienceRequest);
+    List<WorkExperienceResponse> findAllByOrder();
+    List<WorkExperienceResponse> getAll();
+    WorkExperienceResponse getById(Long id);
     void delete(Long id);
-    void update(WorkExperience workExperience);
+    void update(WorkExperienceRequest workExperienceRequest);
 }

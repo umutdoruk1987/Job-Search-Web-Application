@@ -1,14 +1,15 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.JobType;
+import com.umutdoruk.hrms.DTO.request.JobTypeRequest;
+import com.umutdoruk.hrms.DTO.response.JobTypeResponse;
 
 import java.util.List;
 
 public interface JobTypeService {
 
-    void add(JobType jobType);
-    List<JobType> getAll();
-    JobType getById(Long id);
-    void update (JobType jobType);
+    void add(JobTypeRequest jobTypeRequest);
+    List<JobTypeResponse> getAll();
+    JobTypeResponse getById(Long id);
+    void update (JobTypeRequest jobTypeRequest);
     void delete (Long id);
 }

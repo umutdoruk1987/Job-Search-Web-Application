@@ -1,16 +1,17 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.Education;
+import com.umutdoruk.hrms.DTO.request.EducationRequest;
+import com.umutdoruk.hrms.DTO.response.EducationResponse;
 
 import java.util.List;
 
 public interface EducationService {
 
-    void add(Education education);
-    void update(Education education);
+    void add(EducationRequest educationRequest);
+    void update(EducationRequest educationRequest);
     void delete(Long id);
-    Education getById(Long id);
-    List<Education> getAll();
-    List<Education> findAllByOrderByGraduationDateAsc();
-    List<Education> findAllByOrderByGraduationDateDesc();
+    EducationResponse getById(Long id);
+    List<EducationResponse> getAll();
+    List<EducationResponse> findAllByOrderByGraduationDateAsc();
+    List<EducationResponse> findAllByOrderByGraduationDateDesc();
 }

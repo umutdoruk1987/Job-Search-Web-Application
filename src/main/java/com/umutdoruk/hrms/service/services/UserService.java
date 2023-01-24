@@ -1,9 +1,10 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.User;
+import com.umutdoruk.hrms.DTO.request.UserRequest;
+import com.umutdoruk.hrms.DTO.response.UserResponse;
 
 public interface UserService {
-    void register(User user);
-    User findByEmail(String email);
+    void register(UserRequest userRequest);
+    UserResponse findByEmail(String email);
     Boolean isEmailExist(String email);
 }

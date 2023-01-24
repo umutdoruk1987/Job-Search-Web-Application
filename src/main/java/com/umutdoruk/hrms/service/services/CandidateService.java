@@ -1,17 +1,18 @@
 package com.umutdoruk.hrms.service.services;
 
-import com.umutdoruk.hrms.entities.Candidate;
+import com.umutdoruk.hrms.DTO.request.CandidateRequest;
+import com.umutdoruk.hrms.DTO.response.CandidateResponse;
 
 import java.util.List;
 
 public interface CandidateService {
 
-    void add(Candidate candidate);
-    List<Candidate> getAll();
-    Candidate findByEmail(String email);
-    Candidate findById(Long id);
-    void update(Candidate candidate);
+    void add(CandidateRequest candidateRequest);
+    List<CandidateResponse> getAll();
+    CandidateResponse findByEmail(String email);
+    CandidateResponse findById(Long id);
+    void update(CandidateRequest candidateRequest);
     void delete(Long id);
-    Boolean isUserExist(Candidate candidate);
+    Boolean isUserExist(CandidateRequest candidateRequest);
 
 }
