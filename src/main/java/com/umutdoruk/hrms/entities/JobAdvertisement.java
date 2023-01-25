@@ -40,7 +40,7 @@ public class JobAdvertisement {
     @Column(name = "active")
     private boolean active;
 
-    @ManyToOne()
+    @OneToOne()
     @JoinColumn(name = "city_id")
     private City city;
 

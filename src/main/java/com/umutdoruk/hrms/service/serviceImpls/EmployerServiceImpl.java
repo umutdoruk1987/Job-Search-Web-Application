@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
+import com.umutdoruk.hrms.DTO.request.EmployerRequest;
+import com.umutdoruk.hrms.DTO.response.EmployerResponse;
 import com.umutdoruk.hrms.entities.Employer;
 import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
@@ -27,7 +29,7 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Override
-    public void add(Employer employer) {
+    public void add(EmployerRequest employerRequest) {
 
         if (isUserExist(employer))
             throw  new UserExistException("User already exist");
@@ -41,26 +43,26 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Override
-    public List<Employer> getAll() {
+    public List<EmployerResponse> getAll() {
         if (employerRepository.findAll().isEmpty())
             throw new NotFoundException("Employer is not found");
         return employerRepository.findAll();
     }
 
     @Override
-    public Employer findByEmail(String email) {
+    public EmployerResponse findByEmail(String email) {
         return employerRepository.findByEmail(email)
                 .orElseThrow(()-> new NotFoundException("Employer is not found"));
     }
 
     @Override
-    public Employer findById(Long id) {
+    public EmployerResponse findById(Long id) {
         return employerRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Employer is not found"));
     }
 
     @Override
-    public void update(Employer employer) {
+    public void update(EmployerRequest employerRequest) {
         Employer employerForUpdate = employerRepository.findById(employer.getId())
                 .orElseThrow(()-> new NotFoundException("Employer is not found"));
 
@@ -84,7 +86,7 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Override
-    public Boolean isUserExist(Employer employer) {
+    public Boolean isUserExist(EmployerRequest employerRequest) {
 
         return userService.isEmailExist(employer.getEmail());
     }

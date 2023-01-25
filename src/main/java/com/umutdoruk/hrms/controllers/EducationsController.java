@@ -2,8 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.EducationRequest;
 import com.umutdoruk.hrms.DTO.response.EducationResponse;
-import com.umutdoruk.hrms.entities.Education;
-import com.umutdoruk.hrms.repository.EducationRepository;
 import com.umutdoruk.hrms.service.services.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,18 +15,15 @@ import java.util.List;
 public class EducationsController {
 
     private final EducationService educationService;
-    private final EducationRepository educationRepository;
 
     @Autowired
-    public EducationsController(EducationService educationService,
-                                EducationRepository educationRepository) {
+    public EducationsController(EducationService educationService) {
         this.educationService = educationService;
-        this.educationRepository = educationRepository;
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<EducationResponse>> getAll(){
-        List<EducationResponse> educationList = educationService.getAll();
+    public ResponseEntity<List<EducationResponse>> getAll(@RequestParam Long resumeId){
+        List<EducationResponse> educationList = educationService.getAll(resumeId);
         return new ResponseEntity<>(educationList, HttpStatus.OK);
     }
 
@@ -45,8 +40,8 @@ public class EducationsController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody EducationRequest educationRequest) {
-        educationService.update(educationRequest);
+    public HttpStatus update(@RequestBody EducationRequest educationRequest, @RequestParam Long educationId ) {
+        educationService.update(educationRequest, educationId);
         return HttpStatus.OK;
     }
 

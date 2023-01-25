@@ -1,7 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
 import com.umutdoruk.hrms.DTO.request.UserRequest;
-import com.umutdoruk.hrms.entities.User;
+import com.umutdoruk.hrms.DTO.response.UserResponse;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.UserRepository;
 import com.umutdoruk.hrms.service.services.UserService;
@@ -21,12 +21,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(User user) {
-        this.userRepository.save(user);
+    public void register(UserRequest userRequest) {
+        userRepository.save(user);
     }
 
     @Override
-    public User findByEmail(String email) {
+    public UserResponse findByEmail(String email) {
 
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User is not found"));

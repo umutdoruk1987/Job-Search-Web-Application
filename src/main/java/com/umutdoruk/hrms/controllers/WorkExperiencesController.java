@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.WorkExperienceRequest;
 import com.umutdoruk.hrms.DTO.response.WorkExperienceResponse;
-import com.umutdoruk.hrms.entities.WorkExperience;
 import com.umutdoruk.hrms.service.services.WorkExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +22,8 @@ public class WorkExperiencesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<WorkExperienceResponse>> getAll(){
-        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.getAll();
+    public ResponseEntity<List<WorkExperienceResponse>> getAll(@RequestParam Long resumeId){
+        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.getAll(resumeId);
         return new ResponseEntity<>(workExperienceResponseList, HttpStatus.OK);
     }
 
@@ -36,7 +35,7 @@ public class WorkExperiencesController {
 
     @GetMapping("/findAllByOrderByEndDateDesc")
     public ResponseEntity<List<WorkExperienceResponse>> findAllByOrderByEndDateDesc(){
-        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.findAllByOrder();
+        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.findAllByOrderByEndDateDesc();
         return new ResponseEntity<>(workExperienceResponseList,HttpStatus.OK);
     }
 
@@ -47,8 +46,8 @@ public class WorkExperiencesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody WorkExperienceRequest workExperienceRequest) {
-        workExperienceService.update(workExperienceRequest);
+    public HttpStatus update(@RequestBody WorkExperienceRequest workExperienceRequest, @RequestParam Long workExperienceId ) {
+        workExperienceService.update(workExperienceRequest,workExperienceId);
         return HttpStatus.OK;
     }
 

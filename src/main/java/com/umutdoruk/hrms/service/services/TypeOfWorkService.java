@@ -11,5 +11,5 @@ public interface TypeOfWorkService {
     List<TypeOfWorkResponse> getAll();
     TypeOfWorkResponse getById(Long id);
     void delete(Long id);
-    void update(TypeOfWorkRequest typeOfWorkRequest);
+    void update(TypeOfWorkRequest typeOfWorkRequest, Long typeOfWorksId);
 }

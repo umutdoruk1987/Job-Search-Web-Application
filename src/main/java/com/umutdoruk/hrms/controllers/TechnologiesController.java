@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.TechnologyRequest;
 import com.umutdoruk.hrms.DTO.response.TechnologyResponse;
-import com.umutdoruk.hrms.entities.Technology;
 import com.umutdoruk.hrms.service.services.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +22,8 @@ public class TechnologiesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<TechnologyResponse>> getAll(){
-        List<TechnologyResponse> technologyResponseList = technologyService.getAll();
+    public ResponseEntity<List<TechnologyResponse>> getAll(@RequestParam Long resumeId){
+        List<TechnologyResponse> technologyResponseList = technologyService.getAll(resumeId);
         return new ResponseEntity<>(technologyResponseList, HttpStatus.OK);
     }
 
@@ -41,8 +40,8 @@ public class TechnologiesController {
     }
 
     @PostMapping("/update")
-    public HttpStatus update(@RequestBody TechnologyRequest technologyRequest){
-        technologyService.update(technologyRequest);
+    public HttpStatus update(@RequestBody TechnologyRequest technologyRequest,@RequestParam Long foreignLanguageId){
+        technologyService.update(technologyRequest, foreignLanguageId);
         return HttpStatus.OK;
     }
 

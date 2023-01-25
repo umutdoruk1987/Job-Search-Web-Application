@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class EmployerResponse {
 
-    private Long userId;
+    private Long id;
     private String companyName;
     private String website;
     private String companyTelephoneNumber;

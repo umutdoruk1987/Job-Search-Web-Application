@@ -8,8 +8,8 @@ import java.util.List;
 public interface TechnologyService {
 
     void add(TechnologyRequest technologyRequest);
-    List<TechnologyResponse> getAll();
+    List<TechnologyResponse> getAll(Long resumeId);
     TechnologyResponse findById(Long id);
     void delete(Long id);
-    void update(TechnologyRequest technologyRequest);
+    void update(TechnologyRequest technologyRequest, Long technologyId);
 }

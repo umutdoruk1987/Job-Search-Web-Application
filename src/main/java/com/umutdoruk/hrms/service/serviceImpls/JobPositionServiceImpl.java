@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
+import com.umutdoruk.hrms.DTO.request.JobPositionRequest;
+import com.umutdoruk.hrms.DTO.response.JobPositionResponse;
 import com.umutdoruk.hrms.entities.JobPosition;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.JobPositionRepository;
@@ -19,12 +21,12 @@ public class JobPositionServiceImpl implements JobPositionService {
     }
 
     @Override
-    public List<JobPosition> getAll() {
+    public List<JobPositionResponse> getAll() {
         return jobPositionRepository.findAll();
     }
 
     @Override
-    public void add(JobPosition jobPosition) {
+    public void add(JobPositionRequest jobPositionRequest) {
         if (jobPosition == null) {
             throw new NotFoundException("No Job Position record found to add");
         }
@@ -32,7 +34,7 @@ public class JobPositionServiceImpl implements JobPositionService {
     }
 
     @Override
-    public List<JobPosition> findByName(String jobPositionName) {
+    public List<JobPositionResponse> findByName(String jobPositionName) {
 
         List<JobPosition> jobPositionList = jobPositionRepository.findByName(jobPositionName);
         if (jobPositionList.isEmpty()) {
@@ -43,7 +45,7 @@ public class JobPositionServiceImpl implements JobPositionService {
     }
 
     @Override
-    public void update(JobPosition jobPosition) {
+    public void update(JobPositionRequest jobPositionRequest) {
         JobPosition jobPositionToUpdate = jobPositionRepository.findById(jobPosition.getId())
                 .orElseThrow(()-> new NotFoundException("Job Position is not found"));
 

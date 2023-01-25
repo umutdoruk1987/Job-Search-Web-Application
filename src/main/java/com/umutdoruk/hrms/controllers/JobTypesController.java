@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.JobTypeRequest;
 import com.umutdoruk.hrms.DTO.response.JobTypeResponse;
-import com.umutdoruk.hrms.entities.JobType;
 import com.umutdoruk.hrms.service.services.JobTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +46,8 @@ public class JobTypesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobTypeRequest jobTypeRequest) {
-        jobTypeService.update(jobTypeRequest);
+    public HttpStatus update(@RequestBody JobTypeRequest jobTypeRequest, @RequestParam Long jobTypeId) {
+        jobTypeService.update(jobTypeRequest, jobTypeId);
         return HttpStatus.OK;
     }
 }

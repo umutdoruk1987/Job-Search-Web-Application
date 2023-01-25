@@ -10,6 +10,6 @@ public interface JobTypeService {
     void add(JobTypeRequest jobTypeRequest);
     List<JobTypeResponse> getAll();
     JobTypeResponse getById(Long id);
-    void update (JobTypeRequest jobTypeRequest);
+    void update (JobTypeRequest jobTypeRequest, Long jobTypeId);
     void delete (Long id);
 }

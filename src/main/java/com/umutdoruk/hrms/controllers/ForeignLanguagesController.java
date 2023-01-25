@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.ForeignLanguageRequest;
 import com.umutdoruk.hrms.DTO.response.ForeignLanguageResponse;
-import com.umutdoruk.hrms.entities.ForeignLanguage;
 import com.umutdoruk.hrms.service.services.ForeignLanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +22,8 @@ public class ForeignLanguagesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<ForeignLanguageResponse>> getAll(){
-        List<ForeignLanguageResponse> foreignLanguageResponsesList = foreignLanguageService.getAll();
+    public ResponseEntity<List<ForeignLanguageResponse>> getAll(@RequestParam Long resumeId){
+        List<ForeignLanguageResponse> foreignLanguageResponsesList = foreignLanguageService.getAll(resumeId);
         return new ResponseEntity<>(foreignLanguageResponsesList, HttpStatus.OK);
     }
 
@@ -41,8 +40,8 @@ public class ForeignLanguagesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody ForeignLanguageRequest foreignLanguageRequest) {
-        foreignLanguageService.update(foreignLanguageRequest);
+    public HttpStatus update(@RequestBody ForeignLanguageRequest foreignLanguageRequest, @RequestParam Long foreignLanguageId) {
+        foreignLanguageService.update(foreignLanguageRequest, foreignLanguageId);
         return HttpStatus.OK;
     }
 

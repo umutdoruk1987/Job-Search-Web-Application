@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,6 +21,7 @@ public class City {
     @Column(name = "city_name")
     private String cityName;
 
-    @OneToMany(mappedBy = "city")
-    private List<JobAdvertisement> jobAdvertisements;
+    @OneToOne(mappedBy = "city")
+    private JobAdvertisement jobAdvertisement;
+
 }

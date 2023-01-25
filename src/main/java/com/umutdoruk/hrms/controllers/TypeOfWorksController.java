@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.TypeOfWorkRequest;
 import com.umutdoruk.hrms.DTO.response.TypeOfWorkResponse;
-import com.umutdoruk.hrms.entities.TypeOfWork;
 import com.umutdoruk.hrms.service.services.TypeOfWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,8 +40,8 @@ public class TypeOfWorksController {
     }
 
     @PostMapping("/update")
-    public HttpStatus update(@RequestBody TypeOfWorkRequest typeOfWorkRequest){
-        typeOfWorkService.update(typeOfWorkRequest);
+    public HttpStatus update(@RequestBody TypeOfWorkRequest typeOfWorkRequest, @RequestParam Long typeOfWorksId){
+        typeOfWorkService.update(typeOfWorkRequest, typeOfWorksId);
         return HttpStatus.OK;
     }
 
@@ -51,5 +50,4 @@ public class TypeOfWorksController {
         typeOfWorkService.delete(id);
         return HttpStatus.OK;
     }
-
 }

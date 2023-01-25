@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
+import com.umutdoruk.hrms.DTO.request.CandidateRequest;
+import com.umutdoruk.hrms.DTO.response.CandidateResponse;
 import com.umutdoruk.hrms.entities.Candidate;
 import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
@@ -27,7 +29,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void add(Candidate candidate) {
+    public void add(CandidateRequest candidateRequest) {
 
         if (isUserExist(candidate))
             throw  new UserExistException("User already exist");
@@ -41,27 +43,27 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public List<Candidate> getAll() {
+    public List<CandidateResponse> getAll() {
         if (candidatesRepository.findAll().isEmpty())
             throw new NotFoundException("Candidate is not found");
         return candidatesRepository.findAll();
     }
 
     @Override
-    public Candidate findByEmail(String email) {
+    public CandidateResponse findByEmail(String email) {
         return candidatesRepository.findByEmail(email)
                 .orElseThrow(()-> new NotFoundException("Candidate is not found"));
 
     }
 
     @Override
-    public Candidate findById(Long id) {
+    public CandidateResponse findById(Long id) {
         return candidatesRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Candidate is not found"));
     }
 
     @Override
-    public void update(Candidate candidate) {
+    public void update(CandidateRequest candidateRequest) {
 
         Candidate candidateForUpdate = candidatesRepository.findById(candidate.getId())
                 .orElseThrow(()-> new NotFoundException("Candidate is not found"));
@@ -88,7 +90,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Boolean isUserExist(Candidate candidate) {
+    public Boolean isUserExist(CandidateRequest candidateRequest) {
 
         return userService.isEmailExist(candidate.getEmail());
     }

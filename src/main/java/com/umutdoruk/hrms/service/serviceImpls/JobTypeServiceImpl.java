@@ -1,51 +1,76 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
+import com.umutdoruk.hrms.DTO.request.JobTypeRequest;
+import com.umutdoruk.hrms.DTO.response.JobTypeResponse;
 import com.umutdoruk.hrms.entities.JobType;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.JobTypeRepository;
+import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import com.umutdoruk.hrms.service.services.JobTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
 public class JobTypeServiceImpl implements JobTypeService {
 
     private final JobTypeRepository jobTypeRepository;
+    private final JobAdvertisementService jobAdvertisementService;
 
     @Autowired
-    public JobTypeServiceImpl(JobTypeRepository jobTypeRepository) {
+    public JobTypeServiceImpl(JobTypeRepository jobTypeRepository, JobAdvertisementService jobAdvertisementService) {
         this.jobTypeRepository = jobTypeRepository;
+        this.jobAdvertisementService = jobAdvertisementService;
     }
 
     @Override
-    public void add(JobType jobType) {
-        if (jobType == null) {
+    public void add(JobTypeRequest jobTypeRequest) {
+        if (jobTypeRequest == null) {
             throw new NotFoundException("No Job Type record found to add");
         }
+
+        JobType jobType = new JobType();
+        jobType.setName(jobTypeRequest.getName());
+        jobType.setJobAdvertisement(jobAdvertisementService.findById(jobTypeRequest.getJobAdvertisementId()));
+
         jobTypeRepository.save(jobType);
     }
 
     @Override
-    public List<JobType> getAll() {
-        return jobTypeRepository.findAll();
+    public List<JobTypeResponse> getAll() {
+
+        if (jobTypeRepository.findAll().isEmpty())
+            throw new NotFoundException("Any Job Type record isn't found");
+
+        return jobTypeRepository.findAll()
+                .stream()
+                .map(jobType -> JobTypeResponse.of(jobType))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public JobType getById(Long id) {
-        return jobTypeRepository.findById(id)
+    public JobTypeResponse getById(Long id) {
+        JobType jobType = jobTypeRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Job Type is not found"));
+
+        return JobTypeResponse.of(jobType);
     }
 
     @Override
-    public void update(JobType jobType) {
-        JobType jobTypeToUpdate = jobTypeRepository.findById(jobType.getId())
-                .orElseThrow(()-> new NotFoundException("Job Type is not found"));
+    public void update(JobTypeRequest jobTypeRequest, Long typeOfWorksId) {
+        JobType jobType = jobTypeRepository.findById(typeOfWorksId)
+                .orElseThrow(()-> new NotFoundException("No Job Type with this Id in Repository"));
 
-        jobTypeToUpdate.setName(jobType.getName());
-        jobTypeRepository.save(jobTypeToUpdate);
+        if (jobTypeRequest == null)
+            throw new NotFoundException("No Job Type record found to update");
+
+        jobType.setName(jobTypeRequest.getName());
+        jobType.setJobAdvertisement(jobAdvertisementService.findById(jobTypeRequest.getJobAdvertisementId()));
+
+        jobTypeRepository.save(jobType);
     }
 
     @Override

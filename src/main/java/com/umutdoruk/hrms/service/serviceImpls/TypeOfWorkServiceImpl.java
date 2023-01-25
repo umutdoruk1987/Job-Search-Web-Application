@@ -1,51 +1,74 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
+import com.umutdoruk.hrms.DTO.request.TypeOfWorkRequest;
+import com.umutdoruk.hrms.DTO.response.TypeOfWorkResponse;
 import com.umutdoruk.hrms.entities.TypeOfWork;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.TypeOfWorkRepository;
+import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import com.umutdoruk.hrms.service.services.TypeOfWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TypeOfWorkServiceImpl implements TypeOfWorkService {
 
     private final TypeOfWorkRepository typeOfWorkRepository;
+    private final JobAdvertisementService jobAdvertisementService;
 
     @Autowired
-    public TypeOfWorkServiceImpl(TypeOfWorkRepository typeOfWorkRepository) {
+    public TypeOfWorkServiceImpl(TypeOfWorkRepository typeOfWorkRepository, JobAdvertisementService jobAdvertisementService) {
         this.typeOfWorkRepository = typeOfWorkRepository;
+        this.jobAdvertisementService = jobAdvertisementService;
     }
 
     @Override
-    public void add(TypeOfWork typeOfWork) {
-        if (typeOfWork == null)
+    public void add(TypeOfWorkRequest typeOfWorkRequest) {
+        if (typeOfWorkRequest == null)
             throw new NotFoundException("No Type of Work record found to add");
+
+        TypeOfWork typeOfWork = new TypeOfWork();
+        typeOfWork.setName(typeOfWorkRequest.getName());
+        typeOfWork.setJobAdvertisement(jobAdvertisementService.findById(typeOfWorkRequest.getJobAdvertisementId()));
+
         typeOfWorkRepository.save(typeOfWork);
     }
 
     @Override
-    public List<TypeOfWork> getAll() {
+    public List<TypeOfWorkResponse> getAll() {
         if (typeOfWorkRepository.findAll().isEmpty())
-            throw new NotFoundException("Type of Work is not found");
-        return typeOfWorkRepository.findAll();
+            throw new NotFoundException("Any Type of Work record isn't found");
+
+        return typeOfWorkRepository.findAll()
+                .stream()
+                .map(typeOfWork -> TypeOfWorkResponse.of(typeOfWork))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public TypeOfWork getById(Long id) {
-        return typeOfWorkRepository.findById(id)
+    public TypeOfWorkResponse getById(Long id) {
+
+       TypeOfWork typeOfWork = typeOfWorkRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Type of Work is not found"));
+
+        return TypeOfWorkResponse.of(typeOfWork);
     }
 
     @Override
-    public void update(TypeOfWork typeOfWork) {
-        TypeOfWork typeOfWorkToUpdate = typeOfWorkRepository.findById(typeOfWork.getId())
-                .orElseThrow(()-> new NotFoundException("Type of Work is not found"));
+    public void update(TypeOfWorkRequest typeOfWorkRequest, Long typeOfWorksId) {
+        TypeOfWork typeOfWork = typeOfWorkRepository.findById(typeOfWorksId)
+                .orElseThrow(()-> new NotFoundException("No Type of Work with this Id in Repository"));
 
-        typeOfWorkToUpdate.setName(typeOfWork.getName());
-        typeOfWorkRepository.save(typeOfWorkToUpdate);
+        if (typeOfWorkRequest == null)
+            throw new NotFoundException("No Type of Work record found to update");
+
+        typeOfWork.setName(typeOfWorkRequest.getName());
+        typeOfWork.setJobAdvertisement(jobAdvertisementService.findById(typeOfWorkRequest.getJobAdvertisementId()));
+
+        typeOfWorkRepository.save(typeOfWork);
     }
 
     @Override

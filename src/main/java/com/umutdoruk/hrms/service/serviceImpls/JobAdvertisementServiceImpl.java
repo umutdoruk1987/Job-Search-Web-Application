@@ -1,5 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
+import com.umutdoruk.hrms.DTO.request.JobAdvertisementRequest;
+import com.umutdoruk.hrms.DTO.response.JobAdvertisementResponse;
 import com.umutdoruk.hrms.entities.JobAdvertisement;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.JobAdvertisementRepository;
@@ -21,7 +23,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     }
 
     @Override
-    public void add(JobAdvertisement jobAdvertisement) {
+    public void add(JobAdvertisementRequest jobAdvertisementRequest) {
         if (jobAdvertisement == null) {
             throw new NotFoundException("No job Advertisement record found to add");
         }
@@ -31,7 +33,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     }
 
     @Override
-    public void update(JobAdvertisement jobAdvertisement) {
+    public void update(JobAdvertisementRequest jobAdvertisementRequest) {
 
         JobAdvertisement jobAdvertisementToUpdate = jobAdvertisementRepository.findById(jobAdvertisement.getId())
                 .orElseThrow(()-> new NotFoundException("Job Advertisement is not found"));
@@ -51,7 +53,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     }
 
     @Override
-    public JobAdvertisement getById(Long id) {
+    public JobAdvertisementResponse getById(Long id) {
         return jobAdvertisementRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Job Advertisement is not found"));
     }
@@ -65,27 +67,27 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
     }
 
     @Override
-    public List<JobAdvertisement> findByActiveTrue() {
+    public List<JobAdvertisementResponse> findByActiveTrue() {
         return jobAdvertisementRepository.findByActiveTrue();
     }
 
     @Override
-    public List<JobAdvertisement> findByActiveTrueAndCreatedDateAsc() {
+    public List<JobAdvertisementResponse> findByActiveTrueAndCreatedDateAsc() {
         return jobAdvertisementRepository.findByActiveTrueOrderByCreatedDateAsc();
     }
 
     @Override
-    public List<JobAdvertisement> findByActiveTrueOrderByCreatedDateDesc() {
+    public List<JobAdvertisementResponse> findByActiveTrueOrderByCreatedDateDesc() {
         return jobAdvertisementRepository.findByActiveTrueOrderByCreatedDateDesc();
     }
 
     @Override
-    public List<JobAdvertisement> findByActiveTrueAndEmployer(Long employerId) {
+    public List<JobAdvertisementResponse> findByActiveTrueAndEmployer(Long employerId) {
         return jobAdvertisementRepository.findByActiveTrueAndEmployerId(employerId);
     }
 
     @Override
-    public List<JobAdvertisement> getAll() {
+    public List<JobAdvertisementResponse> getAll() {
         return jobAdvertisementRepository.findAll();
     }
 

@@ -27,5 +27,4 @@ public class WorkExperienceResponse {
                 workExperience.getEndDate(),
                 workExperience.getResume().getId());
     }
-
 }

@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 
 @Data
 @NoArgsConstructor
@@ -24,6 +22,6 @@ public class JobType {
     private String name;
 
     @OneToMany(mappedBy = "jobType")
-    private List<JobAdvertisement> jobAdvertisements;
+    private JobAdvertisement jobAdvertisement;
 
 }
