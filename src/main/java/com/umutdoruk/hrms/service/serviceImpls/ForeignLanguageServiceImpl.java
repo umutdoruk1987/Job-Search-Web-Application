@@ -34,7 +34,7 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
         ForeignLanguage foreignLanguage = new ForeignLanguage();
         foreignLanguage.setLanguageName(foreignLanguageRequest.getLanguageName());
         foreignLanguage.setLanguageLevel(foreignLanguageRequest.getLanguageLevel());
-        foreignLanguage.setResume(resumeService.getResumeById(foreignLanguageRequest.getResumeId()));
+        foreignLanguage.setResume(resumeService.getById(foreignLanguageRequest.getResumeId()));
 
         foreignLanguageRepository.save(foreignLanguage);
     }
@@ -49,7 +49,7 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
 
         foreignLanguage.setLanguageName(foreignLanguageRequest.getLanguageName());
         foreignLanguage.setLanguageLevel(foreignLanguageRequest.getLanguageLevel());
-        foreignLanguage.setResume(resumeService.getResumeById(foreignLanguageRequest.getResumeId()));
+        foreignLanguage.setResume(resumeService.getById(foreignLanguageRequest.getResumeId()));
 
         foreignLanguageRepository.save(foreignLanguage);
     }
@@ -69,9 +69,15 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
     }
 
     @Override
+    public ForeignLanguage findById(Long id) {
+        return foreignLanguageRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Foreign Language is not found"));
+    }
+
+    @Override
     public List<ForeignLanguageResponse> getAll(Long resumeId) {
 
-        Resume resume = resumeService.getResumeById(resumeId);
+        Resume resume = resumeService.getById(resumeId);
 
         List<ForeignLanguageResponse> foreignLanguageResponseList = resume.getForeignLanguageList()
                 .stream()

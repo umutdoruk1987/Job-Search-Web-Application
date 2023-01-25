@@ -9,9 +9,9 @@ import java.util.List;
 public interface ResumeService {
 
     void add(ResumeRequest resumeRequest);
-    ResumeResponse findResumeById(Long id);
-    Resume getResumeById(Long id);
-    List<ResumeResponse> getAll();
-    void update(ResumeRequest resumeRequest);
+    ResumeResponse findById(Long id);
+    Resume getById(Long id);
+    List<Resume> getAll();
+    void update(ResumeRequest resumeRequest, Long resumeId);
     void delete(Long id);
 }

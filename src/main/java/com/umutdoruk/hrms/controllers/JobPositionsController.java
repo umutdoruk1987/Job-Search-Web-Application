@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.JobPositionRequest;
 import com.umutdoruk.hrms.DTO.response.JobPositionResponse;
-import com.umutdoruk.hrms.entities.JobPosition;
 import com.umutdoruk.hrms.service.services.JobPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +39,12 @@ public class JobPositionsController {
         return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<JobPositionResponse> getById (@PathVariable("id") Long id){
+        JobPositionResponse jobPositionResponse = jobPositionService.findById(id);
+        return new ResponseEntity<>(jobPositionResponse,HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id) {
         jobPositionService.delete(id);
@@ -47,8 +52,8 @@ public class JobPositionsController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobPositionRequest jobPositionRequest) {
-        jobPositionService.update(jobPositionRequest);
+    public HttpStatus update(@RequestBody JobPositionRequest jobPositionRequest, @RequestParam Long jobPositionId) {
+        jobPositionService.update(jobPositionRequest, jobPositionId);
         return HttpStatus.OK;
     }
 }

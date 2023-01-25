@@ -2,14 +2,11 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.ResumeRequest;
 import com.umutdoruk.hrms.DTO.response.ResumeResponse;
-import com.umutdoruk.hrms.entities.Resume;
 import com.umutdoruk.hrms.service.services.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/resumes")
@@ -29,19 +26,19 @@ public class ResumesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ResumeResponse> findById(@PathVariable("id") Long id){
-        ResumeResponse resumeResponse = resumeService.findResumeById(id);
+        ResumeResponse resumeResponse = resumeService.findById(id);
         return new ResponseEntity<>(resumeResponse,HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
+   /* @GetMapping("/getAll")
     public ResponseEntity<List<ResumeResponse>> getAll() {
         List<ResumeResponse> resumeResponseList = resumeService.getAll();
         return new ResponseEntity<>(resumeResponseList, HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping("/update")
-    public HttpStatus update(@RequestBody ResumeRequest resumeRequest){
-        resumeService.update(resumeRequest);
+    public HttpStatus update(@RequestBody ResumeRequest resumeRequest, @RequestParam Long resumeId){
+        resumeService.update(resumeRequest, resumeId);
         return HttpStatus.OK;
     }
 

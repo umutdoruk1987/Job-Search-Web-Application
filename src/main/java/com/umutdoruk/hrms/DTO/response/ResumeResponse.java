@@ -43,5 +43,6 @@ public class ResumeResponse {
                 educationList,
                 technologyList,
                 workExperienceList,
-                foreignLanguageList);}
+                foreignLanguageList);
+    }
 }

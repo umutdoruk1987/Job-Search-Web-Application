@@ -36,7 +36,7 @@ public class EducationServiceImpl implements EducationService {
         education.setSchoolName(educationRequest.getSchoolName());
         education.setStartDate(educationRequest.getStartDate());
         education.setGraduationDate(educationRequest.getGraduationDate());
-        education.setResume(resumeService.getResumeById(educationRequest.getResumeId()));
+        education.setResume(resumeService.getById(educationRequest.getResumeId()));
 
         educationRepository.save(education);
     }
@@ -53,7 +53,7 @@ public class EducationServiceImpl implements EducationService {
         education.setSchoolName(educationRequest.getSchoolName());
         education.setStartDate(educationRequest.getStartDate());
         education.setGraduationDate(educationRequest.getGraduationDate());
-        education.setResume(resumeService.getResumeById(educationRequest.getResumeId()));
+        education.setResume(resumeService.getById(educationRequest.getResumeId()));
 
         educationRepository.save(education);
     }
@@ -74,9 +74,15 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
+    public Education findById(Long id) {
+        return educationRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Education is not found"));
+    }
+
+    @Override
     public List<EducationResponse> getAll(Long resumeId) {
 
-        Resume resume = resumeService.getResumeById(resumeId);
+        Resume resume = resumeService.getById(resumeId);
 
         List<EducationResponse> educationResponseList = resume.getEducationList()
                 .stream()

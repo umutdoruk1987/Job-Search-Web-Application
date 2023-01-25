@@ -29,7 +29,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     public List<TechnologyResponse> getAll(Long resumeId) {
 
-        Resume resume = resumeService.getResumeById(resumeId);
+        Resume resume = resumeService.getById(resumeId);
 
         List<TechnologyResponse> technologyResponseList = resume.getTechnologyList()
                 .stream()
@@ -49,6 +49,12 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
+    public Technology getById(Long id) {
+        return technologyRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Technology is not found"));
+    }
+
+    @Override
     public void delete(Long id) {
         if (!(technologyRepository.existsById(id)))
             throw new NotFoundException("No Technology found to delete");
@@ -65,7 +71,7 @@ public class TechnologyServiceImpl implements TechnologyService {
             throw new NotFoundException("No Technology record found to update");
 
         technology.setTechnologyName(technologyRequest.getTechnologyName());
-        technology.setResume(resumeService.getResumeById(technologyRequest.getResumeId()));
+        technology.setResume(resumeService.getById(technologyRequest.getResumeId()));
 
         technologyRepository.save(technology);
     }
@@ -78,7 +84,7 @@ public class TechnologyServiceImpl implements TechnologyService {
 
         Technology technology = new Technology();
         technology.setTechnologyName(technologyRequest.getTechnologyName());
-        technology.setResume(resumeService.getResumeById(technologyRequest.getResumeId()));
+        technology.setResume(resumeService.getById(technologyRequest.getResumeId()));
 
         technologyRepository.save(technology);
     }

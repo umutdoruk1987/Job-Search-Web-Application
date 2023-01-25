@@ -37,7 +37,7 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
         workExperience.setJobName(workExperienceRequest.getJobName());
         workExperience.setStartDate(workExperienceRequest.getStartDate());
         workExperience.setEndDate(workExperienceRequest.getEndDate());
-        workExperience.setResume(resumeService.getResumeById(workExperienceRequest.getResumeId()));
+        workExperience.setResume(resumeService.getById(workExperienceRequest.getResumeId()));
 
         workExperienceRepository.save(workExperience);
     }
@@ -52,7 +52,7 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 
     @Override
     public List<WorkExperienceResponse> getAll(Long resumeId) {
-        Resume resume = resumeService.getResumeById(resumeId);
+        Resume resume = resumeService.getById(resumeId);
 
         List<WorkExperienceResponse> workExperienceResponseList = resume.getWorkExperienceList()
                 .stream()
@@ -69,6 +69,12 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
          WorkExperience workExperience = workExperienceRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Work Experience is not found"));
          return WorkExperienceResponse.of(workExperience);
+    }
+
+    @Override
+    public WorkExperience findById(Long id) {
+        return workExperienceRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Work Experience is not found"));
     }
 
     @Override
@@ -91,7 +97,7 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
         workExperience.setJobPositionName(workExperienceRequest.getJobPositionName());
         workExperience.setStartDate(workExperienceRequest.getStartDate());
         workExperience.setEndDate(workExperienceRequest.getEndDate());
-        workExperience.setResume(resumeService.getResumeById(workExperienceId));
+        workExperience.setResume(resumeService.getById(workExperienceId));
 
         workExperienceRepository.save(workExperience);
     }
