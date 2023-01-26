@@ -20,10 +20,10 @@ public class JobAdvertisementResponse {
     private LocalDate applicationDeadline;
     private LocalDate createdDate;
     private boolean active;
-    private Long cityId;
-    private Long jobPositionId;
-    private Long jobTypeId;
-    private Long typeOfWorkId;
+    private CityResponse cityResponse;
+    private JobPositionResponse jobPositionResponse;
+    private JobTypeResponse jobTypeResponse;
+    private TypeOfWorkResponse typeOfWorkResponse;
     private Long employerId;
 
     public static JobAdvertisementResponse of(JobAdvertisement jobAdvertisement){
@@ -35,10 +35,10 @@ public class JobAdvertisementResponse {
                 jobAdvertisement.getApplicationDeadline(),
                 jobAdvertisement.getCreatedDate(),
                 jobAdvertisement.isActive(),
-                jobAdvertisement.getCity().getId(),
-                jobAdvertisement.getJobPosition().getId(),
-                jobAdvertisement.getJobType().getId(),
-                jobAdvertisement.getTypeOfWork().getId(),
+                CityResponse.of(jobAdvertisement.getCity()),
+                JobPositionResponse.of(jobAdvertisement.getJobPosition()),
+                JobTypeResponse.of(jobAdvertisement.getJobType()),
+                TypeOfWorkResponse.of(jobAdvertisement.getTypeOfWork()),
                 jobAdvertisement.getEmployer().getId());
     }
 

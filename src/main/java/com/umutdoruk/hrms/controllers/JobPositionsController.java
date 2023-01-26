@@ -21,28 +21,16 @@ public class JobPositionsController {
         this.jobPositionService = jobPositionService;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<JobPositionResponse>> getAll(){
-        List<JobPositionResponse> jobPositionResponseList = jobPositionService.getAll();
-        return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody JobPositionRequest jobPositionRequest){
-        jobPositionService.add(jobPositionRequest);
+    @PostMapping("/create")
+    public HttpStatus create(@RequestBody JobPositionRequest jobPositionRequest){
+        jobPositionService.create(jobPositionRequest);
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/{jobPositionName}")
-    public ResponseEntity<List<JobPositionResponse>> getByName(@PathVariable("jobPositionName") String jobPositionName){
-        List<JobPositionResponse> jobPositionResponseList = jobPositionService.findByName(jobPositionName);
-        return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<JobPositionResponse> getById (@PathVariable("id") Long id){
-        JobPositionResponse jobPositionResponse = jobPositionService.findById(id);
-        return new ResponseEntity<>(jobPositionResponse,HttpStatus.OK);
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody JobPositionRequest jobPositionRequest, @RequestParam Long jobPositionId) {
+        jobPositionService.update(jobPositionRequest, jobPositionId);
+        return HttpStatus.OK;
     }
 
     @DeleteMapping("/{id}")
@@ -51,9 +39,21 @@ public class JobPositionsController {
         return HttpStatus.OK;
     }
 
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobPositionRequest jobPositionRequest, @RequestParam Long jobPositionId) {
-        jobPositionService.update(jobPositionRequest, jobPositionId);
-        return HttpStatus.OK;
+    @GetMapping("/{id}")
+    public ResponseEntity<JobPositionResponse> getJobPositionResponseById (@PathVariable("id") Long id){
+        JobPositionResponse jobPositionResponse = jobPositionService.getJobPositionResponseById(id);
+        return new ResponseEntity<>(jobPositionResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/{jobPositionName}")
+    public ResponseEntity<List<JobPositionResponse>> getJobPositionResponseByName (@PathVariable("jobPositionName") String jobPositionName){
+        List<JobPositionResponse> jobPositionResponseList = jobPositionService.getJobPositionResponseByName(jobPositionName);
+        return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<JobPositionResponse>> getAllJobPositionResponses(){
+        List<JobPositionResponse> jobPositionResponseList = jobPositionService.getAllJobPositionResponses();
+        return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
     }
 }

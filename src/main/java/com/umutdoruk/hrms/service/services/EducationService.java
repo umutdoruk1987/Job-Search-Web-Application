@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface EducationService {
 
-    void add(EducationRequest educationRequest);
+    void create(EducationRequest educationRequest);
     void update(EducationRequest educationRequest, Long educationId);
     void delete(Long id);
-    EducationResponse getById(Long id);
-    Education findById(Long id);
-    List<EducationResponse> getAll(Long resumeId);
+    Education getEducationById(Long id);
+    EducationResponse getEducationResponseById(Long id);
+    List<EducationResponse> getAllEducationResponsesInResume(Long resumeId);
     List<EducationResponse> findAllByOrderByGraduationDateAsc();
     List<EducationResponse> findAllByOrderByGraduationDateDesc();
 }

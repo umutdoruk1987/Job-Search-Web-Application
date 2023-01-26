@@ -5,15 +5,15 @@ import com.umutdoruk.hrms.DTO.response.CandidateResponse;
 import com.umutdoruk.hrms.entities.Candidate;
 import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
-import com.umutdoruk.hrms.exception.UserExistException;
 import com.umutdoruk.hrms.repository.CandidatesRepository;
 import com.umutdoruk.hrms.service.services.CandidateService;
+import com.umutdoruk.hrms.service.services.ResumeService;
 import com.umutdoruk.hrms.service.services.UserService;
 import com.umutdoruk.hrms.utilities.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,64 +21,50 @@ public class CandidateServiceImpl implements CandidateService {
 
     private final CandidatesRepository candidatesRepository;
     private final UserService userService;
+    private final ResumeService resumeService;
 
     @Autowired
-    public CandidateServiceImpl(CandidatesRepository candidatesRepository, UserService userService) {
+    public CandidateServiceImpl(CandidatesRepository candidatesRepository,
+                                UserService userService,
+                                ResumeService resumeService) {
         this.candidatesRepository = candidatesRepository;
         this.userService = userService;
+        this.resumeService = resumeService;
     }
 
     @Override
-    public void add(CandidateRequest candidateRequest) {
+    public void create(CandidateRequest candidateRequest) {
 
-        if (isUserExist(candidate))
-            throw  new UserExistException("User already exist");
-        else if (!Validators.candidateValidator(candidate))
-            throw new BadRequestException("Candidate is in incorrect format");
-        else if (candidate.getUsername()==null)
-            candidate.setUsername(Validators.createUsernameIfNoPresent(candidate));
+       if (!Validators.candidateValidator(candidateRequest))
+            throw new BadRequestException("Candidate must be in the correct format and complete");
 
-        candidate.setCreatedDate(LocalDate.now());
+       Candidate candidate = new Candidate();
+       candidate.setFirstName(candidateRequest.getFirstName());
+       candidate.setLastName(candidateRequest.getLastName());
+       candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
+       candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
+       candidate.setResume(resumeService.getResumeById(candidateRequest.getResumeId()));
+       candidate.setUser(userService.getUserById(candidateRequest.getUserId()));
+
         candidatesRepository.save(candidate);
     }
 
     @Override
-    public List<CandidateResponse> getAll() {
-        if (candidatesRepository.findAll().isEmpty())
-            throw new NotFoundException("Candidate is not found");
-        return candidatesRepository.findAll();
-    }
+    public void update(CandidateRequest candidateRequest, Long candidateId) {
 
-    @Override
-    public CandidateResponse findByEmail(String email) {
-        return candidatesRepository.findByEmail(email)
-                .orElseThrow(()-> new NotFoundException("Candidate is not found"));
+        if (candidateRequest == null)
+            throw new NotFoundException("No Candidate record found to update");
 
-    }
+        Candidate candidate = getCandidateById(candidateId);
 
-    @Override
-    public CandidateResponse findById(Long id) {
-        return candidatesRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Candidate is not found"));
-    }
+        candidate.setFirstName(candidateRequest.getFirstName());
+        candidate.setLastName(candidateRequest.getLastName());
+        candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
+        candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
+        candidate.setUser(userService.getUserById(candidateRequest.getUserId()));
+        candidate.setResume(resumeService.getResumeById(candidateRequest.getResumeId()));
 
-    @Override
-    public void update(CandidateRequest candidateRequest) {
-
-        Candidate candidateForUpdate = candidatesRepository.findById(candidate.getId())
-                .orElseThrow(()-> new NotFoundException("Candidate is not found"));
-
-        candidateForUpdate.setFirstName(candidate.getFirstName());
-        candidateForUpdate.setLastName(candidate.getLastName());
-        candidateForUpdate.setActive(candidate.isActive());
-        candidateForUpdate.setYearOfBirth(candidate.getYearOfBirth());
-        candidateForUpdate.setPassword(candidate.getPassword());
-        candidateForUpdate.setConfirmPassword(candidate.getConfirmPassword());
-        candidateForUpdate.setTelephoneNumber(candidate.getTelephoneNumber());
-        candidateForUpdate.setUsername(candidate.getUsername());
-
-        candidatesRepository.save(candidateForUpdate);
-
+        candidatesRepository.save(candidate);
     }
 
     @Override
@@ -90,8 +76,39 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Boolean isUserExist(CandidateRequest candidateRequest) {
+    public Candidate getCandidateById(Long id) {
+        return candidatesRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Candidate is not found"));
+    }
 
-        return userService.isEmailExist(candidate.getEmail());
+    @Override
+    public CandidateResponse getCandidateResponseById(Long id) {
+        Candidate candidate = getCandidateById(id);
+        return CandidateResponse.of(candidate,candidate.getResume().getId(),candidate.getUser().getId());
+    }
+
+    @Override
+    public CandidateResponse getCandidateResponseByEmail(String email) {
+        Candidate candidate = candidatesRepository.findByEmail(email)
+                .orElseThrow(()-> new NotFoundException("Candidate is not found"));
+        return CandidateResponse.of(candidate, candidate.getResume().getId(), candidate.getUser().getId());
+    }
+
+    @Override
+    public List<CandidateResponse> getAllCandidateResponses() {
+
+        List<CandidateResponse> candidateResponseList = new ArrayList<>();
+
+        for (Candidate candidate : candidatesRepository.findAll()){
+
+            candidateResponseList.add(CandidateResponse.of(candidate,
+                    candidate.getResume().getId(),
+                    candidate.getUser().getId()));
+        }
+
+        if (candidateResponseList.size()==0)
+            throw new NotFoundException("Any Candidate record isn't found");
+
+        return candidateResponseList;
     }
 }

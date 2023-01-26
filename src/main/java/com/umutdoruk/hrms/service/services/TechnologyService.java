@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface TechnologyService {
 
-    void add(TechnologyRequest technologyRequest);
-    List<TechnologyResponse> getAll(Long resumeId);
-    TechnologyResponse findById(Long id);
-    Technology getById(Long id);
-    void delete(Long id);
+    void create(TechnologyRequest technologyRequest);
     void update(TechnologyRequest technologyRequest, Long technologyId);
+    void delete(Long id);
+    Technology getTechnologyById(Long id);
+    TechnologyResponse getTechnologyResponseById(Long id);
+    List<TechnologyResponse> getAllTechnologiesResponsesInResume(Long resumeId);
 }

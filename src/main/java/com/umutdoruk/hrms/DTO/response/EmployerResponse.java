@@ -18,7 +18,9 @@ public class EmployerResponse {
     private String companyTelephoneNumber;
     private List<JobAdvertisementResponse> jobAdvertisementList;
 
-    public static EmployerResponse of(Employer employer, List<JobAdvertisementResponse> jobAdvertisementList){
+    public static EmployerResponse of(Employer employer,
+                                      List<JobAdvertisementResponse> jobAdvertisementList
+                                      ){
         return new EmployerResponse(employer.getId(),
                 employer.getCompanyName(),
                 employer.getWebsite(),

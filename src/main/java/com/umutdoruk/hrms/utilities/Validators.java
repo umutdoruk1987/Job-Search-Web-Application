@@ -13,7 +13,7 @@ public class Validators {
     }
 
     public static boolean employerValidator(EmployerRequest employerRequest){
-        return !employerRequest.getWebsite().isEmpty()
+        return  !employerRequest.getWebsite().isEmpty()
                 && !employerRequest.getCompanyName().isEmpty()
                 && employerRequest.getCompanyTelephoneNumber().length()==11;
     }

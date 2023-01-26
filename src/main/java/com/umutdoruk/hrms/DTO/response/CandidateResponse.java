@@ -18,13 +18,15 @@ public class CandidateResponse {
     private String telephoneNumber;
     private LocalDate yearOfBirth;
     private Long resumeId;
+    private Long userId;
 
-    public static CandidateResponse of(Candidate candidate){
+    public static CandidateResponse of(Candidate candidate, Long resumeId, Long userId){
         return new CandidateResponse(candidate.getId(),
                 candidate.getFirstName(),
                 candidate.getLastName(),
                 candidate.getTelephoneNumber(),
                 candidate.getYearOfBirth(),
-                candidate.getResume().getId());
+                candidate.getResume().getId(),
+                candidate.getUser().getId());
     }
 }

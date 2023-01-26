@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.controllers;
 
 import com.umutdoruk.hrms.DTO.request.JobAdvertisementRequest;
 import com.umutdoruk.hrms.DTO.response.JobAdvertisementResponse;
-import com.umutdoruk.hrms.entities.JobAdvertisement;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,27 +21,16 @@ public class JobAdvertisementsController {
         this.jobAdvertisementService = jobAdvertisementService;
     }
 
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody JobAdvertisementRequest jobAdvertisementRequest){
-        jobAdvertisementService.add(jobAdvertisementRequest);
+    @PostMapping("/create")
+    public HttpStatus create(@RequestBody JobAdvertisementRequest jobAdvertisementRequest){
+        jobAdvertisementService.create(jobAdvertisementRequest);
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<JobAdvertisementResponse>> getAll(){
-        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.getAll();
-        return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<JobAdvertisementResponse> getById(@PathVariable("id") Long id){
-        JobAdvertisementResponse jobAdvertisementResponse = jobAdvertisementService.getById(id);
-        return new ResponseEntity<>(jobAdvertisementResponse, HttpStatus.OK);
-    }
-
-    @PostMapping("/update")
-    public HttpStatus update(@RequestBody JobAdvertisementRequest jobAdvertisementRequest){
-        jobAdvertisementService.update(jobAdvertisementRequest);
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody JobAdvertisementRequest jobAdvertisementRequest,
+                             @RequestParam Long jobAdvertisementId){
+        jobAdvertisementService.update(jobAdvertisementRequest, jobAdvertisementId);
         return HttpStatus.OK;
     }
 
@@ -52,27 +40,39 @@ public class JobAdvertisementsController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/findByActiveTrue")
-    public ResponseEntity<List<JobAdvertisementResponse>> findByActiveTrue(){
-        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.findByActiveTrue();
+    @GetMapping("/{id}")
+    public ResponseEntity<JobAdvertisementResponse> getJobAdvertisementResponseById (@PathVariable("id") Long id){
+        JobAdvertisementResponse jobAdvertisementResponse = jobAdvertisementService.getJobAdvertisementResponseById(id);
+        return new ResponseEntity<>(jobAdvertisementResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<JobAdvertisementResponse>> getAllJobAdvertisements(){
+        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.getAllJobAdvertisements();
         return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
     }
 
-    @GetMapping("/findByActiveTrueAndCreatedDateAsc")
-    public ResponseEntity<List<JobAdvertisementResponse>> findByActiveTrueAndCreateDateAsc(){
-        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.findByActiveTrueAndCreatedDateAsc();
+    @GetMapping("/getAllByActiveTrue")
+    public ResponseEntity<List<JobAdvertisementResponse>> getAllJobAdvertisementsByActiveTrue(){
+        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.getAllJobAdvertisementsByActiveTrue();
         return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
     }
 
-    @GetMapping("/findByActiveTrueOrderByCreatedDateDesc")
-    public ResponseEntity<List<JobAdvertisementResponse>> findByActiveTrueAndCreateDateDesc(){
-        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.findByActiveTrueOrderByCreatedDateDesc();
+    @GetMapping("/getAllByActiveTrueAndCreatedDateAsc")
+    public ResponseEntity<List<JobAdvertisementResponse>> getAllJobAdvertisementsByActiveTrueAndCreatedDateAsc(){
+        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.getAllJobAdvertisementsByActiveTrueAndCreatedDateAsc();
         return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
     }
 
-    @GetMapping("/findByActiveTrueAndEmployerId")
-    public ResponseEntity<List<JobAdvertisementResponse>> findByActiveTrueAndEmployer(Long employerId){
-        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.findByActiveTrueAndEmployer(employerId);
+    @GetMapping("/getAllByActiveTrueOrderByCreatedDateDesc")
+    public ResponseEntity<List<JobAdvertisementResponse>> getAllJobAdvertisementsByActiveTrueOrderByCreatedDateDesc(){
+        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.getAllJobAdvertisementsByActiveTrueOrderByCreatedDateDesc();
+        return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllByActiveTrueAndEmployerId")
+    public ResponseEntity<List<JobAdvertisementResponse>> getAllJobAdvertisementsByActiveTrueAndEmployerId(@RequestParam Long employerId){
+        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.getAllJobAdvertisementsByActiveTrueAndEmployerId(employerId);
         return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
     }
 

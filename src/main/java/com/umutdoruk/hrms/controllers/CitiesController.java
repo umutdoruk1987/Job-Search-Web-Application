@@ -19,16 +19,10 @@ public class CitiesController {
         this.cityService = cityService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public HttpStatus create(@RequestBody CityRequest cityRequest) {
         cityService.create(cityRequest);
         return HttpStatus.CREATED;
-    }
-
-    @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable("id") Long id) {
-        cityService.delete(id);
-        return HttpStatus.OK;
     }
 
     @PutMapping("/{cityName}")
@@ -37,9 +31,15 @@ public class CitiesController {
         return HttpStatus.OK;
     }
 
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
+        cityService.delete(id);
+        return HttpStatus.OK;
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<CityResponse> getById(@PathVariable("id") Long id){
-         CityResponse cityResponse = cityService.getById(id);
+    public ResponseEntity<CityResponse> getCityResponseById (@PathVariable("id") Long id){
+         CityResponse cityResponse = cityService.getCityResponseById(id);
         return new ResponseEntity<>(cityResponse,HttpStatus.OK);
     }
 }

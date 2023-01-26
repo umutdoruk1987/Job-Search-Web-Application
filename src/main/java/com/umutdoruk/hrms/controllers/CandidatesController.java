@@ -21,20 +21,16 @@ public class CandidatesController {
         this.candidateService=candidateService;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<CandidateResponse>> getAll(){
-        return ResponseEntity.ok(candidateService.getAll());
-    }
-
-    @GetMapping("/getByEmail")
-    public ResponseEntity<CandidateResponse>  getByEmail(@PathVariable("email") String email) {
-        return ResponseEntity.ok(candidateService.findByEmail(email));
-    }
-
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody CandidateRequest candidateRequest){
-        candidateService.add(candidateRequest);
+    @PostMapping("/create")
+    public HttpStatus create (@RequestBody CandidateRequest candidateRequest){
+        candidateService.create(candidateRequest);
         return HttpStatus.CREATED;
+    }
+
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody CandidateRequest candidateRequest , @RequestParam Long candidateId) {
+        candidateService.update(candidateRequest, candidateId);
+        return HttpStatus.OK;
     }
 
     @DeleteMapping("/{id}")
@@ -43,15 +39,20 @@ public class CandidatesController {
         return HttpStatus.OK;
     }
 
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody CandidateRequest candidateRequest) {
-        candidateService.update(candidateRequest);
-        return HttpStatus.OK;
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<CandidateResponse> getById(@PathVariable("id") Long id){
-        CandidateResponse candidateResponse = candidateService.findById(id);
+    public ResponseEntity<CandidateResponse> getCandidateResponseById(@PathVariable("id") Long id){
+        CandidateResponse candidateResponse = candidateService.getCandidateResponseById(id);
         return new ResponseEntity<>(candidateResponse,HttpStatus.OK);
     }
+
+    @GetMapping("/getByEmail")
+    public ResponseEntity<CandidateResponse>  getCandidateResponseByEmail (@PathVariable("email") String email) {
+        return ResponseEntity.ok(candidateService.getCandidateResponseByEmail(email));
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<CandidateResponse>> getAllCandidateResponses(){
+        return ResponseEntity.ok(candidateService.getAllCandidateResponses());
+    }
+
 }

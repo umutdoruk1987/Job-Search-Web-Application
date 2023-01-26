@@ -21,22 +21,16 @@ public class JobTypesController {
         this.jobTypeService = jobTypeService;
     }
 
-    @PostMapping
-    public HttpStatus add(@RequestBody JobTypeRequest jobTypeRequest){
-        jobTypeService.add(jobTypeRequest);
+    @PostMapping ("/create")
+    public HttpStatus create (@RequestBody JobTypeRequest jobTypeRequest){
+        jobTypeService.create(jobTypeRequest);
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<JobTypeResponse>> getAll(){
-        List<JobTypeResponse> jobTypeResponseList = jobTypeService.getAll();
-        return new ResponseEntity<>(jobTypeResponseList,HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<JobTypeResponse> getById(@PathVariable("id") Long id){
-        JobTypeResponse jobTypeResponse = jobTypeService.getById(id);
-        return new ResponseEntity<>(jobTypeResponse,HttpStatus.OK);
+    @PutMapping("/update")
+    public HttpStatus update(@RequestBody JobTypeRequest jobTypeRequest, @RequestParam Long jobTypeId) {
+        jobTypeService.update(jobTypeRequest, jobTypeId);
+        return HttpStatus.OK;
     }
 
     @DeleteMapping("/{id}")
@@ -45,9 +39,15 @@ public class JobTypesController {
         return HttpStatus.OK;
     }
 
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobTypeRequest jobTypeRequest, @RequestParam Long jobTypeId) {
-        jobTypeService.update(jobTypeRequest, jobTypeId);
-        return HttpStatus.OK;
+    @GetMapping("/{id}")
+    public ResponseEntity<JobTypeResponse> getJobTypeResponseById (@PathVariable("id") Long id){
+        JobTypeResponse jobTypeResponse = jobTypeService.getJobTypeResponseById(id);
+        return new ResponseEntity<>(jobTypeResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<JobTypeResponse>> getAllJobTypeResponses (){
+        List<JobTypeResponse> jobTypeResponseList = jobTypeService.getAllJobTypeResponses();
+        return new ResponseEntity<>(jobTypeResponseList,HttpStatus.OK);
     }
 }

@@ -21,25 +21,13 @@ public class TypeOfWorksController {
         this.typeOfWorkService = typeOfWorkService;
     }
 
-    @PostMapping("/add")
-    public HttpStatus add (@RequestBody TypeOfWorkRequest typeOfWorkRequest){
-        typeOfWorkService.add(typeOfWorkRequest);
+    @PostMapping("/create")
+    public HttpStatus create (@RequestBody TypeOfWorkRequest typeOfWorkRequest){
+        typeOfWorkService.create(typeOfWorkRequest);
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<TypeOfWorkResponse>> getAll(){
-        List<TypeOfWorkResponse> typeOfWorkResponseList = typeOfWorkService.getAll();
-        return new ResponseEntity<>(typeOfWorkResponseList, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}}")
-    public ResponseEntity<TypeOfWorkResponse> getById(@PathVariable ("id") Long id){
-         TypeOfWorkResponse typeOfWorkResponse = typeOfWorkService.getById(id);
-        return new ResponseEntity<>(typeOfWorkResponse, HttpStatus.OK);
-    }
-
-    @PostMapping("/update")
+    @PutMapping("/update")
     public HttpStatus update(@RequestBody TypeOfWorkRequest typeOfWorkRequest, @RequestParam Long typeOfWorksId){
         typeOfWorkService.update(typeOfWorkRequest, typeOfWorksId);
         return HttpStatus.OK;
@@ -49,5 +37,17 @@ public class TypeOfWorksController {
     public HttpStatus delete(@PathVariable("id") Long id){
         typeOfWorkService.delete(id);
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/{id}}")
+    public ResponseEntity<TypeOfWorkResponse> getTypeOfWorkResponseById (@PathVariable ("id") Long id){
+         TypeOfWorkResponse typeOfWorkResponse = typeOfWorkService.getTypeOfWorkResponseById(id);
+        return new ResponseEntity<>(typeOfWorkResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<TypeOfWorkResponse>> getAllTypeResponsesOfWork(){
+        List<TypeOfWorkResponse> typeOfWorkResponseList = typeOfWorkService.getAllTypeOfWorkResponses();
+        return new ResponseEntity<>(typeOfWorkResponseList, HttpStatus.OK);
     }
 }

@@ -13,6 +13,7 @@ public class UserRequest {
     private String username;
     private String password;
     private String confirmPassword;
-    private boolean isActive;
+    private String roleName;
+    private Boolean active;
 
 }

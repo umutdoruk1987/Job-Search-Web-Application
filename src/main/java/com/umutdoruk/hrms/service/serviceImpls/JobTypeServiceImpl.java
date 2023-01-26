@@ -27,36 +27,16 @@ public class JobTypeServiceImpl implements JobTypeService {
     }
 
     @Override
-    public void add(JobTypeRequest jobTypeRequest) {
+    public void create(JobTypeRequest jobTypeRequest) {
         if (jobTypeRequest == null) {
             throw new NotFoundException("No Job Type record found to add");
         }
 
         JobType jobType = new JobType();
         jobType.setName(jobTypeRequest.getName());
-        jobType.setJobAdvertisement(jobAdvertisementService.findById(jobTypeRequest.getJobAdvertisementId()));
+        jobType.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobTypeRequest.getJobAdvertisementId()));
 
         jobTypeRepository.save(jobType);
-    }
-
-    @Override
-    public List<JobTypeResponse> getAll() {
-
-        if (jobTypeRepository.findAll().isEmpty())
-            throw new NotFoundException("Any Job Type record isn't found");
-
-        return jobTypeRepository.findAll()
-                .stream()
-                .map(jobType -> JobTypeResponse.of(jobType))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public JobTypeResponse getById(Long id) {
-        JobType jobType = jobTypeRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Job Type is not found"));
-
-        return JobTypeResponse.of(jobType);
     }
 
     @Override
@@ -68,7 +48,7 @@ public class JobTypeServiceImpl implements JobTypeService {
             throw new NotFoundException("No Job Type record found to update");
 
         jobType.setName(jobTypeRequest.getName());
-        jobType.setJobAdvertisement(jobAdvertisementService.findById(jobTypeRequest.getJobAdvertisementId()));
+        jobType.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobTypeRequest.getJobAdvertisementId()));
 
         jobTypeRepository.save(jobType);
     }
@@ -78,5 +58,28 @@ public class JobTypeServiceImpl implements JobTypeService {
         if (!(jobTypeRepository.existsById(id)))
             throw new NotFoundException("Job Type is not found");
         jobTypeRepository.deleteById(id);
+    }
+
+    @Override
+    public JobType getJobTypeById(Long id) {
+        return jobTypeRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Job Type is not found"));
+    }
+
+    @Override
+    public JobTypeResponse getJobTypeResponseById(Long id) {
+        return JobTypeResponse.of(getJobTypeById(id));
+    }
+
+    @Override
+    public List<JobTypeResponse> getAllJobTypeResponses() {
+
+        if (jobTypeRepository.findAll().isEmpty())
+            throw new NotFoundException("Any Job Type record isn't found");
+
+        return jobTypeRepository.findAll()
+                .stream()
+                .map(jobType -> JobTypeResponse.of(jobType))
+                .collect(Collectors.toList());
     }
 }

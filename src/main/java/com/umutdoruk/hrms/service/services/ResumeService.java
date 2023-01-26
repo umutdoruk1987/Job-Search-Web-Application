@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ResumeService {
 
-    void add(ResumeRequest resumeRequest);
-    ResumeResponse findById(Long id);
-    Resume getById(Long id);
-    List<Resume> getAll();
+    void create(ResumeRequest resumeRequest);
     void update(ResumeRequest resumeRequest, Long resumeId);
     void delete(Long id);
+    Resume getResumeById(Long id);
+    ResumeResponse getResumeResponseById(Long id);
+    List<ResumeResponse> getAllResumeResponses();
 }

@@ -21,22 +21,10 @@ public class EducationsController {
         this.educationService = educationService;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<EducationResponse>> getAll(@RequestParam Long resumeId){
-        List<EducationResponse> educationList = educationService.getAll(resumeId);
-        return new ResponseEntity<>(educationList, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody EducationRequest educationRequest){
-        educationService.add(educationRequest);
+    @PostMapping("/create")
+    public HttpStatus create (@RequestBody EducationRequest educationRequest){
+        educationService.create(educationRequest);
         return HttpStatus.CREATED;
-    }
-
-    @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable("id") Long id) {
-        educationService.delete(id);
-        return HttpStatus.OK;
     }
 
     @PutMapping("/update")
@@ -45,10 +33,22 @@ public class EducationsController {
         return HttpStatus.OK;
     }
 
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
+        educationService.delete(id);
+        return HttpStatus.OK;
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<EducationResponse> getById(@PathVariable("id") Long id){
-        EducationResponse educationResponse = educationService.getById(id);
+    public ResponseEntity<EducationResponse> getEducationResponseById (@PathVariable("id") Long id){
+        EducationResponse educationResponse = educationService.getEducationResponseById(id);
         return new ResponseEntity<>(educationResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllByResumeId")
+    public ResponseEntity<List<EducationResponse>> getAllEducationResponsesInResume (@RequestParam Long resumeId){
+        List<EducationResponse> educationList = educationService.getAllEducationResponsesInResume(resumeId);
+        return new ResponseEntity<>(educationList, HttpStatus.OK);
     }
 
     @GetMapping("/findAllByOrderByGraduationDateAsc")

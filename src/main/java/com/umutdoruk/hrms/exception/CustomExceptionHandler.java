@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(UserExistException.class)
-    public ResponseEntity<?> userExist(UserExistException userExistException) {
-        ErrorResponse errorResponse = new ErrorResponse(userExistException.getMessage(), 403);
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<?> userExist(AlreadyExistException alreadyExistException) {
+        ErrorResponse errorResponse = new ErrorResponse(alreadyExistException.getMessage(), 403);
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 

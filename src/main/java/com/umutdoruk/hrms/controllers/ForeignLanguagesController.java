@@ -21,22 +21,10 @@ public class ForeignLanguagesController {
         this.foreignLanguageService = foreignLanguageService;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<ForeignLanguageResponse>> getAll(@RequestParam Long resumeId){
-        List<ForeignLanguageResponse> foreignLanguageResponsesList = foreignLanguageService.getAll(resumeId);
-        return new ResponseEntity<>(foreignLanguageResponsesList, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody ForeignLanguageRequest foreignLanguageRequest){
-        foreignLanguageService.add(foreignLanguageRequest);
+    @PostMapping("/create")
+    public HttpStatus create (@RequestBody ForeignLanguageRequest foreignLanguageRequest){
+        foreignLanguageService.create(foreignLanguageRequest);
         return HttpStatus.CREATED;
-    }
-
-    @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable("id") Long id) {
-        foreignLanguageService.delete(id);
-        return HttpStatus.OK;
     }
 
     @PutMapping("/update")
@@ -45,9 +33,21 @@ public class ForeignLanguagesController {
         return HttpStatus.OK;
     }
 
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
+        foreignLanguageService.delete(id);
+        return HttpStatus.OK;
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ForeignLanguageResponse> getById(@PathVariable("id") Long id){
-        ForeignLanguageResponse foreignLanguageResponse = foreignLanguageService.getById(id);
+    public ResponseEntity<ForeignLanguageResponse> getForeignLanguageResponseById (@PathVariable("id") Long id){
+        ForeignLanguageResponse foreignLanguageResponse = foreignLanguageService.getForeignLanguageResponseById(id);
         return new ResponseEntity<>(foreignLanguageResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllByResumeId")
+    public ResponseEntity<List<ForeignLanguageResponse>> getAllForeignLanguageResponsesInResume (@RequestParam Long resumeId){
+        List<ForeignLanguageResponse> foreignLanguageResponsesList = foreignLanguageService.getAllForeignLanguageResponsesInResume(resumeId);
+        return new ResponseEntity<>(foreignLanguageResponsesList, HttpStatus.OK);
     }
 }

@@ -27,7 +27,7 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
-    public void add(EducationRequest educationRequest) {
+    public void create(EducationRequest educationRequest) {
 
         if (educationRequest == null)
             throw new NotFoundException("No Education record found to add");
@@ -36,7 +36,7 @@ public class EducationServiceImpl implements EducationService {
         education.setSchoolName(educationRequest.getSchoolName());
         education.setStartDate(educationRequest.getStartDate());
         education.setGraduationDate(educationRequest.getGraduationDate());
-        education.setResume(resumeService.getById(educationRequest.getResumeId()));
+        education.setResume(resumeService.getResumeById(educationRequest.getResumeId()));
 
         educationRepository.save(education);
     }
@@ -53,7 +53,7 @@ public class EducationServiceImpl implements EducationService {
         education.setSchoolName(educationRequest.getSchoolName());
         education.setStartDate(educationRequest.getStartDate());
         education.setGraduationDate(educationRequest.getGraduationDate());
-        education.setResume(resumeService.getById(educationRequest.getResumeId()));
+        education.setResume(resumeService.getResumeById(educationRequest.getResumeId()));
 
         educationRepository.save(education);
     }
@@ -67,22 +67,20 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
-    public EducationResponse getById(Long id) {
-        Education education = educationRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Education is not found"));
-        return EducationResponse.of(education);
-    }
-
-    @Override
-    public Education findById(Long id) {
+    public Education getEducationById(Long id) {
         return educationRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Education is not found"));
     }
 
     @Override
-    public List<EducationResponse> getAll(Long resumeId) {
+    public EducationResponse getEducationResponseById(Long id) {
+        return EducationResponse.of(getEducationById(id));
+    }
 
-        Resume resume = resumeService.getById(resumeId);
+    @Override
+    public List<EducationResponse> getAllEducationResponsesInResume(Long resumeId) {
+
+        Resume resume = resumeService.getResumeById(resumeId);
 
         List<EducationResponse> educationResponseList = resume.getEducationList()
                 .stream()

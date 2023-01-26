@@ -12,4 +12,5 @@ public class EmployerRequest {
     private String companyName;
     private String website;
     private String companyTelephoneNumber;
+    private Long userId;
 }

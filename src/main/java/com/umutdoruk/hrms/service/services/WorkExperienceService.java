@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface WorkExperienceService {
 
-    void add(WorkExperienceRequest workExperienceRequest);
-    List<WorkExperienceResponse> findAllByOrderByEndDateDesc();
-    List<WorkExperienceResponse> getAll(Long resumeId);
-    WorkExperienceResponse getById(Long id);
-    WorkExperience findById(Long id);
-    void delete(Long id);
+    void create(WorkExperienceRequest workExperienceRequest);
     void update(WorkExperienceRequest workExperienceRequest, Long workExperienceId);
+    void delete(Long id);
+    WorkExperience getWorkExperienceById(Long id);
+    WorkExperienceResponse getWorkExperienceResponseById(Long id);
+    List<WorkExperienceResponse> getAllWorkExperienceResponsesInResume(Long resumeId);
+    List<WorkExperienceResponse> getAllWorkExperienceResponsesByOrderByEndDateDesc();
 }

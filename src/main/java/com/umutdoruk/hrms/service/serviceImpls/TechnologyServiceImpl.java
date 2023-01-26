@@ -27,38 +27,16 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public List<TechnologyResponse> getAll(Long resumeId) {
+    public void create(TechnologyRequest technologyRequest) {
 
-        Resume resume = resumeService.getById(resumeId);
+        if (technologyRequest == null)
+            throw new NotFoundException("No Technology record found to add");
 
-        List<TechnologyResponse> technologyResponseList = resume.getTechnologyList()
-                .stream()
-                .map(technology -> TechnologyResponse.of(technology))
-                .collect(Collectors.toList());
+        Technology technology = new Technology();
+        technology.setTechnologyName(technologyRequest.getTechnologyName());
+        technology.setResume(resumeService.getResumeById(technologyRequest.getResumeId()));
 
-        if (technologyResponseList.size()==0)
-            throw new NotFoundException("Any Technology record isn't found");
-        return technologyResponseList;
-    }
-
-    @Override
-    public TechnologyResponse findById(Long id) {
-       Technology technology = technologyRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Technology is not found"));
-        return TechnologyResponse.of(technology);
-    }
-
-    @Override
-    public Technology getById(Long id) {
-        return technologyRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Technology is not found"));
-    }
-
-    @Override
-    public void delete(Long id) {
-        if (!(technologyRepository.existsById(id)))
-            throw new NotFoundException("No Technology found to delete");
-        technologyRepository.deleteById(id);
+        technologyRepository.save(technology);
     }
 
     @Override
@@ -71,23 +49,41 @@ public class TechnologyServiceImpl implements TechnologyService {
             throw new NotFoundException("No Technology record found to update");
 
         technology.setTechnologyName(technologyRequest.getTechnologyName());
-        technology.setResume(resumeService.getById(technologyRequest.getResumeId()));
+        technology.setResume(resumeService.getResumeById(technologyRequest.getResumeId()));
 
         technologyRepository.save(technology);
     }
 
     @Override
-    public void add(TechnologyRequest technologyRequest) {
-
-        if (technologyRequest == null)
-            throw new NotFoundException("No Technology record found to add");
-
-        Technology technology = new Technology();
-        technology.setTechnologyName(technologyRequest.getTechnologyName());
-        technology.setResume(resumeService.getById(technologyRequest.getResumeId()));
-
-        technologyRepository.save(technology);
+    public void delete(Long id) {
+        if (!(technologyRepository.existsById(id)))
+            throw new NotFoundException("No Technology found to delete");
+        technologyRepository.deleteById(id);
     }
 
+    @Override
+    public Technology getTechnologyById(Long id) {
+        return technologyRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Technology is not found"));
+    }
 
+    @Override
+    public TechnologyResponse getTechnologyResponseById(Long id) {
+        return TechnologyResponse.of(getTechnologyById(id));
+    }
+
+    @Override
+    public List<TechnologyResponse> getAllTechnologiesResponsesInResume(Long resumeId) {
+
+        Resume resume = resumeService.getResumeById(resumeId);
+
+        List<TechnologyResponse> technologyResponseList = resume.getTechnologyList()
+                .stream()
+                .map(technology -> TechnologyResponse.of(technology))
+                .collect(Collectors.toList());
+
+        if (technologyResponseList.size()==0)
+            throw new NotFoundException("Any Technology record isn't found");
+        return technologyResponseList;
+    }
 }

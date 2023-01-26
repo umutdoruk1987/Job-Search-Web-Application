@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ForeignLanguageService {
 
-    void add(ForeignLanguageRequest foreignLanguageRequest);
+    void create(ForeignLanguageRequest foreignLanguageRequest);
     void update(ForeignLanguageRequest foreignLanguageRequest, Long foreignLanguageId);
     void delete(Long id);
-    ForeignLanguageResponse getById(Long id);
-    ForeignLanguage findById(Long id);
-    List<ForeignLanguageResponse> getAll(Long resumeId);
+    ForeignLanguage getForeignLanguageById(Long id);
+    ForeignLanguageResponse getForeignLanguageResponseById(Long id);
+    List<ForeignLanguageResponse> getAllForeignLanguageResponsesInResume(Long resumeId);
 }

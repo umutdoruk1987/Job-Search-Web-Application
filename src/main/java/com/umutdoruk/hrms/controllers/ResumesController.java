@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/resumes")
 public class ResumesController {
@@ -18,25 +20,13 @@ public class ResumesController {
         this.resumeService = resumeService;
     }
 
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody ResumeRequest resumeRequest){
-        resumeService.add(resumeRequest);
+    @PostMapping("/create")
+    public HttpStatus create(@RequestBody ResumeRequest resumeRequest){
+        resumeService.create(resumeRequest);
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResumeResponse> findById(@PathVariable("id") Long id){
-        ResumeResponse resumeResponse = resumeService.findById(id);
-        return new ResponseEntity<>(resumeResponse,HttpStatus.OK);
-    }
-
-   /* @GetMapping("/getAll")
-    public ResponseEntity<List<ResumeResponse>> getAll() {
-        List<ResumeResponse> resumeResponseList = resumeService.getAll();
-        return new ResponseEntity<>(resumeResponseList, HttpStatus.OK);
-    }*/
-
-    @PostMapping("/update")
+    @PutMapping("/update")
     public HttpStatus update(@RequestBody ResumeRequest resumeRequest, @RequestParam Long resumeId){
         resumeService.update(resumeRequest, resumeId);
         return HttpStatus.OK;
@@ -46,5 +36,17 @@ public class ResumesController {
     public HttpStatus delete(@PathVariable("id") Long id){
         resumeService.delete(id);
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResumeResponse> getResumeResponseById (@PathVariable("id") Long id){
+        ResumeResponse resumeResponse = resumeService.getResumeResponseById(id);
+        return new ResponseEntity<>(resumeResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<ResumeResponse>> getAllResumeResponses() {
+        List<ResumeResponse> resumeResponseList = resumeService.getAllResumeResponses();
+        return new ResponseEntity<>(resumeResponseList, HttpStatus.OK);
     }
 }

@@ -21,25 +21,13 @@ public class TechnologiesController {
         this.technologyService = technologyService;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<TechnologyResponse>> getAll(@RequestParam Long resumeId){
-        List<TechnologyResponse> technologyResponseList = technologyService.getAll(resumeId);
-        return new ResponseEntity<>(technologyResponseList, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody TechnologyRequest technologyRequest){
-        technologyService.add(technologyRequest);
+    @PostMapping("/create")
+    public HttpStatus create(@RequestBody TechnologyRequest technologyRequest){
+        technologyService.create(technologyRequest);
         return HttpStatus.CREATED;
     }
 
-    @GetMapping("/{id}")
-    public HttpStatus findById(@PathVariable("id") Long id){
-        technologyService.findById(id);
-        return HttpStatus.OK;
-    }
-
-    @PostMapping("/update")
+    @PutMapping("/update")
     public HttpStatus update(@RequestBody TechnologyRequest technologyRequest,@RequestParam Long foreignLanguageId){
         technologyService.update(technologyRequest, foreignLanguageId);
         return HttpStatus.OK;
@@ -49,6 +37,18 @@ public class TechnologiesController {
     public HttpStatus delete(@PathVariable("id") Long id){
         technologyService.delete(id);
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TechnologyResponse> getTechnologyResponseById (@PathVariable("id") Long id){
+        TechnologyResponse technologyResponse = technologyService.getTechnologyResponseById(id);
+        return new ResponseEntity<>(technologyResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<TechnologyResponse>> getAllTechnologiesResponsesInResume (@RequestParam Long resumeId){
+        List<TechnologyResponse> technologyResponseList = technologyService.getAllTechnologiesResponsesInResume(resumeId);
+        return new ResponseEntity<>(technologyResponseList, HttpStatus.OK);
     }
 }
 

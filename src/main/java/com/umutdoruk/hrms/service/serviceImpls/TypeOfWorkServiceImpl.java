@@ -26,35 +26,15 @@ public class TypeOfWorkServiceImpl implements TypeOfWorkService {
     }
 
     @Override
-    public void add(TypeOfWorkRequest typeOfWorkRequest) {
+    public void create(TypeOfWorkRequest typeOfWorkRequest) {
         if (typeOfWorkRequest == null)
             throw new NotFoundException("No Type of Work record found to add");
 
         TypeOfWork typeOfWork = new TypeOfWork();
         typeOfWork.setName(typeOfWorkRequest.getName());
-        typeOfWork.setJobAdvertisement(jobAdvertisementService.findById(typeOfWorkRequest.getJobAdvertisementId()));
+        typeOfWork.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(typeOfWorkRequest.getJobAdvertisementId()));
 
         typeOfWorkRepository.save(typeOfWork);
-    }
-
-    @Override
-    public List<TypeOfWorkResponse> getAll() {
-        if (typeOfWorkRepository.findAll().isEmpty())
-            throw new NotFoundException("Any Type of Work record isn't found");
-
-        return typeOfWorkRepository.findAll()
-                .stream()
-                .map(typeOfWork -> TypeOfWorkResponse.of(typeOfWork))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public TypeOfWorkResponse getById(Long id) {
-
-       TypeOfWork typeOfWork = typeOfWorkRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Type of Work is not found"));
-
-        return TypeOfWorkResponse.of(typeOfWork);
     }
 
     @Override
@@ -66,7 +46,7 @@ public class TypeOfWorkServiceImpl implements TypeOfWorkService {
             throw new NotFoundException("No Type of Work record found to update");
 
         typeOfWork.setName(typeOfWorkRequest.getName());
-        typeOfWork.setJobAdvertisement(jobAdvertisementService.findById(typeOfWorkRequest.getJobAdvertisementId()));
+        typeOfWork.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(typeOfWorkRequest.getJobAdvertisementId()));
 
         typeOfWorkRepository.save(typeOfWork);
     }
@@ -76,5 +56,27 @@ public class TypeOfWorkServiceImpl implements TypeOfWorkService {
         if (!(typeOfWorkRepository.existsById(id)))
             throw new NotFoundException("Type of Work is not found");
         typeOfWorkRepository.deleteById(id);
+    }
+
+    @Override
+    public TypeOfWork getTypeOfWorkById(Long id) {
+        return typeOfWorkRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Type of Work is not found"));
+    }
+
+    @Override
+    public TypeOfWorkResponse getTypeOfWorkResponseById(Long id) {
+        return TypeOfWorkResponse.of(getTypeOfWorkById(id));
+    }
+
+    @Override
+    public List<TypeOfWorkResponse> getAllTypeOfWorkResponses() {
+        if (typeOfWorkRepository.findAll().isEmpty())
+            throw new NotFoundException("Any Type of Work record isn't found");
+
+        return typeOfWorkRepository.findAll()
+                .stream()
+                .map(typeOfWork -> TypeOfWorkResponse.of(typeOfWork))
+                .collect(Collectors.toList());
     }
 }

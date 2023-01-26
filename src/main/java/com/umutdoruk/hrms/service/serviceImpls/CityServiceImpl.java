@@ -30,7 +30,7 @@ public class CityServiceImpl implements CityService {
 
         City city = new City();
         city.setCityName(cityRequest.getCityName());
-        city.setJobAdvertisement(jobAdvertisementService.findById(cityRequest.getJobAdvertisementId()));
+        city.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId()));
 
         cityRepository.save(city);
     }
@@ -38,14 +38,13 @@ public class CityServiceImpl implements CityService {
     @Override
     public void update(CityRequest cityRequest, Long cityId) {
 
-        City city = cityRepository.findById(cityId)
-                        .orElseThrow(()-> new NotFoundException("No City with this Id in Repository"));
+        City city = getCityById(cityId);
 
         if (cityRequest == null)
             throw new NotFoundException("No City record found to update");
 
         city.setCityName(cityRequest.getCityName());
-        city.setJobAdvertisement(jobAdvertisementService.findById(cityRequest.getJobAdvertisementId()));
+        city.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId()));
 
         cityRepository.save(city);
     }
@@ -58,11 +57,17 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityResponse getById(Long id) {
-         City city = cityRepository.findById(id)
+    public City getCityById(Long id) {
+        return cityRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("City is not found"));
-        return CityResponse.of(city);
     }
+
+    @Override
+    public CityResponse getCityResponseById(Long id) {
+        return CityResponse.of(getCityById(id));
+    }
+
+
 
 }
 

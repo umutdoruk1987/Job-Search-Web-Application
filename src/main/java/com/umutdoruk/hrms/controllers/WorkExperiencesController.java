@@ -21,28 +21,10 @@ public class WorkExperiencesController {
         this.workExperienceService = workExperienceService;
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<WorkExperienceResponse>> getAll(@RequestParam Long resumeId){
-        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.getAll(resumeId);
-        return new ResponseEntity<>(workExperienceResponseList, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public HttpStatus add(@RequestBody WorkExperienceRequest workExperienceRequest){
-        workExperienceService.add(workExperienceRequest);
+    @PostMapping("/create")
+    public HttpStatus create(@RequestBody WorkExperienceRequest workExperienceRequest){
+        workExperienceService.create(workExperienceRequest);
         return HttpStatus.CREATED;
-    }
-
-    @GetMapping("/findAllByOrderByEndDateDesc")
-    public ResponseEntity<List<WorkExperienceResponse>> findAllByOrderByEndDateDesc(){
-        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.findAllByOrderByEndDateDesc();
-        return new ResponseEntity<>(workExperienceResponseList,HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable("id") Long id) {
-        workExperienceService.delete(id);
-        return HttpStatus.OK;
     }
 
     @PutMapping("/update")
@@ -51,10 +33,28 @@ public class WorkExperiencesController {
         return HttpStatus.OK;
     }
 
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable("id") Long id) {
+        workExperienceService.delete(id);
+        return HttpStatus.OK;
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<WorkExperienceResponse> getById(@PathVariable("id") Long id){
-        WorkExperienceResponse workExperienceResponse = workExperienceService.getById(id);
+    public ResponseEntity<WorkExperienceResponse> getWorkExperienceResponseById (@PathVariable("id") Long id){
+        WorkExperienceResponse workExperienceResponse = workExperienceService.getWorkExperienceResponseById(id);
         return new ResponseEntity<>(workExperienceResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<WorkExperienceResponse>> getAllWorkExperienceResponsesInResume (@RequestParam Long resumeId){
+        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.getAllWorkExperienceResponsesInResume(resumeId);
+        return new ResponseEntity<>(workExperienceResponseList, HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByOrderByEndDateDesc")
+    public ResponseEntity<List<WorkExperienceResponse>> getAllWorkExperienceResponsesByOrderByEndDateDesc(){
+        List<WorkExperienceResponse> workExperienceResponseList = workExperienceService.getAllWorkExperienceResponsesByOrderByEndDateDesc();
+        return new ResponseEntity<>(workExperienceResponseList,HttpStatus.OK);
     }
 }
 

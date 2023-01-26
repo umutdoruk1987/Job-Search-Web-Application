@@ -27,7 +27,7 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
     }
 
     @Override
-    public void add(WorkExperienceRequest workExperienceRequest) {
+    public void create(WorkExperienceRequest workExperienceRequest) {
 
         if (workExperienceRequest == null)
             throw new NotFoundException("No Work Experience record found to add");
@@ -37,51 +37,9 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
         workExperience.setJobName(workExperienceRequest.getJobName());
         workExperience.setStartDate(workExperienceRequest.getStartDate());
         workExperience.setEndDate(workExperienceRequest.getEndDate());
-        workExperience.setResume(resumeService.getById(workExperienceRequest.getResumeId()));
+        workExperience.setResume(resumeService.getResumeById(workExperienceRequest.getResumeId()));
 
         workExperienceRepository.save(workExperience);
-    }
-
-    @Override
-    public List<WorkExperienceResponse> findAllByOrderByEndDateDesc() {
-        return workExperienceRepository.findAllByOrderByEndDateDesc()
-                .stream()
-                .map(workExperience -> WorkExperienceResponse.of(workExperience))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<WorkExperienceResponse> getAll(Long resumeId) {
-        Resume resume = resumeService.getById(resumeId);
-
-        List<WorkExperienceResponse> workExperienceResponseList = resume.getWorkExperienceList()
-                .stream()
-                .map(workExperience -> WorkExperienceResponse.of(workExperience))
-                .collect(Collectors.toList());
-
-        if (workExperienceResponseList.size()==0)
-            throw new NotFoundException("Any Work Experience record isn't found");
-        return workExperienceResponseList;
-    }
-
-    @Override
-    public WorkExperienceResponse getById(Long id) {
-         WorkExperience workExperience = workExperienceRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Work Experience is not found"));
-         return WorkExperienceResponse.of(workExperience);
-    }
-
-    @Override
-    public WorkExperience findById(Long id) {
-        return workExperienceRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Work Experience is not found"));
-    }
-
-    @Override
-    public void delete(Long id) {
-        if (!(workExperienceRepository.existsById(id)))
-            throw new NotFoundException("No Work Experience found to delete");
-        workExperienceRepository.deleteById(id);
     }
 
     @Override
@@ -97,9 +55,50 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
         workExperience.setJobPositionName(workExperienceRequest.getJobPositionName());
         workExperience.setStartDate(workExperienceRequest.getStartDate());
         workExperience.setEndDate(workExperienceRequest.getEndDate());
-        workExperience.setResume(resumeService.getById(workExperienceId));
+        workExperience.setResume(resumeService.getResumeById(workExperienceId));
 
         workExperienceRepository.save(workExperience);
     }
+
+    @Override
+    public void delete(Long id) {
+        if (!(workExperienceRepository.existsById(id)))
+            throw new NotFoundException("No Work Experience found to delete");
+        workExperienceRepository.deleteById(id);
+    }
+
+    @Override
+    public WorkExperience getWorkExperienceById(Long id) {
+        return workExperienceRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Work Experience is not found"));
+    }
+
+    @Override
+    public WorkExperienceResponse getWorkExperienceResponseById(Long id) {
+        return WorkExperienceResponse.of(getWorkExperienceById(id));
+    }
+
+    @Override
+    public List<WorkExperienceResponse> getAllWorkExperienceResponsesInResume(Long resumeId) {
+        Resume resume = resumeService.getResumeById(resumeId);
+
+        List<WorkExperienceResponse> workExperienceResponseList = resume.getWorkExperienceList()
+                .stream()
+                .map(workExperience -> WorkExperienceResponse.of(workExperience))
+                .collect(Collectors.toList());
+
+        if (workExperienceResponseList.size()==0)
+            throw new NotFoundException("Any Work Experience record isn't found");
+        return workExperienceResponseList;
+    }
+
+    @Override
+    public List<WorkExperienceResponse> getAllWorkExperienceResponsesByOrderByEndDateDesc() {
+        return workExperienceRepository.findAllByOrderByEndDateDesc()
+                .stream()
+                .map(workExperience -> WorkExperienceResponse.of(workExperience))
+                .collect(Collectors.toList());
+    }
+
 }
 

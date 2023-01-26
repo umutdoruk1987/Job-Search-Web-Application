@@ -25,7 +25,7 @@ public class JobPositionServiceImpl implements JobPositionService {
     }
 
     @Override
-    public List<JobPositionResponse> getAll() {
+    public List<JobPositionResponse> getAllJobPositionResponses() {
         if (jobPositionRepository.findAll().isEmpty())
             throw new NotFoundException("Any Job Position record isn't found");
 
@@ -36,35 +36,16 @@ public class JobPositionServiceImpl implements JobPositionService {
     }
 
     @Override
-    public void add(JobPositionRequest jobPositionRequest) {
+    public void create(JobPositionRequest jobPositionRequest) {
         if (jobPositionRequest == null) {
             throw new NotFoundException("No Job Position record found to add");
         }
 
         JobPosition jobPosition = new JobPosition();
         jobPosition.setName(jobPositionRequest.getName());
-        jobPosition.setJobAdvertisement(jobAdvertisementService.findById(jobPositionRequest.getJobAdvertisementId()));
+        jobPosition.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobPositionRequest.getJobAdvertisementId()));
 
         jobPositionRepository.save(jobPosition);
-    }
-
-    @Override
-    public JobPositionResponse findById(Long jobPositionId) {
-        JobPosition jobPosition = jobPositionRepository.findById(jobPositionId)
-                .orElseThrow(()-> new NotFoundException("Job Position is not found"));
-
-        return JobPositionResponse.of(jobPosition);
-    }
-
-    @Override
-    public List<JobPositionResponse> findByName(String jobPositionName) {
-
-        List<JobPosition> jobPositionList = jobPositionRepository.findByName(jobPositionName)
-                .orElseThrow(()-> new NotFoundException("No Job Position record found with name: " + jobPositionName));
-
-        return jobPositionList.stream()
-                .map(jobPosition -> JobPositionResponse.of(jobPosition))
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -76,7 +57,7 @@ public class JobPositionServiceImpl implements JobPositionService {
             throw new NotFoundException("No Job Position record found to update");
 
         jobPosition.setName(jobPositionRequest.getName());
-        jobPosition.setJobAdvertisement(jobAdvertisementService.findById(jobPositionRequest.getJobAdvertisementId()));
+        jobPosition.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobPositionRequest.getJobAdvertisementId()));
 
         jobPositionRepository.save(jobPosition);
     }
@@ -86,6 +67,28 @@ public class JobPositionServiceImpl implements JobPositionService {
         if (!(jobPositionRepository.existsById(id)))
             throw new NotFoundException("Job Position is not found");
         jobPositionRepository.deleteById(id);
+    }
+
+    @Override
+    public JobPosition getJobPositionById(Long jobPositionId) {
+        return jobPositionRepository.findById(jobPositionId)
+                .orElseThrow(()-> new NotFoundException("Job Position is not found"));
+    }
+
+    @Override
+    public JobPositionResponse getJobPositionResponseById(Long jobPositionId) {
+        return JobPositionResponse.of(getJobPositionById(jobPositionId));
+    }
+
+    @Override
+    public List<JobPositionResponse> getJobPositionResponseByName(String jobPositionName) {
+
+        List<JobPosition> jobPositionList = jobPositionRepository.findByName(jobPositionName)
+                .orElseThrow(()-> new NotFoundException("No Job Position record found with name: " + jobPositionName));
+
+        return jobPositionList.stream()
+                .map(jobPosition -> JobPositionResponse.of(jobPosition))
+                .collect(Collectors.toList());
     }
 
 }

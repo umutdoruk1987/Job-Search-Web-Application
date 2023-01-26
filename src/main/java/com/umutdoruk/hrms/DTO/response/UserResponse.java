@@ -17,12 +17,14 @@ public class UserResponse {
     private String username;
     private LocalDate createdDate;
     private boolean active;
+    private Long roleId;
 
     public static UserResponse of(User user){
         return new UserResponse(user.getId(),
                 user.getEmail(),
                 user.getUsername(),
                 user.getCreatedDate(),
-                user.isActive());
+                user.isActive(),
+                user.getRole().getId());
     }
 }

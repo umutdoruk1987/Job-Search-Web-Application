@@ -8,14 +8,15 @@ import java.util.List;
 
 public interface JobAdvertisementService {
 
-    void add(JobAdvertisementRequest jobAdvertisementRequest);
-    void update(JobAdvertisementRequest jobAdvertisementRequest);
+    void create(JobAdvertisementRequest jobAdvertisementRequest);
+    void update(JobAdvertisementRequest jobAdvertisementRequest, Long jobAdvertisementId);
     void delete(Long id);
-    List<JobAdvertisementResponse> getAll();
-    JobAdvertisementResponse getById(Long id);
-    JobAdvertisement findById(Long id);
-    List<JobAdvertisementResponse> findByActiveTrue();
-    List<JobAdvertisementResponse> findByActiveTrueAndCreatedDateAsc();
-    List<JobAdvertisementResponse> findByActiveTrueOrderByCreatedDateDesc();
-    List<JobAdvertisementResponse> findByActiveTrueAndEmployer(Long employerId);
+    JobAdvertisement getJobAdvertisementById(Long id);
+    JobAdvertisementResponse getJobAdvertisementResponseById(Long id);
+    List<JobAdvertisementResponse> getAllJobAdvertisements();
+    List<JobAdvertisementResponse> getAllJobAdvertisementsByEmployerId(Long employerId);
+    List<JobAdvertisementResponse> getAllJobAdvertisementsByActiveTrue();
+    List<JobAdvertisementResponse> getAllJobAdvertisementsByActiveTrueAndCreatedDateAsc();
+    List<JobAdvertisementResponse> getAllJobAdvertisementsByActiveTrueOrderByCreatedDateDesc();
+    List<JobAdvertisementResponse> getAllJobAdvertisementsByActiveTrueAndEmployerId(Long employerId);
 }

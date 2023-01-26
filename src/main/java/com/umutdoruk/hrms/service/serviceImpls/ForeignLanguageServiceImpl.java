@@ -27,14 +27,14 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
     }
 
     @Override
-    public void add(ForeignLanguageRequest foreignLanguageRequest) {
+    public void create(ForeignLanguageRequest foreignLanguageRequest) {
         if (foreignLanguageRequest == null) {
             throw new NotFoundException("No foreign language record found to add");
         }
         ForeignLanguage foreignLanguage = new ForeignLanguage();
         foreignLanguage.setLanguageName(foreignLanguageRequest.getLanguageName());
         foreignLanguage.setLanguageLevel(foreignLanguageRequest.getLanguageLevel());
-        foreignLanguage.setResume(resumeService.getById(foreignLanguageRequest.getResumeId()));
+        foreignLanguage.setResume(resumeService.getResumeById(foreignLanguageRequest.getResumeId()));
 
         foreignLanguageRepository.save(foreignLanguage);
     }
@@ -49,7 +49,7 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
 
         foreignLanguage.setLanguageName(foreignLanguageRequest.getLanguageName());
         foreignLanguage.setLanguageLevel(foreignLanguageRequest.getLanguageLevel());
-        foreignLanguage.setResume(resumeService.getById(foreignLanguageRequest.getResumeId()));
+        foreignLanguage.setResume(resumeService.getResumeById(foreignLanguageRequest.getResumeId()));
 
         foreignLanguageRepository.save(foreignLanguage);
     }
@@ -62,22 +62,20 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
     }
 
     @Override
-    public ForeignLanguageResponse getById(Long id) {
-        ForeignLanguage foreignLanguage = foreignLanguageRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Foreign Language is not found"));
-        return ForeignLanguageResponse.of(foreignLanguage);
-    }
-
-    @Override
-    public ForeignLanguage findById(Long id) {
+    public ForeignLanguage getForeignLanguageById(Long id) {
         return foreignLanguageRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Foreign Language is not found"));
     }
 
     @Override
-    public List<ForeignLanguageResponse> getAll(Long resumeId) {
+    public ForeignLanguageResponse getForeignLanguageResponseById(Long id) {
+        return ForeignLanguageResponse.of(getForeignLanguageById(id));
+    }
 
-        Resume resume = resumeService.getById(resumeId);
+    @Override
+    public List<ForeignLanguageResponse> getAllForeignLanguageResponsesInResume(Long resumeId) {
+
+        Resume resume = resumeService.getResumeById(resumeId);
 
         List<ForeignLanguageResponse> foreignLanguageResponseList = resume.getForeignLanguageList()
                 .stream()
