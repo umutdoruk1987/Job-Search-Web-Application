@@ -1,7 +1,7 @@
 package com.umutdoruk.hrms.controllers;
 
-import com.umutdoruk.hrms.DTO.request.UserRequest;
-import com.umutdoruk.hrms.DTO.response.UserResponse;
+import com.umutdoruk.hrms.DTO.request.UserSignupRequest;
+import com.umutdoruk.hrms.DTO.response.UserSignupResponse;
 import com.umutdoruk.hrms.service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +20,14 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public HttpStatus create(@RequestBody UserRequest userRequest){
-        userService.create(userRequest);
+    public HttpStatus create(@RequestBody UserSignupRequest userSignupRequest){
+        userService.create(userSignupRequest);
         return HttpStatus.CREATED;
     }
 
     @PutMapping("/update")
-    public HttpStatus update (@RequestBody UserRequest userRequest, @RequestParam Long userId) {
-        userService.update(userRequest,userId);
+    public HttpStatus update (@RequestBody UserSignupRequest userSignupRequest, @RequestParam Long userId) {
+        userService.update(userSignupRequest,userId);
         return HttpStatus.OK;
     }
 
@@ -38,15 +38,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserResponseById(@PathVariable("id") Long id){
-        UserResponse userResponse = userService.getUserResponseById(id);
-        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    public ResponseEntity<UserSignupResponse> getUserResponseById(@PathVariable("id") Long id){
+        UserSignupResponse userSignupResponse = userService.getUserResponseById(id);
+        return new ResponseEntity<>(userSignupResponse, HttpStatus.OK);
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<UserResponse> getUserResponseByEmail(@PathVariable("email") String email){
-        UserResponse userResponse = userService.getUserResponseByEmail(email);
-        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    public ResponseEntity<UserSignupResponse> getUserResponseByEmail(@PathVariable("email") String email){
+        UserSignupResponse userSignupResponse = userService.getUserResponseByEmail(email);
+        return new ResponseEntity<>(userSignupResponse, HttpStatus.OK);
     }
 
 }

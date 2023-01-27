@@ -1,7 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
-import com.umutdoruk.hrms.DTO.request.UserRequest;
-import com.umutdoruk.hrms.DTO.response.UserResponse;
+import com.umutdoruk.hrms.DTO.request.UserSignupRequest;
+import com.umutdoruk.hrms.DTO.response.UserSignupResponse;
 import com.umutdoruk.hrms.entities.User;
 import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
@@ -34,28 +34,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(UserRequest userRequest) {
+    public void create(UserSignupRequest userSignupRequest) {
 
         User user = new User();
 
-        if (userRequest == null)
+        if (userSignupRequest == null)
             throw new NotFoundException("No User record found to update");
-        else if (!Validators.userValidator(userRequest))
+        else if (!Validators.userValidator(userSignupRequest))
             throw new BadRequestException("User must be in the correct format and complete");
-        else if (isEmailExist(userRequest.getEmail()))
+        else if (isEmailExist(userSignupRequest.getEmail()))
             throw new AlreadyExistException("Email is already exist");
-        else if (userRequest.getUsername() == null)
-            user.setUsername(createUsernameIfNoPresent(userRequest));
-        else if (isUsernameExist(userRequest.getUsername()))
+        else if (userSignupRequest.getUsername() == null)
+            user.setUsername(createUsernameIfNoPresent(userSignupRequest));
+        else if (isUsernameExist(userSignupRequest.getUsername()))
             throw new AlreadyExistException("Username is already exist");
 
         // username uniq olsun. degistirilemesin. Ama email degistirilebilirsin.
 
-        user.setPassword(userRequest.getPassword());
-        user.setConfirmPassword(userRequest.getConfirmPassword());
-        user.setEmail(userRequest.getEmail());
+        user.setPassword(userSignupRequest.getPassword());
+        user.setConfirmPassword(userSignupRequest.getConfirmPassword());
+        user.setEmail(userSignupRequest.getEmail());
         user.setCreatedDate(LocalDate.now());
-        user.setActive(userRequest.getActive());
+        user.setActive(userSignupRequest.getActive());
 
         /*user.setRole();
         if(userRequest.getRoleName().equals("Employer")){
@@ -66,19 +66,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserRequest userRequest, Long id) {
+    public void update(UserSignupRequest userSignupRequest, Long id) {
 
-        if (userRequest == null)
+        if (userSignupRequest == null)
             throw new NotFoundException("No User record found to update");
-        else if (!Validators.userValidator(userRequest))
+        else if (!Validators.userValidator(userSignupRequest))
             throw new BadRequestException("User must be in the correct format and complete");
-        else if (isEmailExist(userRequest.getEmail()))
+        else if (isEmailExist(userSignupRequest.getEmail()))
             throw new AlreadyExistException("User is already exist");
 
         User user = getUserById(id);
-        user.setPassword(userRequest.getPassword());
-        user.setConfirmPassword(userRequest.getConfirmPassword());
-        user.setActive(userRequest.getActive());
+        user.setPassword(userSignupRequest.getPassword());
+        user.setConfirmPassword(userSignupRequest.getConfirmPassword());
+        user.setActive(userSignupRequest.getActive());
 
         userRepository.save(user);
     }
@@ -95,12 +95,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUserResponseById(Long id) {
-        return UserResponse.of(getUserById(id));
+    public UserSignupResponse getUserResponseById(Long id) {
+        return UserSignupResponse.of(getUserById(id));
     }
 
     @Override
-    public UserResponse getUserResponseByEmail(String email) {
+    public UserSignupResponse getUserResponseByEmail(String email) {
 
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User is not found"));
@@ -123,8 +123,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String createUsernameIfNoPresent(UserRequest userRequest) {
-        String[] temp = userRequest.getEmail().split("@");
+    public String createUsernameIfNoPresent(UserSignupRequest userSignupRequest) {
+        String[] temp = userSignupRequest.getEmail().split("@");
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(temp[0]);

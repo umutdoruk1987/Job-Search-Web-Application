@@ -2,7 +2,7 @@ package com.umutdoruk.hrms.utilities;
 
 import com.umutdoruk.hrms.DTO.request.CandidateRequest;
 import com.umutdoruk.hrms.DTO.request.EmployerRequest;
-import com.umutdoruk.hrms.DTO.request.UserRequest;
+import com.umutdoruk.hrms.DTO.request.UserSignupRequest;
 
 public class Validators {
 
@@ -18,11 +18,11 @@ public class Validators {
                 && employerRequest.getCompanyTelephoneNumber().length()==11;
     }
 
-    public static boolean userValidator(UserRequest userRequest) {
-        return  userRequest.getEmail().contains("@")
-                && !userRequest.getEmail().contains(" ")
-                && userRequest.getPassword().length() >= 8
-                && userRequest.getPassword().equals(userRequest.getConfirmPassword());
+    public static boolean userValidator(UserSignupRequest userSignupRequest) {
+        return  userSignupRequest.getEmail().contains("@")
+                && !userSignupRequest.getEmail().contains(" ")
+                && userSignupRequest.getPassword().length() >= 8
+                && userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword());
     }
 
 }
