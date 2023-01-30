@@ -18,14 +18,20 @@ import java.util.stream.Collectors;
 @Service
 public class JobAdvertisementServiceImpl implements JobAdvertisementService {
 
-    private final JobAdvertisementRepository jobAdvertisementRepository;
-    private final CityService cityService;
-    private final JobPositionService jobPositionService;
-    private final JobTypeService jobTypeService;
-    private final TypeOfWorkService typeOfWorkService;
-    private final EmployerService employerService;
-
     @Autowired
+    private JobAdvertisementRepository jobAdvertisementRepository;
+    @Autowired
+    private CityService cityService;
+    @Autowired
+    private JobPositionService jobPositionService;
+    @Autowired
+    private JobTypeService jobTypeService;
+    @Autowired
+    private TypeOfWorkService typeOfWorkService;
+    @Autowired
+    private EmployerService employerService;
+
+    /*@Autowired
     public JobAdvertisementServiceImpl(JobAdvertisementRepository jobAdvertisementRepository,
                                        CityService cityService,
                                        JobPositionService jobPositionService,
@@ -38,7 +44,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
         this.jobTypeService = jobTypeService;
         this.typeOfWorkService = typeOfWorkService;
         this.employerService = employerService;
-    }
+    }*/
 
     @Override
     public void create(JobAdvertisementRequest jobAdvertisementRequest) {
@@ -53,47 +59,46 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
         jobAdvertisement.setNumberOfOpenJobPosition(jobAdvertisementRequest.getNumberOfOpenJobPosition());
         jobAdvertisement.setApplicationDeadline(jobAdvertisementRequest.getApplicationDeadline());
         jobAdvertisement.setCreatedDate(LocalDate.now());
-        jobAdvertisement.setActive(jobAdvertisementRequest.isActive());
-        jobAdvertisement.setCity(cityService.getCityById(jobAdvertisementRequest.getCityId()));
-        jobAdvertisement.setJobPosition(jobPositionService.getJobPositionById(jobAdvertisementRequest.getJobPositionId()));
-        jobAdvertisement.setJobType(jobTypeService.getJobTypeById(jobAdvertisementRequest.getJobTypeId()));
-        jobAdvertisement.setTypeOfWork(typeOfWorkService.getTypeOfWorkById(jobAdvertisementRequest.getTypeOfWorkId()));
+        jobAdvertisement.setActive(jobAdvertisementRequest.getActive());
+        if (jobAdvertisementRequest.getCityId() != null )jobAdvertisement.setCity(cityService.getCityById(jobAdvertisementRequest.getCityId()));
+        if (jobAdvertisementRequest.getJobPositionId()!= null)jobAdvertisement.setJobPosition(jobPositionService.getJobPositionById(jobAdvertisementRequest.getJobPositionId()));
+        if (jobAdvertisementRequest.getJobTypeId()!=null)jobAdvertisement.setJobType(jobTypeService.getJobTypeById(jobAdvertisementRequest.getJobTypeId()));
+        if (jobAdvertisementRequest.getTypeOfWorkId()!=null)jobAdvertisement.setTypeOfWork(typeOfWorkService.getTypeOfWorkById(jobAdvertisementRequest.getTypeOfWorkId()));
         jobAdvertisement.setEmployer(employerService.getEmployerById(jobAdvertisementRequest.getEmployerId()));
 
         jobAdvertisementRepository.save(jobAdvertisement);
     }
 
     @Override
-    public void update(JobAdvertisementRequest jobAdvertisementRequest, Long jobAdvertisementId) {
-
-        JobAdvertisement jobAdvertisement = jobAdvertisementRepository.findById(jobAdvertisementId)
-                .orElseThrow(()-> new NotFoundException("No Job Advertisement with this Id in Repository"));
+    public void update(JobAdvertisementRequest jobAdvertisementRequest) {
 
         if (jobAdvertisementRequest == null)
             throw new NotFoundException("No Job Advertisement record found to update");
 
-        jobAdvertisement.setDescription(jobAdvertisementRequest.getDescription());
-        jobAdvertisement.setMinSalary(jobAdvertisementRequest.getMinSalary());
-        jobAdvertisement.setMaxSalary(jobAdvertisementRequest.getMaxSalary());
-        jobAdvertisement.setNumberOfOpenJobPosition(jobAdvertisementRequest.getNumberOfOpenJobPosition());
-        jobAdvertisement.setApplicationDeadline(jobAdvertisementRequest.getApplicationDeadline());
-        jobAdvertisement.setCreatedDate(LocalDate.now());
-        jobAdvertisement.setActive(jobAdvertisementRequest.isActive());
-        jobAdvertisement.setCity(cityService.getCityById(jobAdvertisementRequest.getCityId()));
-        jobAdvertisement.setJobPosition(jobPositionService.getJobPositionById(jobAdvertisementRequest.getJobPositionId()));
-        jobAdvertisement.setJobType(jobTypeService.getJobTypeById(jobAdvertisementRequest.getJobTypeId()));
-        jobAdvertisement.setTypeOfWork(typeOfWorkService.getTypeOfWorkById(jobAdvertisementRequest.getTypeOfWorkId()));
-        jobAdvertisement.setEmployer(employerService.getEmployerById(jobAdvertisementRequest.getEmployerId()));
+        JobAdvertisement jobAdvertisement = jobAdvertisementRepository.findById(jobAdvertisementRequest.getJobAdvertisementId())
+                .orElseThrow(()-> new NotFoundException("No Job Advertisement with this Id in Repository"));
 
+        if (jobAdvertisementRequest.getDescription()!=null)jobAdvertisement.setDescription(jobAdvertisementRequest.getDescription());
+        else if (jobAdvertisementRequest.getMinSalary()!=null)jobAdvertisement.setMinSalary(jobAdvertisementRequest.getMinSalary());
+        else if (jobAdvertisementRequest.getMaxSalary()!=null)jobAdvertisement.setMaxSalary(jobAdvertisementRequest.getMaxSalary());
+        else if (jobAdvertisementRequest.getNumberOfOpenJobPosition()!=null)jobAdvertisement.setNumberOfOpenJobPosition(jobAdvertisementRequest.getNumberOfOpenJobPosition());
+        else if (jobAdvertisementRequest.getApplicationDeadline()!=null)jobAdvertisement.setApplicationDeadline(jobAdvertisementRequest.getApplicationDeadline());
+        /*jobAdvertisement.setCreatedDate(LocalDate.now());*/
+        else if (jobAdvertisementRequest.getActive()!=null)jobAdvertisement.setActive(jobAdvertisementRequest.getActive());
+        else if (jobAdvertisementRequest.getCityId()!=null)jobAdvertisement.setCity(cityService.getCityById(jobAdvertisementRequest.getCityId()));
+        else if (jobAdvertisementRequest.getJobPositionId()!=null)jobAdvertisement.setJobPosition(jobPositionService.getJobPositionById(jobAdvertisementRequest.getJobPositionId()));
+        else if (jobAdvertisementRequest.getJobTypeId()!=null)jobAdvertisement.setJobType(jobTypeService.getJobTypeById(jobAdvertisementRequest.getJobTypeId()));
+        else if (jobAdvertisementRequest.getTypeOfWorkId()!=null)jobAdvertisement.setTypeOfWork(typeOfWorkService.getTypeOfWorkById(jobAdvertisementRequest.getTypeOfWorkId()));
+        /*jobAdvertisement.setEmployer(employerService.getEmployerById(jobAdvertisementRequest.getEmployerId()));
+*/
         jobAdvertisementRepository.save(jobAdvertisement);
     }
 
     @Override
     public void delete(Long id) {
-        if (!(jobAdvertisementRepository.existsById(id)))
-            throw new NotFoundException("Job Advertisement is not found");
-
+        if (jobAdvertisementRepository.existsById(id))
         jobAdvertisementRepository.deleteById(id);
+        else throw new NotFoundException("Job Advertisement is not found");
     }
 
     @Override

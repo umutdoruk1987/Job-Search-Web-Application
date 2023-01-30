@@ -18,19 +18,19 @@ public class CitiesController {
     public CitiesController(CityService cityService) {
         this.cityService = cityService;
     }
-
+    // ROLE_EMPLOYER
     @PostMapping("/create")
     public HttpStatus create(@RequestBody CityRequest cityRequest) {
         cityService.create(cityRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_EMPLOYER
     @PutMapping("/{cityName}")
-    public HttpStatus update(@RequestBody CityRequest cityRequest, @RequestParam Long cityId) {
-        cityService.update(cityRequest,cityId);
+    public HttpStatus update(@RequestBody CityRequest cityRequest) {
+        cityService.update(cityRequest);
         return HttpStatus.OK;
     }
-
+    // ROLE_EMPLOYER
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id) {
         cityService.delete(id);

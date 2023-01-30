@@ -37,7 +37,6 @@ public class User {
     @Column(name = "active")
     private boolean active;
 
-    @OneToOne
-    private Role role;
-
+    @Column(name = "role_name")
+    private String roleName;
 }

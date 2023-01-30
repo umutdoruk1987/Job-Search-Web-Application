@@ -9,7 +9,7 @@ import java.util.List;
 public interface WorkExperienceService {
 
     void create(WorkExperienceRequest workExperienceRequest);
-    void update(WorkExperienceRequest workExperienceRequest, Long workExperienceId);
+    void update(WorkExperienceRequest workExperienceRequest);
     void delete(Long id);
     WorkExperience getWorkExperienceById(Long id);
     WorkExperienceResponse getWorkExperienceResponseById(Long id);

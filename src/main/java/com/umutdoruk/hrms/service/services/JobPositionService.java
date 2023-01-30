@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface JobPositionService {
     void create(JobPositionRequest jobPositionRequest);
-    void update (JobPositionRequest jobPositionRequest, Long jobPositionId);
+    void update (JobPositionRequest jobPositionRequest);
     void delete (Long id);
     JobPosition getJobPositionById(Long jobPositionId);
     JobPositionResponse getJobPositionResponseById(Long jobPositionId);

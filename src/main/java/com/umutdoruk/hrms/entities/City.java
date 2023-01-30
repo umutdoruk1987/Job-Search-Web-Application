@@ -21,7 +21,8 @@ public class City {
     @Column(name = "city_name")
     private String cityName;
 
-    @OneToOne(mappedBy = "city")
+    @OneToOne(cascade = CascadeType.ALL/*mappedBy = "city"*/)
+    @JoinColumn (name = "jobAdvertisement_id")
     private JobAdvertisement jobAdvertisement;
 
 }

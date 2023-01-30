@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TypeOfWorkRequest {
 
+    private Long typeOfWorksId;
     private String name;
     private Long jobAdvertisementId;
 }

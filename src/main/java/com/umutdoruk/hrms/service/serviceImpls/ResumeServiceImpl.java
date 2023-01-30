@@ -17,14 +17,20 @@ import java.util.stream.Collectors;
 @Service
 public class ResumeServiceImpl implements ResumeService {
 
-    private final ResumeRepository resumeRepository;
-    private final CandidateService candidateService;
-    private final EducationService educationService;
-    private final TechnologyService technologyService;
-    private final WorkExperienceService workExperienceService;
-    private final ForeignLanguageService foreignLanguageService;
-
     @Autowired
+    private ResumeRepository resumeRepository;
+    @Autowired
+    private CandidateService candidateService;
+    @Autowired
+    private EducationService educationService;
+    @Autowired
+    private TechnologyService technologyService;
+    @Autowired
+    private WorkExperienceService workExperienceService;
+    @Autowired
+    private ForeignLanguageService foreignLanguageService;
+
+    /*@Autowired
     public ResumeServiceImpl(ResumeRepository resumeRepository,
                              CandidateService candidateService,
                              EducationService educationService,
@@ -37,7 +43,7 @@ public class ResumeServiceImpl implements ResumeService {
         this.technologyService = technologyService;
         this.workExperienceService = workExperienceService;
         this.foreignLanguageService = foreignLanguageService;
-    }
+    }*/
 
     @Override
     public void create(ResumeRequest resumeRequest) {
@@ -52,31 +58,33 @@ public class ResumeServiceImpl implements ResumeService {
         resume.setImageUrl(resumeRequest.getImageUrl());
         resume.setCreateDate(LocalDate.now());
         resume.setActive(resumeRequest.getActive());
-        resume.setEducationList(createEducationListFromIdList(resumeRequest));
+        /*resume.setEducationList(createEducationListFromIdList(resumeRequest));
         resume.setTechnologyList(createTechnologyListFromIdList(resumeRequest));
         resume.setWorkExperienceList(createWorkExperienceListFromIdList(resumeRequest));
-        resume.setForeignLanguageList(createForeignLanguageListFromIdList(resumeRequest));
+        resume.setForeignLanguageList(createForeignLanguageListFromIdList(resumeRequest));*/
 
         resumeRepository.save(resume);
     }
 
     @Override
-    public void update(ResumeRequest resumeRequest, Long resumeId) {
-        Resume resume = resumeRepository.findById(resumeId)
-                .orElseThrow(()-> new NotFoundException("No Resume with this Id in Repository"));
+    public void update(ResumeRequest resumeRequest) {
 
         if (resumeRequest == null)
             throw new NotFoundException("No Resume record found to update");
+
+        Resume resume = resumeRepository.findById(resumeRequest.getResumeId())
+                .orElseThrow(()-> new NotFoundException("No Resume with this Id in Repository"));
+
 
         resume.setCoverLetter(resumeRequest.getCoverLetter());
         resume.setGithubUrl(resumeRequest.getGithubUrl());
         resume.setLinkedinUrl(resumeRequest.getLinkedinUrl());
         resume.setImageUrl(resumeRequest.getImageUrl());
         resume.setActive(resumeRequest.getActive());
-        resume.setEducationList(createEducationListFromIdList(resumeRequest));
+        /*resume.setEducationList(createEducationListFromIdList(resumeRequest));
         resume.setTechnologyList(createTechnologyListFromIdList(resumeRequest));
         resume.setWorkExperienceList(createWorkExperienceListFromIdList(resumeRequest));
-        resume.setForeignLanguageList(createForeignLanguageListFromIdList(resumeRequest));
+        resume.setForeignLanguageList(createForeignLanguageListFromIdList(resumeRequest));*/
 
         resumeRepository.save(resume);
     }
@@ -134,7 +142,7 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeResponseList;
     }
 
-    private List<Education> createEducationListFromIdList (ResumeRequest resumeRequest){
+    /*private List<Education> createEducationListFromIdList (ResumeRequest resumeRequest){
         return resumeRequest.getEducationIdList()
                 .stream()
                 .map(educationId ->educationService.getEducationById(educationId))
@@ -160,5 +168,5 @@ public class ResumeServiceImpl implements ResumeService {
                 .stream()
                 .map(foreignLanguageId -> foreignLanguageService.getForeignLanguageById(foreignLanguageId))
                 .collect(Collectors.toList());
-    }
+    }*/
 }

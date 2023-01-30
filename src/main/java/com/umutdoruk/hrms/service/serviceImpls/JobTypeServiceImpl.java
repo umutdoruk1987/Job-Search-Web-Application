@@ -40,12 +40,13 @@ public class JobTypeServiceImpl implements JobTypeService {
     }
 
     @Override
-    public void update(JobTypeRequest jobTypeRequest, Long typeOfWorksId) {
-        JobType jobType = jobTypeRepository.findById(typeOfWorksId)
-                .orElseThrow(()-> new NotFoundException("No Job Type with this Id in Repository"));
+    public void update(JobTypeRequest jobTypeRequest) {
 
         if (jobTypeRequest == null)
             throw new NotFoundException("No Job Type record found to update");
+
+        JobType jobType = jobTypeRepository.findById(jobTypeRequest.getTypeOfWorksId())
+                .orElseThrow(()-> new NotFoundException("No Job Type with this Id in Repository"));
 
         jobType.setName(jobTypeRequest.getName());
         jobType.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobTypeRequest.getJobAdvertisementId()));

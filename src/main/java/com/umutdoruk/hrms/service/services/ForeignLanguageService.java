@@ -9,7 +9,7 @@ import java.util.List;
 public interface ForeignLanguageService {
 
     void create(ForeignLanguageRequest foreignLanguageRequest);
-    void update(ForeignLanguageRequest foreignLanguageRequest, Long foreignLanguageId);
+    void update(ForeignLanguageRequest foreignLanguageRequest);
     void delete(Long id);
     ForeignLanguage getForeignLanguageById(Long id);
     ForeignLanguageResponse getForeignLanguageResponseById(Long id);

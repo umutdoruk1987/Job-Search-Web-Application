@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobPositionRequest {
 
+    private Long jobPositionId;
     private String name;
     private Long jobAdvertisementId;
 }

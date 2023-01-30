@@ -49,7 +49,7 @@ public class Resume {
     @OneToMany(mappedBy = "resume")
     private List<ForeignLanguage> foreignLanguageList;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)/*(fetch = FetchType.LAZY)*/
     @JoinColumn(name = "candidate_id")
     private Candidate candidate;
 

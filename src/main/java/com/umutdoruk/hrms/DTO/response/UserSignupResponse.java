@@ -1,6 +1,5 @@
 package com.umutdoruk.hrms.DTO.response;
 
-import com.umutdoruk.hrms.entities.Role;
 import com.umutdoruk.hrms.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class UserSignupResponse {
     private String username;
     private LocalDate createdDate;
     private boolean active;
-    private Role role;
+    private String roleName;
 
     public static UserSignupResponse of(User user){
         return new UserSignupResponse(user.getId(),
@@ -26,6 +25,6 @@ public class UserSignupResponse {
                 user.getUsername(),
                 user.getCreatedDate(),
                 user.isActive(),
-                user.getRole());
+                user.getRoleName());
     }
 }

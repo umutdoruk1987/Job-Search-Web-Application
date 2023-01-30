@@ -20,19 +20,19 @@ public class TechnologiesController {
     public TechnologiesController(TechnologyService technologyService) {
         this.technologyService = technologyService;
     }
-
+    // ROLE_CANDIDATE
     @PostMapping("/create")
     public HttpStatus create(@RequestBody TechnologyRequest technologyRequest){
         technologyService.create(technologyRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_CANDIDATE
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody TechnologyRequest technologyRequest,@RequestParam Long foreignLanguageId){
-        technologyService.update(technologyRequest, foreignLanguageId);
+    public HttpStatus update(@RequestBody TechnologyRequest technologyRequest){
+        technologyService.update(technologyRequest);
         return HttpStatus.OK;
     }
-
+    // ROLE_CANDIDATE
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id){
         technologyService.delete(id);
@@ -44,7 +44,7 @@ public class TechnologiesController {
         TechnologyResponse technologyResponse = technologyService.getTechnologyResponseById(id);
         return new ResponseEntity<>(technologyResponse,HttpStatus.OK);
     }
-
+    // ROLE_CANDIDATE
     @GetMapping("/getAll")
     public ResponseEntity<List<TechnologyResponse>> getAllTechnologiesResponsesInResume (@RequestParam Long resumeId){
         List<TechnologyResponse> technologyResponseList = technologyService.getAllTechnologiesResponsesInResume(resumeId);

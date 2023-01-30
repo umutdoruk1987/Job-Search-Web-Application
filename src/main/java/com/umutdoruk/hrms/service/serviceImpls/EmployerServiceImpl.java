@@ -48,16 +48,17 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Override
-    public void update(EmployerRequest employerRequest, Long id) {
+    public void update(EmployerRequest employerRequest) {
 
         if (employerRequest == null)
             throw new NotFoundException("No Employer record found to update");
 
-        Employer employer = getEmployerById(id);
-        employer.setCompanyName(employerRequest.getCompanyName());
-        employer.setWebsite(employerRequest.getWebsite());
-        employer.setCompanyTelephoneNumber(employerRequest.getCompanyTelephoneNumber());
-        employer.setUser(userService.getUserById(employerRequest.getUserId()));
+        Employer employer = getEmployerById(employerRequest.getId());
+
+        if (employerRequest.getCompanyName()!=null)employer.setCompanyName(employerRequest.getCompanyName());
+        if (employerRequest.getWebsite()!=null)employer.setWebsite(employerRequest.getWebsite());
+        if (employerRequest.getCompanyTelephoneNumber()!=null)employer.setCompanyTelephoneNumber(employerRequest.getCompanyTelephoneNumber());
+        /*employer.setUser(userService.getUserById(employerRequest.getUserId()));*/
 
         employerRepository.save(employer);
     }
@@ -81,13 +82,13 @@ public class EmployerServiceImpl implements EmployerService {
         return EmployerResponse.of(getEmployerById(id),createJobAdvertisementResponseListByEmployerId(id));
     }
 
-    @Override
+   /* @Override
     public EmployerResponse getEmployerResponseByEmail(String email) {
         Employer employer = employerRepository.findByEmail(email)
                 .orElseThrow(()-> new NotFoundException("Employer is not found"));
 
         return EmployerResponse.of(employer,createJobAdvertisementResponseListByEmployerId(employer.getId()));
-    }
+    }*/
 
     @Override
     public List<EmployerResponse> getAllEmployerResponses() {
@@ -111,5 +112,4 @@ public class EmployerServiceImpl implements EmployerService {
 
         return jobAdvertisementService.getAllJobAdvertisementsByEmployerId(employerId);
     }
-
 }

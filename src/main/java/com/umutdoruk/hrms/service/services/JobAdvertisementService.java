@@ -9,7 +9,7 @@ import java.util.List;
 public interface JobAdvertisementService {
 
     void create(JobAdvertisementRequest jobAdvertisementRequest);
-    void update(JobAdvertisementRequest jobAdvertisementRequest, Long jobAdvertisementId);
+    void update(JobAdvertisementRequest jobAdvertisementRequest);
     void delete(Long id);
     JobAdvertisement getJobAdvertisementById(Long id);
     JobAdvertisementResponse getJobAdvertisementResponseById(Long id);

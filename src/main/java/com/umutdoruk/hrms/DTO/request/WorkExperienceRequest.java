@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class WorkExperienceRequest {
 
+    private Long workExperienceId;
     private String jobName;
     private String jobPositionName;
     private LocalDate startDate;

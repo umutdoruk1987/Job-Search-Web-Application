@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ForeignLanguageRequest {
 
+    private Long foreignLanguageId;
     private String languageName;
     private String languageLevel;
     private Long resumeId;

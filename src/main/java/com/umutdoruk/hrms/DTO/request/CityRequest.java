@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CityRequest {
 
+    private Long cityId;
     private String cityName;
     private Long jobAdvertisementId;
 }

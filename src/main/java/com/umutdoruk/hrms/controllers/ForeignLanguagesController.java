@@ -20,19 +20,19 @@ public class ForeignLanguagesController {
     public ForeignLanguagesController(ForeignLanguageService foreignLanguageService) {
         this.foreignLanguageService = foreignLanguageService;
     }
-
+    // ROLE_CANDIDATE
     @PostMapping("/create")
     public HttpStatus create (@RequestBody ForeignLanguageRequest foreignLanguageRequest){
         foreignLanguageService.create(foreignLanguageRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_CANDIDATE
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody ForeignLanguageRequest foreignLanguageRequest, @RequestParam Long foreignLanguageId) {
-        foreignLanguageService.update(foreignLanguageRequest, foreignLanguageId);
+    public HttpStatus update(@RequestBody ForeignLanguageRequest foreignLanguageRequest) {
+        foreignLanguageService.update(foreignLanguageRequest);
         return HttpStatus.OK;
     }
-
+    // ROLE_CANDIDATE
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id) {
         foreignLanguageService.delete(id);
@@ -44,7 +44,7 @@ public class ForeignLanguagesController {
         ForeignLanguageResponse foreignLanguageResponse = foreignLanguageService.getForeignLanguageResponseById(id);
         return new ResponseEntity<>(foreignLanguageResponse,HttpStatus.OK);
     }
-
+    // ROLE_CANDIDATE
     @GetMapping("/getAllByResumeId")
     public ResponseEntity<List<ForeignLanguageResponse>> getAllForeignLanguageResponsesInResume (@RequestParam Long resumeId){
         List<ForeignLanguageResponse> foreignLanguageResponsesList = foreignLanguageService.getAllForeignLanguageResponsesInResume(resumeId);

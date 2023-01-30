@@ -40,13 +40,13 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public void update(TechnologyRequest technologyRequest, Long technologyId) {
-
-        Technology technology = technologyRepository.findById(technologyId)
-                .orElseThrow(()-> new NotFoundException("No technology with this Id in Repository"));
+    public void update(TechnologyRequest technologyRequest) {
 
         if (technologyRequest == null)
             throw new NotFoundException("No Technology record found to update");
+
+        Technology technology = technologyRepository.findById(technologyRequest.getTechnologyId())
+                .orElseThrow(()-> new NotFoundException("No technology with this Id in Repository"));
 
         technology.setTechnologyName(technologyRequest.getTechnologyName());
         technology.setResume(resumeService.getResumeById(technologyRequest.getResumeId()));

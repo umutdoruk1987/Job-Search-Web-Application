@@ -42,13 +42,14 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
-    public void update(EducationRequest educationRequest, Long educationId) {
-
-        Education education = educationRepository.findById(educationId)
-                .orElseThrow(()-> new NotFoundException("No education with this Id in Repository"));
+    public void update(EducationRequest educationRequest) {
 
         if (educationRequest == null)
             throw new NotFoundException("No Education record found to update");
+
+        Education education = educationRepository.findById(educationRequest.getEducationId())
+                .orElseThrow(()-> new NotFoundException("No education with this Id in Repository"));
+
 
         education.setSchoolName(educationRequest.getSchoolName());
         education.setStartDate(educationRequest.getStartDate());

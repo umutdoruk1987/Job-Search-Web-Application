@@ -31,7 +31,8 @@ public class Employer{
     @OneToMany(mappedBy = "employer")
     private List<JobAdvertisement> jobAdvertisements;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
 
 }

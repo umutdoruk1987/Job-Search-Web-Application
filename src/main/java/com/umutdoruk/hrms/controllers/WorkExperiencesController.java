@@ -28,8 +28,8 @@ public class WorkExperiencesController {
     }
 
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody WorkExperienceRequest workExperienceRequest, @RequestParam Long workExperienceId ) {
-        workExperienceService.update(workExperienceRequest,workExperienceId);
+    public HttpStatus update(@RequestBody WorkExperienceRequest workExperienceRequest) {
+        workExperienceService.update(workExperienceRequest);
         return HttpStatus.OK;
     }
 

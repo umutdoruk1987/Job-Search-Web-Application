@@ -9,7 +9,7 @@ import java.util.List;
 public interface TechnologyService {
 
     void create(TechnologyRequest technologyRequest);
-    void update(TechnologyRequest technologyRequest, Long technologyId);
+    void update(TechnologyRequest technologyRequest);
     void delete(Long id);
     Technology getTechnologyById(Long id);
     TechnologyResponse getTechnologyResponseById(Long id);

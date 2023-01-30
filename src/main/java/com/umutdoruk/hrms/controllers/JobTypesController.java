@@ -20,19 +20,19 @@ public class JobTypesController {
     public JobTypesController(JobTypeService jobTypeService) {
         this.jobTypeService = jobTypeService;
     }
-
+    // ROLE_EMPLOYER
     @PostMapping ("/create")
     public HttpStatus create (@RequestBody JobTypeRequest jobTypeRequest){
         jobTypeService.create(jobTypeRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_EMPLOYER
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobTypeRequest jobTypeRequest, @RequestParam Long jobTypeId) {
-        jobTypeService.update(jobTypeRequest, jobTypeId);
+    public HttpStatus update(@RequestBody JobTypeRequest jobTypeRequest) {
+        jobTypeService.update(jobTypeRequest);
         return HttpStatus.OK;
     }
-
+    // ROLE_EMPLOYER
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id) {
         jobTypeService.delete(id);

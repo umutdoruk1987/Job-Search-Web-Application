@@ -3,6 +3,7 @@ package com.umutdoruk.hrms.service.serviceImpls;
 import com.umutdoruk.hrms.DTO.request.CityRequest;
 import com.umutdoruk.hrms.DTO.response.CityResponse;
 import com.umutdoruk.hrms.entities.City;
+import com.umutdoruk.hrms.entities.JobAdvertisement;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.CityRepository;
 import com.umutdoruk.hrms.service.services.CityService;
@@ -13,14 +14,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class CityServiceImpl implements CityService {
 
-    private final CityRepository cityRepository;
-    private final JobAdvertisementService jobAdvertisementService;
-
     @Autowired
+    private CityRepository cityRepository;
+    @Autowired
+    private JobAdvertisementService jobAdvertisementService;
+
+   /* @Autowired
     public CityServiceImpl(CityRepository cityRepository, JobAdvertisementService jobAdvertisementService) {
         this.cityRepository = cityRepository;
         this.jobAdvertisementService = jobAdvertisementService;
-    }
+    }*/
 
     @Override
     public void create(CityRequest cityRequest) {
@@ -30,18 +33,19 @@ public class CityServiceImpl implements CityService {
 
         City city = new City();
         city.setCityName(cityRequest.getCityName());
-        city.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId()));
+        JobAdvertisement jobAdvertisement = jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId());
+        city.setJobAdvertisement(jobAdvertisement);
 
         cityRepository.save(city);
     }
 
     @Override
-    public void update(CityRequest cityRequest, Long cityId) {
-
-        City city = getCityById(cityId);
+    public void update(CityRequest cityRequest) {
 
         if (cityRequest == null)
             throw new NotFoundException("No City record found to update");
+
+        City city = getCityById(cityRequest.getCityId());
 
         city.setCityName(cityRequest.getCityName());
         city.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId()));

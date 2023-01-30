@@ -20,24 +20,24 @@ public class EmployersController {
     public EmployersController(EmployerService employerService) {
         this.employerService = employerService;
     }
-
+    // ROLE_EMPLOYER
     @PostMapping("/create")
     public HttpStatus create(@RequestBody EmployerRequest employerRequest){
         employerService.create(employerRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_EMPLOYER
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody EmployerRequest employerRequest, @RequestParam Long id) {
-        employerService.update(employerRequest, id);
+    public HttpStatus update(@RequestBody EmployerRequest employerRequest) {
+        employerService.update(employerRequest);
         return HttpStatus.OK;
     }
-
-    @DeleteMapping("/{id}")
+    // ROLE_EMPLOYER
+    /*@DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id) {
         employerService.delete(id);
         return HttpStatus.OK;
-    }
+    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployerResponse> getEmployerResponseById (@PathVariable("id") Long id){
@@ -45,11 +45,11 @@ public class EmployersController {
         return new ResponseEntity<>(employerResponse,HttpStatus.OK);
     }
 
-    @GetMapping("/getByEmail")
+    /*@GetMapping("/getByEmail")
     public ResponseEntity<EmployerResponse> getEmployerResponseByEmail (String email){
         EmployerResponse employerResponse = employerService.getEmployerResponseByEmail(email);
         return new ResponseEntity<>(employerResponse, HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping("/getAll")
     public ResponseEntity<List<EmployerResponse>> getAllEmployerResponses (){

@@ -20,19 +20,19 @@ public class TypeOfWorksController {
     public TypeOfWorksController(TypeOfWorkService typeOfWorkService) {
         this.typeOfWorkService = typeOfWorkService;
     }
-
+    // ROLE_EMPLOYER
     @PostMapping("/create")
     public HttpStatus create (@RequestBody TypeOfWorkRequest typeOfWorkRequest){
         typeOfWorkService.create(typeOfWorkRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_EMPLOYER
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody TypeOfWorkRequest typeOfWorkRequest, @RequestParam Long typeOfWorksId){
-        typeOfWorkService.update(typeOfWorkRequest, typeOfWorksId);
+    public HttpStatus update(@RequestBody TypeOfWorkRequest typeOfWorkRequest){
+        typeOfWorkService.update(typeOfWorkRequest);
         return HttpStatus.OK;
     }
-
+    // ROLE_EMPLOYER
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id){
         typeOfWorkService.delete(id);

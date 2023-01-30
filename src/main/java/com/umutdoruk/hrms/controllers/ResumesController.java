@@ -19,19 +19,19 @@ public class ResumesController {
     public ResumesController(ResumeService resumeService) {
         this.resumeService = resumeService;
     }
-
+    // ROLE_CANDIDATE
     @PostMapping("/create")
     public HttpStatus create(@RequestBody ResumeRequest resumeRequest){
         resumeService.create(resumeRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_CANDIDATE
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody ResumeRequest resumeRequest, @RequestParam Long resumeId){
-        resumeService.update(resumeRequest, resumeId);
+    public HttpStatus update(@RequestBody ResumeRequest resumeRequest){
+        resumeService.update(resumeRequest);
         return HttpStatus.OK;
     }
-
+    // ROLE_CANDIDATE
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id){
         resumeService.delete(id);
@@ -43,7 +43,7 @@ public class ResumesController {
         ResumeResponse resumeResponse = resumeService.getResumeResponseById(id);
         return new ResponseEntity<>(resumeResponse,HttpStatus.OK);
     }
-
+    // ROLE_EMPLOYER
     @GetMapping("/getAll")
     public ResponseEntity<List<ResumeResponse>> getAllResumeResponses() {
         List<ResumeResponse> resumeResponseList = resumeService.getAllResumeResponses();

@@ -9,7 +9,7 @@ import java.util.List;
 public interface TypeOfWorkService {
 
     void create(TypeOfWorkRequest typeOfWorkRequest);
-    void update(TypeOfWorkRequest typeOfWorkRequest, Long typeOfWorksId);
+    void update(TypeOfWorkRequest typeOfWorkRequest);
     void delete(Long id);
     TypeOfWork getTypeOfWorkById(Long id);
     TypeOfWorkResponse getTypeOfWorkResponseById(Long id);

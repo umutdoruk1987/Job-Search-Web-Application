@@ -8,11 +8,8 @@ public interface UserService {
 
     void create (UserSignupRequest userSignupRequest);
     void delete (Long id);
-    void update (UserSignupRequest userSignupRequest, Long userId);
+    void update (UserSignupRequest userSignupRequest);
     User getUserById(Long id);
     UserSignupResponse getUserResponseById(Long id);
     UserSignupResponse getUserResponseByEmail(String email);
-    Boolean isEmailExist(String email);
-    Boolean isUsernameExist(String username);
-    String createUsernameIfNoPresent(UserSignupRequest userSignupRequest);
 }

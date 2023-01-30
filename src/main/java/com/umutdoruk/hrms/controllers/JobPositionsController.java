@@ -20,19 +20,19 @@ public class JobPositionsController {
     public JobPositionsController(JobPositionService jobPositionService) {
         this.jobPositionService = jobPositionService;
     }
-
+    // ROLE_EMPLOYER
     @PostMapping("/create")
     public HttpStatus create(@RequestBody JobPositionRequest jobPositionRequest){
         jobPositionService.create(jobPositionRequest);
         return HttpStatus.CREATED;
     }
-
+    // ROLE_EMPLOYER
     @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobPositionRequest jobPositionRequest, @RequestParam Long jobPositionId) {
-        jobPositionService.update(jobPositionRequest, jobPositionId);
+    public HttpStatus update(@RequestBody JobPositionRequest jobPositionRequest) {
+        jobPositionService.update(jobPositionRequest);
         return HttpStatus.OK;
     }
-
+    // ROLE_EMPLOYER
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id) {
         jobPositionService.delete(id);
@@ -50,7 +50,7 @@ public class JobPositionsController {
         List<JobPositionResponse> jobPositionResponseList = jobPositionService.getJobPositionResponseByName(jobPositionName);
         return new ResponseEntity<>(jobPositionResponseList, HttpStatus.OK);
     }
-
+    // ROLE_CANDIDATE
     @GetMapping("/getAll")
     public ResponseEntity<List<JobPositionResponse>> getAllJobPositionResponses(){
         List<JobPositionResponse> jobPositionResponseList = jobPositionService.getAllJobPositionResponses();

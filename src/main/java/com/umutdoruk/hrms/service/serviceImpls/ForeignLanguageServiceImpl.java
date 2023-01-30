@@ -40,12 +40,13 @@ public class ForeignLanguageServiceImpl implements ForeignLanguageService {
     }
 
     @Override
-    public void update(ForeignLanguageRequest foreignLanguageRequest, Long foreignLanguageId) {
-        ForeignLanguage foreignLanguage = foreignLanguageRepository.findById(foreignLanguageId)
-                .orElseThrow(()-> new NotFoundException("No foreign Language with this Id in Repository"));
+    public void update(ForeignLanguageRequest foreignLanguageRequest) {
 
         if (foreignLanguageRequest==null)
             throw new NotFoundException("No foreign language record found to update");
+
+        ForeignLanguage foreignLanguage = foreignLanguageRepository.findById(foreignLanguageRequest.getForeignLanguageId())
+                .orElseThrow(()-> new NotFoundException("No foreign Language with this Id in Repository"));
 
         foreignLanguage.setLanguageName(foreignLanguageRequest.getLanguageName());
         foreignLanguage.setLanguageLevel(foreignLanguageRequest.getLanguageLevel());

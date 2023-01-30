@@ -9,7 +9,7 @@ import java.util.List;
 public interface JobTypeService {
 
     void create(JobTypeRequest jobTypeRequest);
-    void update (JobTypeRequest jobTypeRequest, Long jobTypeId);
+    void update (JobTypeRequest jobTypeRequest);
     void delete (Long id);
     JobType getJobTypeById(Long id);
     JobTypeResponse getJobTypeResponseById(Long id);

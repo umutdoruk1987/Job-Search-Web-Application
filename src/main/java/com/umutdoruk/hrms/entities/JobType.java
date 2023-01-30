@@ -21,7 +21,7 @@ public class JobType {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "jobType")
+    @OneToOne(mappedBy = "jobType")
     private JobAdvertisement jobAdvertisement;
 
 }

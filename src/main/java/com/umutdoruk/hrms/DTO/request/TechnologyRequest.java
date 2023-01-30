@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TechnologyRequest {
 
+    private Long technologyId;
     private String technologyName;
     private Long resumeId;
 }

@@ -7,7 +7,7 @@ import com.umutdoruk.hrms.entities.City;
 public interface CityService {
 
     void create(CityRequest cityRequest);
-    void update(CityRequest cityRequest, Long cityId);
+    void update(CityRequest cityRequest);
     void delete(Long id);
     City getCityById(Long id);
     CityResponse getCityResponseById(Long id);

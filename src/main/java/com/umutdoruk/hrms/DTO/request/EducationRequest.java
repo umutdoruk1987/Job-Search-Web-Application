@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EducationRequest {
 
+    private Long educationId;
     private String schoolName;
     private Long resumeId;
     private LocalDate startDate;

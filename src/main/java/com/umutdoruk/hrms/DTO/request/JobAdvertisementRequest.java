@@ -11,12 +11,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class JobAdvertisementRequest {
 
+    private Long jobAdvertisementId;
     private String description;
     private Long minSalary;
     private Long maxSalary;
-    private int numberOfOpenJobPosition;
+    private Integer numberOfOpenJobPosition;
     private LocalDate applicationDeadline;
-    private boolean active;
+    private Boolean active;
     private Long cityId;
     private Long jobPositionId;
     private Long jobTypeId;

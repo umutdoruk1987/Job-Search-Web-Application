@@ -49,12 +49,13 @@ public class JobPositionServiceImpl implements JobPositionService {
     }
 
     @Override
-    public void update(JobPositionRequest jobPositionRequest, Long jobPositionId) {
-        JobPosition jobPosition = jobPositionRepository.findById(jobPositionId)
-                .orElseThrow(()-> new NotFoundException("No Job Position with this Id in Repository"));
+    public void update(JobPositionRequest jobPositionRequest) {
 
         if (jobPositionRequest == null)
             throw new NotFoundException("No Job Position record found to update");
+
+        JobPosition jobPosition = jobPositionRepository.findById(jobPositionRequest.getJobPositionId())
+                .orElseThrow(()-> new NotFoundException("No Job Position with this Id in Repository"));
 
         jobPosition.setName(jobPositionRequest.getName());
         jobPosition.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobPositionRequest.getJobAdvertisementId()));

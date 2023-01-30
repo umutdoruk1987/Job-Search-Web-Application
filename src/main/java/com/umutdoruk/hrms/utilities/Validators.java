@@ -19,10 +19,11 @@ public class Validators {
     }
 
     public static boolean userValidator(UserSignupRequest userSignupRequest) {
-        return  userSignupRequest.getEmail().contains("@")
-                && !userSignupRequest.getEmail().contains(" ")
-                && userSignupRequest.getPassword().length() >= 8
-                && userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword());
+       return (userSignupRequest.getEmail()!=null
+               && userSignupRequest.getEmail().contains("@"))
+               && !userSignupRequest.getEmail().contains(" ")
+               && userSignupRequest.getPassword().length() >= 8
+               && userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword());
     }
 
 }

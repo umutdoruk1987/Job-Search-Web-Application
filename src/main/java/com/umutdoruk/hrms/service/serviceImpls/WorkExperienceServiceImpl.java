@@ -43,19 +43,19 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
     }
 
     @Override
-    public void update(WorkExperienceRequest workExperienceRequest, Long workExperienceId) {
-
-        WorkExperience workExperience = workExperienceRepository.findById(workExperienceId)
-                .orElseThrow(()-> new NotFoundException("No Work Experience with this Id in Repository"));
+    public void update(WorkExperienceRequest workExperienceRequest) {
 
         if (workExperienceRequest == null)
             throw new NotFoundException("No Work Experience record found to update");
+
+        WorkExperience workExperience = workExperienceRepository.findById(workExperienceRequest.getWorkExperienceId())
+                .orElseThrow(()-> new NotFoundException("No Work Experience with this Id in Repository"));
 
         workExperience.setJobName(workExperienceRequest.getJobName());
         workExperience.setJobPositionName(workExperienceRequest.getJobPositionName());
         workExperience.setStartDate(workExperienceRequest.getStartDate());
         workExperience.setEndDate(workExperienceRequest.getEndDate());
-        workExperience.setResume(resumeService.getResumeById(workExperienceId));
+        workExperience.setResume(resumeService.getResumeById(workExperienceRequest.getResumeId()));
 
         workExperienceRepository.save(workExperience);
     }

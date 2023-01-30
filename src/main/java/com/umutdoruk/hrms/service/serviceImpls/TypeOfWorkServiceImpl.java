@@ -38,12 +38,14 @@ public class TypeOfWorkServiceImpl implements TypeOfWorkService {
     }
 
     @Override
-    public void update(TypeOfWorkRequest typeOfWorkRequest, Long typeOfWorksId) {
-        TypeOfWork typeOfWork = typeOfWorkRepository.findById(typeOfWorksId)
-                .orElseThrow(()-> new NotFoundException("No Type of Work with this Id in Repository"));
+    public void update(TypeOfWorkRequest typeOfWorkRequest) {
 
         if (typeOfWorkRequest == null)
             throw new NotFoundException("No Type of Work record found to update");
+
+        TypeOfWork typeOfWork = typeOfWorkRepository.findById(typeOfWorkRequest.getTypeOfWorksId())
+                .orElseThrow(()-> new NotFoundException("No Type of Work with this Id in Repository"));
+
 
         typeOfWork.setName(typeOfWorkRequest.getName());
         typeOfWork.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(typeOfWorkRequest.getJobAdvertisementId()));

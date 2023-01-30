@@ -10,12 +10,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CandidateRequest {
-    
+
+    private Long candidateId;
     private String firstName;
     private String lastName;
     private String telephoneNumber;
     private LocalDate yearOfBirth;
-    private Long resumeId;
+   /* private Long resumeId;*/
     private Long userId;
 
 }

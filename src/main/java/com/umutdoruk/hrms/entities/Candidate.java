@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
+
 import java.time.LocalDate;
 
 @Data
@@ -30,9 +32,11 @@ public class Candidate {
     @Column(name = "year_of_birth")
     private LocalDate yearOfBirth;
 
-    @OneToOne(mappedBy = "candidate")
+    @OneToOne(cascade = CascadeType.ALL/*mappedBy = "candidate"*/)
+    @JoinColumn(name = "resume_id" )
     private Resume resume;
 
     @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }
