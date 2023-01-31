@@ -32,24 +32,12 @@ public class EmployersController {
         employerService.update(employerRequest);
         return HttpStatus.OK;
     }
-    // ROLE_EMPLOYER
-    /*@DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable("id") Long id) {
-        employerService.delete(id);
-        return HttpStatus.OK;
-    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployerResponse> getEmployerResponseById (@PathVariable("id") Long id){
         EmployerResponse employerResponse = employerService.getEmployerResponseById(id);
         return new ResponseEntity<>(employerResponse,HttpStatus.OK);
     }
-
-    /*@GetMapping("/getByEmail")
-    public ResponseEntity<EmployerResponse> getEmployerResponseByEmail (String email){
-        EmployerResponse employerResponse = employerService.getEmployerResponseByEmail(email);
-        return new ResponseEntity<>(employerResponse, HttpStatus.OK);
-    }*/
 
     @GetMapping("/getAll")
     public ResponseEntity<List<EmployerResponse>> getAllEmployerResponses (){

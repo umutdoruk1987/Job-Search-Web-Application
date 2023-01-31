@@ -43,14 +43,6 @@ public class EmployerServiceImpl implements EmployerService {
         employerRepository.save(employerUpdater(employerRequest));
     }
 
-    /*@Override
-    public void delete(Long id) {
-
-        if (!(employerRepository.existsById(id)))
-            throw new NotFoundException("Employer is not found");
-        employerRepository.deleteById(id);
-    }
-*/
     @Override
     public Employer getEmployerById(Long id) {
         return employerRepository.findById(id)
@@ -61,14 +53,6 @@ public class EmployerServiceImpl implements EmployerService {
     public EmployerResponse getEmployerResponseById(Long id) {
         return EmployerResponse.of(getEmployerById(id),createJobAdvertisementResponseListByEmployerId(id));
     }
-
-   /* @Override
-    public EmployerResponse getEmployerResponseByEmail(String email) {
-        Employer employer = employerRepository.findByEmail(email)
-                .orElseThrow(()-> new NotFoundException("Employer is not found"));
-
-        return EmployerResponse.of(employer,createJobAdvertisementResponseListByEmployerId(employer.getId()));
-    }*/
 
     @Override
     public List<EmployerResponse> getAllEmployerResponses() {
@@ -93,7 +77,7 @@ public class EmployerServiceImpl implements EmployerService {
         return jobAdvertisementService.getAllJobAdvertisementsByEmployerId(employerId);
     }
 
-    private void employerValidator(EmployerRequest employerRequest){
+    private void employerCreateValidator(EmployerRequest employerRequest){
         if (employerRequest.getWebsite()!=null && !employerRequest.getWebsite().substring(0,4).equals("www."))
             throw new BadRequestException("Website name has to start with www.");
         if (employerRequest.getWebsite()==null)
@@ -105,7 +89,7 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     private Employer employerCreator(EmployerRequest employerRequest) {
-        employerValidator(employerRequest);
+        employerCreateValidator(employerRequest);
 
         Employer employer = new Employer();
         employer.setCompanyName(employerRequest.getCompanyName());
@@ -116,10 +100,17 @@ public class EmployerServiceImpl implements EmployerService {
         return employer;
     }
 
-    private Employer employerUpdater(EmployerRequest employerRequest){
+    private void employerUpdateValidator(EmployerRequest employerRequest){
         if (employerRequest == null)
             throw new NotFoundException("No Employer record found to update");
+        if (employerRequest.getCompanyTelephoneNumber()!=null && employerRequest.getCompanyTelephoneNumber().length()!=11)
+            throw new BadRequestException("Company telephone number can only have 11 digits.");
+        if (employerRequest.getWebsite()!=null && !employerRequest.getWebsite().substring(0,4).equals("www."))
+            throw new BadRequestException("Website name has to start with www.");
+    }
 
+    private Employer employerUpdater(EmployerRequest employerRequest){
+        employerUpdateValidator(employerRequest);
         Employer employer = getEmployerById(employerRequest.getId());
 
         if (employerRequest.getCompanyName()!=null)employer.setCompanyName(employerRequest.getCompanyName());

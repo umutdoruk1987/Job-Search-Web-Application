@@ -9,10 +9,8 @@ import java.util.List;
 public interface EmployerService {
     void create(EmployerRequest employerRequest);
     void update(EmployerRequest employerRequest);
-    /*void delete(Long id);*/
     Employer getEmployerById(Long id);
     EmployerResponse getEmployerResponseById(Long id);
-    /*EmployerResponse getEmployerResponseByEmail(String email);*/
     List<EmployerResponse> getAllEmployerResponses();
 
 }

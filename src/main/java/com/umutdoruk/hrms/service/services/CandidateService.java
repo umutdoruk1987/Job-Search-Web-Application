@@ -10,10 +10,8 @@ public interface CandidateService {
 
     void create(CandidateRequest candidateRequest);
     void update(CandidateRequest candidateRequest);
-    /*void delete(Long id);*/
     Candidate getCandidateById(Long id);
     CandidateResponse getCandidateResponseById(Long id);
-    /*CandidateResponse getCandidateResponseByEmail(String email);*/
     List<CandidateResponse> getAllCandidateResponses();
 
 

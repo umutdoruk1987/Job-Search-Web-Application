@@ -1,7 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
 import com.umutdoruk.hrms.DTO.request.CandidateRequest;
-import com.umutdoruk.hrms.DTO.response.CandidateResponse;
+import com.umutdoruk.hrms.DTO.response.*;
 import com.umutdoruk.hrms.entities.Candidate;
 import com.umutdoruk.hrms.entities.Resume;
 import com.umutdoruk.hrms.exception.BadRequestException;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CandidateServiceImpl implements CandidateService {
@@ -47,14 +48,6 @@ public class CandidateServiceImpl implements CandidateService {
         candidatesRepository.save(candidateUpdater(candidateRequest));
     }
 
-    /*@Override
-    public void delete(Long id) {
-
-        if (!(candidatesRepository.existsById(id)))
-            throw new NotFoundException("Candidate is not found");
-        candidatesRepository.deleteById(id);
-    }*/
-
     @Override
     public Candidate getCandidateById(Long id) {
         return candidatesRepository.findById(id)
@@ -63,36 +56,23 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public CandidateResponse getCandidateResponseById(Long id) {
+
         Candidate candidate = getCandidateById(id);
-        return CandidateResponse.of(candidate,candidate.getResume().getId(),candidate.getUser().getId());
+        ResumeResponse resumeResponse = resumeService.getResumeResponseById(candidate.getResume().getId());
+        return CandidateResponse.of(candidate,resumeResponse);
     }
 
-    /*@Override
-    public CandidateResponse getCandidateResponseByEmail(String email) {
-        Candidate candidate = candidatesRepository.findByEmail(email)
-                .orElseThrow(()-> new NotFoundException("Candidate is not found"));
-        return CandidateResponse.of(candidate, candidate.getResume().getId(), candidate.getUser().getId());
-    }
-*/
     @Override
     public List<CandidateResponse> getAllCandidateResponses() {
 
-        List<CandidateResponse> candidateResponseList = new ArrayList<>();
-
-        for (Candidate candidate : candidatesRepository.findAll()){
-
-            candidateResponseList.add(CandidateResponse.of(candidate,
-                    candidate.getResume().getId(),
-                    candidate.getUser().getId()));
-        }
-
-        if (candidateResponseList.size()==0)
-            throw new NotFoundException("Any Candidate record isn't found");
-
-        return candidateResponseList;
+        return candidatesRepository.findAll()
+                .stream()
+                .map(candidate -> getCandidateResponseById(candidate.getId())).collect(Collectors.toList());
+         /* if (candidateResponseList.size()==0)
+            throw new NotFoundException("Any Candidate record isn't found");*/
     }
 
-    private void candidateValidator (CandidateRequest candidateRequest){
+    private void candidateCreateValidator(CandidateRequest candidateRequest){
         if (candidateRequest.getFirstName()==null || candidateRequest.getLastName()==null)
             throw new BadRequestException("First name and surname fields have to be filled");
         if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
@@ -101,7 +81,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     private Candidate candidateCreator (CandidateRequest candidateRequest){
 
-        candidateValidator(candidateRequest);
+        candidateCreateValidator(candidateRequest);
 
         Candidate candidate = new Candidate();
         candidate.setFirstName(candidateRequest.getFirstName());
@@ -114,19 +94,24 @@ public class CandidateServiceImpl implements CandidateService {
         return candidate;
     }
 
-    private Candidate candidateUpdater(CandidateRequest candidateRequest){
-
+    private void candidateUpdateValidator(CandidateRequest candidateRequest){
         if (candidateRequest == null)
             throw new NotFoundException("No Candidate record found to update");
-        Candidate candidate = getCandidateById(candidateRequest.getCandidateId());
-
-        if (candidateRequest.getFirstName()!=null)candidate.setFirstName(candidateRequest.getFirstName());
-        if (candidateRequest.getLastName()!=null)candidate.setLastName(candidateRequest.getLastName());
-        if (candidateRequest.getYearOfBirth()!=null)candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
-        if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()==11)
-            candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
-        else if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
+        if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
             throw new BadRequestException("Telephone number can only have 11 digits.");
+    }
+
+    private Candidate candidateUpdater(CandidateRequest candidateRequest){
+
+       candidateUpdateValidator(candidateRequest);
+       Candidate candidate = getCandidateById(candidateRequest.getCandidateId());
+
+       if (candidateRequest.getFirstName()!=null)candidate.setFirstName(candidateRequest.getFirstName());
+       if (candidateRequest.getLastName()!=null)candidate.setLastName(candidateRequest.getLastName());
+       if (candidateRequest.getYearOfBirth()!=null)candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
+       if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()==11)
+            candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
+
         return candidate;
     }
 

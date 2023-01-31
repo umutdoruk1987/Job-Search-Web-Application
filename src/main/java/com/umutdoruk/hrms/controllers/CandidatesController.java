@@ -40,10 +40,6 @@ public class CandidatesController {
         return new ResponseEntity<>(candidateResponse,HttpStatus.OK);
     }
 
-    /*@GetMapping("/getByEmail")
-    public ResponseEntity<CandidateResponse>  getCandidateResponseByEmail (@PathVariable("email") String email) {
-        return ResponseEntity.ok(candidateService.getCandidateResponseByEmail(email));
-    }*/
     // ROLE_EMPLOYER
     @GetMapping("/getAll")
     public ResponseEntity<List<CandidateResponse>> getAllCandidateResponses(){
