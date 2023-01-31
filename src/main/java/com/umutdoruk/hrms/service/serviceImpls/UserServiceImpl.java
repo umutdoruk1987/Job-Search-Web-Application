@@ -8,7 +8,6 @@ import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.exception.AlreadyExistException;
 import com.umutdoruk.hrms.repository.UserRepository;
 import com.umutdoruk.hrms.service.services.UserService;
-import com.umutdoruk.hrms.utilities.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,52 +27,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(UserSignupRequest userSignupRequest) {
 
-        User user = new User();
-
-        if (userSignupRequest == null)
-            throw new NotFoundException("No User record found to create");
-        else if (!Validators.userValidator(userSignupRequest))
-            throw new BadRequestException("User must be in the correct format and complete");
-        else if (isEmailExist(userSignupRequest.getEmail()))
-            throw new AlreadyExistException("Email is already exist");
-        else if (userSignupRequest.getUsername() == null)
-            user.setUsername(createUsernameIfNoPresent(userSignupRequest));
-        else if (isUsernameExist(userSignupRequest.getUsername()))
-            throw new AlreadyExistException("Username is already exist");
-
-        user.setPassword(userSignupRequest.getPassword());
-        user.setConfirmPassword(userSignupRequest.getConfirmPassword());
-        user.setEmail(userSignupRequest.getEmail());
-        user.setCreatedDate(LocalDate.now());
-        user.setActive(userSignupRequest.getActive());
-        user.setRoleName(userSignupRequest.getRoleName());
-
-        userRepository.save(user);
+        userRepository.save(userCreator(userSignupRequest));
     }
 
     @Override
     public void update(UserSignupRequest userSignupRequest) {
 
-        if (userSignupRequest == null)
-            throw new NotFoundException("No User record found to update");
-        else if (!isPasswordFormatCorrect(userSignupRequest))
-            throw new BadRequestException("Password and confirm password must be same");
-        else if(userSignupRequest.getUsername()!=null || userSignupRequest.getRoleName()!= null)
-                throw new BadRequestException("Username and Role cannot be changed afterwards");
-        else if (userSignupRequest.getEmail()!=null) {
-            if (!Validators.userValidator(userSignupRequest))
-                throw new BadRequestException("User must be in the correct format and complete");
-            else if (isEmailExist(userSignupRequest.getEmail()))
-                throw new AlreadyExistException("Email is already exist");
-        }
-
-        User user = getUserById(userSignupRequest.getUserId());
-        user.setPassword(userSignupRequest.getPassword());
-        user.setConfirmPassword(userSignupRequest.getConfirmPassword());
-        user.setEmail(userSignupRequest.getEmail());
-        if (userSignupRequest.getActive()!=null)user.setActive(userSignupRequest.getActive());
-
-        userRepository.save(user);
+        userRepository.save(userUpdater(userSignupRequest));
     }
 
     @Override
@@ -100,6 +60,69 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException("User is not found"));
 
         return UserSignupResponse.of(user);
+    }
+
+    private UserSignupRequest userValidator(UserSignupRequest userSignupRequest){
+
+        if (userSignupRequest == null)
+            throw new NotFoundException("No User record found to create");
+        else if (!isEmailFormatCorrect(userSignupRequest))
+            throw new BadRequestException("User must have an email in the correct format");
+        else if (!isPasswordFormatCorrect(userSignupRequest))
+            throw new BadRequestException("User must set a password with at least 8 digits and the same as the confirm password.");
+        else if (isEmailExist(userSignupRequest.getEmail()))
+            throw new AlreadyExistException("This Email belongs to another user");
+        else if (userSignupRequest.getUsername() == null)
+            userSignupRequest.setUsername(createUsernameIfNoPresent(userSignupRequest));
+        else if (isUsernameExist(userSignupRequest.getUsername()))
+            throw new AlreadyExistException("Username is already exist");
+
+        if (userSignupRequest.getActive() == null)
+            userSignupRequest.setActive(Boolean.TRUE);
+
+        if (userSignupRequest.getRoleName()==null)
+            userSignupRequest.setRoleName("Candidate");
+
+        return userSignupRequest;
+    }
+
+    private User userCreator (UserSignupRequest userSignupRequest) {
+        UserSignupRequest userSignupRequest1 = userValidator(userSignupRequest);
+        User user = new User();
+        user.setPassword(userSignupRequest1.getPassword());
+        user.setConfirmPassword(userSignupRequest1.getConfirmPassword());
+        user.setEmail(userSignupRequest1.getEmail());
+        user.setUsername(userSignupRequest1.getUsername());
+        user.setCreatedDate(LocalDate.now());
+        user.setActive(userSignupRequest1.getActive());
+        user.setRoleName(userSignupRequest1.getRoleName());
+        return user;
+    }
+
+    private User userUpdater (UserSignupRequest userSignupRequest){
+
+        User user = getUserById(userSignupRequest.getUserId());
+
+        if (userSignupRequest.getEmail() != null) {
+            if (!isEmailFormatCorrect(userSignupRequest))
+                throw new BadRequestException("User must have an email in the correct format");
+            else if (isEmailExist(userSignupRequest.getEmail()))
+                throw new AlreadyExistException("This Email belongs to another user");
+
+            user.setEmail(userSignupRequest.getEmail());}
+
+        if (userSignupRequest.getPassword() != null || userSignupRequest.getConfirmPassword() != null) {
+            if (!isPasswordFormatCorrect(userSignupRequest))
+                throw new BadRequestException("User must set a password with at least 8 digits and the same as the confirm password.");
+
+            user.setPassword(userSignupRequest.getPassword());
+            user.setConfirmPassword(userSignupRequest.getConfirmPassword());}
+
+        if (userSignupRequest.getUsername() != null || userSignupRequest.getRoleName() != null){
+            throw new BadRequestException("Username and Role cannot be changed afterwards");}
+
+        if (userSignupRequest.getActive()!=null)user.setActive(userSignupRequest.getActive());
+         return user;
     }
 
     private Boolean isEmailExist(String email) {
@@ -131,8 +154,17 @@ public class UserServiceImpl implements UserService {
     }
 
     private Boolean isPasswordFormatCorrect(UserSignupRequest userSignupRequest){
-        return ((userSignupRequest.getPassword()!= null && userSignupRequest.getConfirmPassword()==null)
-                ||(userSignupRequest.getPassword()==null && userSignupRequest.getConfirmPassword()!=null)
-                ||(userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword())));
+        return  userSignupRequest.getPassword()!= null
+                && userSignupRequest.getConfirmPassword()!=null
+                && userSignupRequest.getPassword().equals(userSignupRequest.getConfirmPassword())
+                && userSignupRequest.getPassword().length() >= 8;
     }
+
+    private Boolean isEmailFormatCorrect(UserSignupRequest userSignupRequest) {
+
+        return  userSignupRequest.getEmail()!=null
+                &&  userSignupRequest.getEmail().contains("@")
+                &&  !userSignupRequest.getEmail().contains(" ");
+    }
+
 }

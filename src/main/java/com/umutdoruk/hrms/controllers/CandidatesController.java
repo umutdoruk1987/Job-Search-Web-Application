@@ -33,12 +33,6 @@ public class CandidatesController {
         candidateService.update(candidateRequest);
         return HttpStatus.OK;
     }
-    /*// ROLE_CANDIDATE
-    @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable("id") Long id) {
-        candidateService.delete(id);
-        return HttpStatus.OK;
-    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<CandidateResponse> getCandidateResponseById(@PathVariable("id") Long id){

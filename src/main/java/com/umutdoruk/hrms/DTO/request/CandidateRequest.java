@@ -16,7 +16,6 @@ public class CandidateRequest {
     private String lastName;
     private String telephoneNumber;
     private LocalDate yearOfBirth;
-   /* private Long resumeId;*/
     private Long userId;
 
 }

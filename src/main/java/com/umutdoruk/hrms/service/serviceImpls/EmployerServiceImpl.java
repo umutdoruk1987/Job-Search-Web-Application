@@ -10,7 +10,6 @@ import com.umutdoruk.hrms.repository.EmployerRepository;
 import com.umutdoruk.hrms.service.services.EmployerService;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import com.umutdoruk.hrms.service.services.UserService;
-import com.umutdoruk.hrms.utilities.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,42 +34,23 @@ public class EmployerServiceImpl implements EmployerService {
     @Override
     public void create(EmployerRequest employerRequest) {
 
-        if (!Validators.employerValidator(employerRequest))
-            throw new BadRequestException("Employer must be in the correct format and complete");
-
-        Employer employer = new Employer();
-        employer.setCompanyName(employerRequest.getCompanyName());
-        employer.setCompanyTelephoneNumber(employerRequest.getCompanyTelephoneNumber());
-        employer.setWebsite(employerRequest.getWebsite());
-        employer.setUser(userService.getUserById(employerRequest.getUserId()));
-
-        employerRepository.save(employer);
+        employerRepository.save(employerCreator(employerRequest));
     }
 
     @Override
     public void update(EmployerRequest employerRequest) {
 
-        if (employerRequest == null)
-            throw new NotFoundException("No Employer record found to update");
-
-        Employer employer = getEmployerById(employerRequest.getId());
-
-        if (employerRequest.getCompanyName()!=null)employer.setCompanyName(employerRequest.getCompanyName());
-        if (employerRequest.getWebsite()!=null)employer.setWebsite(employerRequest.getWebsite());
-        if (employerRequest.getCompanyTelephoneNumber()!=null)employer.setCompanyTelephoneNumber(employerRequest.getCompanyTelephoneNumber());
-        /*employer.setUser(userService.getUserById(employerRequest.getUserId()));*/
-
-        employerRepository.save(employer);
+        employerRepository.save(employerUpdater(employerRequest));
     }
 
-    @Override
+    /*@Override
     public void delete(Long id) {
 
         if (!(employerRepository.existsById(id)))
             throw new NotFoundException("Employer is not found");
         employerRepository.deleteById(id);
     }
-
+*/
     @Override
     public Employer getEmployerById(Long id) {
         return employerRepository.findById(id)
@@ -111,5 +91,42 @@ public class EmployerServiceImpl implements EmployerService {
     private List<JobAdvertisementResponse> createJobAdvertisementResponseListByEmployerId (Long employerId){
 
         return jobAdvertisementService.getAllJobAdvertisementsByEmployerId(employerId);
+    }
+
+    private void employerValidator(EmployerRequest employerRequest){
+        if (employerRequest.getWebsite()!=null && !employerRequest.getWebsite().substring(0,4).equals("www."))
+            throw new BadRequestException("Website name has to start with www.");
+        if (employerRequest.getWebsite()==null)
+            throw new BadRequestException("Website field have to be filled");
+        if (employerRequest.getCompanyName()==null)
+            throw new BadRequestException("Company name field have to be filled");
+        if (employerRequest.getCompanyTelephoneNumber()!=null && employerRequest.getCompanyTelephoneNumber().length()!=11)
+            throw new BadRequestException("Company telephone number can only have 11 digits.");
+    }
+
+    private Employer employerCreator(EmployerRequest employerRequest) {
+        employerValidator(employerRequest);
+
+        Employer employer = new Employer();
+        employer.setCompanyName(employerRequest.getCompanyName());
+        employer.setCompanyTelephoneNumber(employerRequest.getCompanyTelephoneNumber());
+        employer.setWebsite(employerRequest.getWebsite());
+        employer.setUser(userService.getUserById(employerRequest.getUserId()));
+
+        return employer;
+    }
+
+    private Employer employerUpdater(EmployerRequest employerRequest){
+        if (employerRequest == null)
+            throw new NotFoundException("No Employer record found to update");
+
+        Employer employer = getEmployerById(employerRequest.getId());
+
+        if (employerRequest.getCompanyName()!=null)employer.setCompanyName(employerRequest.getCompanyName());
+        if (employerRequest.getWebsite()!=null)employer.setWebsite(employerRequest.getWebsite());
+        if (employerRequest.getCompanyTelephoneNumber()!=null)employer.setCompanyTelephoneNumber(employerRequest.getCompanyTelephoneNumber());
+        /*employer.setUser(userService.getUserById(employerRequest.getUserId()));*/
+
+        return employer;
     }
 }

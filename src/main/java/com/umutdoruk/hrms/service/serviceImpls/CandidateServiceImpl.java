@@ -10,7 +10,6 @@ import com.umutdoruk.hrms.repository.CandidatesRepository;
 import com.umutdoruk.hrms.service.services.CandidateService;
 import com.umutdoruk.hrms.service.services.ResumeService;
 import com.umutdoruk.hrms.service.services.UserService;
-import com.umutdoruk.hrms.utilities.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,45 +38,22 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public void create(CandidateRequest candidateRequest) {
 
-       if (!Validators.candidateValidator(candidateRequest))
-            throw new BadRequestException("Candidate must be in the correct format and complete");
-
-       Candidate candidate = new Candidate();
-       candidate.setFirstName(candidateRequest.getFirstName());
-       candidate.setLastName(candidateRequest.getLastName());
-       candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
-       candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
-       candidate.setResume(new Resume());
-       candidate.setUser(userService.getUserById(candidateRequest.getUserId()));
-
-        candidatesRepository.save(candidate);
+        candidatesRepository.save(candidateCreator(candidateRequest));
     }
 
     @Override
     public void update(CandidateRequest candidateRequest) {
 
-        if (candidateRequest == null)
-            throw new NotFoundException("No Candidate record found to update");
-
-        Candidate candidate = getCandidateById(candidateRequest.getCandidateId());
-
-        if (candidateRequest.getFirstName()!=null)candidate.setFirstName(candidateRequest.getFirstName());
-        if (candidateRequest.getLastName()!=null)candidate.setLastName(candidateRequest.getLastName());
-        if (candidateRequest.getYearOfBirth()!=null)candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
-        if (candidateRequest.getTelephoneNumber()!=null)candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
-        /*candidate.setUser(userService.getUserById(candidateRequest.getUserId()));*/
-        /*candidate.setResume(resumeService.getResumeById(candidateRequest.getResumeId()));*/
-
-        candidatesRepository.save(candidate);
+        candidatesRepository.save(candidateUpdater(candidateRequest));
     }
 
-    @Override
+    /*@Override
     public void delete(Long id) {
 
         if (!(candidatesRepository.existsById(id)))
             throw new NotFoundException("Candidate is not found");
         candidatesRepository.deleteById(id);
-    }
+    }*/
 
     @Override
     public Candidate getCandidateById(Long id) {
@@ -115,4 +91,44 @@ public class CandidateServiceImpl implements CandidateService {
 
         return candidateResponseList;
     }
+
+    private void candidateValidator (CandidateRequest candidateRequest){
+        if (candidateRequest.getFirstName()==null || candidateRequest.getLastName()==null)
+            throw new BadRequestException("First name and surname fields have to be filled");
+        if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
+            throw new BadRequestException("Telephone number can only have 11 digits.");
+    }
+
+    private Candidate candidateCreator (CandidateRequest candidateRequest){
+
+        candidateValidator(candidateRequest);
+
+        Candidate candidate = new Candidate();
+        candidate.setFirstName(candidateRequest.getFirstName());
+        candidate.setLastName(candidateRequest.getLastName());
+        candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
+        candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
+        candidate.setResume(new Resume());
+        candidate.setUser(userService.getUserById(candidateRequest.getUserId()));
+
+        return candidate;
+    }
+
+    private Candidate candidateUpdater(CandidateRequest candidateRequest){
+
+        if (candidateRequest == null)
+            throw new NotFoundException("No Candidate record found to update");
+        Candidate candidate = getCandidateById(candidateRequest.getCandidateId());
+
+        if (candidateRequest.getFirstName()!=null)candidate.setFirstName(candidateRequest.getFirstName());
+        if (candidateRequest.getLastName()!=null)candidate.setLastName(candidateRequest.getLastName());
+        if (candidateRequest.getYearOfBirth()!=null)candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
+        if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()==11)
+            candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
+        else if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
+            throw new BadRequestException("Telephone number can only have 11 digits.");
+        return candidate;
+    }
+
+
 }
