@@ -1,5 +1,6 @@
 package com.umutdoruk.hrms.DTO.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.umutdoruk.hrms.entities.Education;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,9 @@ public class EducationResponse {
     private String schoolName;
     private Long educationId;
     private Long resumeId;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate startDate;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate graduationDate;
 
     public static EducationResponse of (Education education){

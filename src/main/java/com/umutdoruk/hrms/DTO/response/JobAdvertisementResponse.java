@@ -1,5 +1,6 @@
 package com.umutdoruk.hrms.DTO.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.umutdoruk.hrms.entities.JobAdvertisement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,9 @@ public class JobAdvertisementResponse {
     private Long minSalary;
     private Long maxSalary;
     private int numberOfOpenJobPosition;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate applicationDeadline;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate createdDate;
     private boolean active;
     private CityResponse cityResponse;
@@ -27,19 +30,21 @@ public class JobAdvertisementResponse {
     private Long employerId;
 
     public static JobAdvertisementResponse of(JobAdvertisement jobAdvertisement){
-        return new JobAdvertisementResponse(jobAdvertisement.getId(),
-                jobAdvertisement.getDescription(),
-                jobAdvertisement.getMinSalary(),
-                jobAdvertisement.getMaxSalary(),
-                jobAdvertisement.getNumberOfOpenJobPosition(),
-                jobAdvertisement.getApplicationDeadline(),
-                jobAdvertisement.getCreatedDate(),
-                jobAdvertisement.isActive(),
-                CityResponse.of(jobAdvertisement.getCity()),
-                JobPositionResponse.of(jobAdvertisement.getJobPosition()),
-                JobTypeResponse.of(jobAdvertisement.getJobType()),
-                TypeOfWorkResponse.of(jobAdvertisement.getTypeOfWork()),
-                jobAdvertisement.getEmployer().getId());
+        JobAdvertisementResponse jobAdvertisementResponse =  new JobAdvertisementResponse();
+        jobAdvertisementResponse.setJobAdvertisementId(jobAdvertisement.getId());
+        jobAdvertisementResponse.setDescription(jobAdvertisement.getDescription());
+        jobAdvertisementResponse.setMinSalary(jobAdvertisement.getMinSalary());
+        jobAdvertisementResponse.setMaxSalary(jobAdvertisement.getMaxSalary());
+        jobAdvertisementResponse.setNumberOfOpenJobPosition(jobAdvertisement.getNumberOfOpenJobPosition());
+        jobAdvertisementResponse.setApplicationDeadline(jobAdvertisement.getApplicationDeadline());
+        jobAdvertisementResponse.setCreatedDate(jobAdvertisement.getCreatedDate());
+        jobAdvertisementResponse.setActive(jobAdvertisement.isActive());
+        jobAdvertisementResponse.setEmployerId(jobAdvertisement.getEmployer().getId());
+        if (jobAdvertisement.getCity()!=null) CityResponse.of(jobAdvertisement.getCity());
+        if (jobAdvertisement.getJobPosition()!=null) JobPositionResponse.of(jobAdvertisement.getJobPosition());
+        if (jobAdvertisement.getJobType()!=null)JobTypeResponse.of(jobAdvertisement.getJobType());
+        if (jobAdvertisement.getTypeOfWork()!=null)TypeOfWorkResponse.of(jobAdvertisement.getTypeOfWork());
+        return jobAdvertisementResponse;
     }
 
 }

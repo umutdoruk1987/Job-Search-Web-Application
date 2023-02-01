@@ -1,5 +1,6 @@
 package com.umutdoruk.hrms.DTO.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.umutdoruk.hrms.entities.Candidate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,17 +17,18 @@ public class CandidateResponse {
     private String firstName;
     private String lastName;
     private String telephoneNumber;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate yearOfBirth;
-    private Long resumeId;
+    private ResumeResponse resumeResponse;
     private Long userId;
 
-    public static CandidateResponse of(Candidate candidate, Long resumeId, Long userId){
+    public static CandidateResponse of(Candidate candidate, ResumeResponse resumeResponse){
         return new CandidateResponse(candidate.getId(),
                 candidate.getFirstName(),
                 candidate.getLastName(),
                 candidate.getTelephoneNumber(),
                 candidate.getYearOfBirth(),
-                candidate.getResume().getId(),
+                resumeResponse,
                 candidate.getUser().getId());
     }
 }

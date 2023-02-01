@@ -1,5 +1,6 @@
 package com.umutdoruk.hrms.DTO.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class CandidateRequest {
     private String firstName;
     private String lastName;
     private String telephoneNumber;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate yearOfBirth;
     private Long userId;
 
