@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.service.serviceImpls;
 
 import com.umutdoruk.hrms.DTO.request.WorkExperienceRequest;
 import com.umutdoruk.hrms.DTO.response.WorkExperienceResponse;
-import com.umutdoruk.hrms.entities.Resume;
 import com.umutdoruk.hrms.entities.WorkExperience;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.WorkExperienceRepository;
@@ -80,16 +79,11 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 
     @Override
     public List<WorkExperienceResponse> getAllWorkExperienceResponsesInResume(Long resumeId) {
-        Resume resume = resumeService.getResumeById(resumeId);
 
-        List<WorkExperienceResponse> workExperienceResponseList = resume.getWorkExperienceList()
+        return workExperienceRepository.findAllByResumeId(resumeId)
                 .stream()
                 .map(workExperience -> WorkExperienceResponse.of(workExperience))
                 .collect(Collectors.toList());
-
-        if (workExperienceResponseList.size()==0)
-            throw new NotFoundException("Any Work Experience record isn't found");
-        return workExperienceResponseList;
     }
 
     @Override

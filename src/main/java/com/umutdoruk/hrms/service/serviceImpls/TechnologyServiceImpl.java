@@ -2,7 +2,6 @@ package com.umutdoruk.hrms.service.serviceImpls;
 
 import com.umutdoruk.hrms.DTO.request.TechnologyRequest;
 import com.umutdoruk.hrms.DTO.response.TechnologyResponse;
-import com.umutdoruk.hrms.entities.Resume;
 import com.umutdoruk.hrms.entities.Technology;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.TechnologyRepository;
@@ -75,15 +74,9 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     public List<TechnologyResponse> getAllTechnologiesResponsesInResume(Long resumeId) {
 
-        Resume resume = resumeService.getResumeById(resumeId);
-
-        List<TechnologyResponse> technologyResponseList = resume.getTechnologyList()
+        return technologyRepository.findAllByResumeId(resumeId)
                 .stream()
                 .map(technology -> TechnologyResponse.of(technology))
                 .collect(Collectors.toList());
-
-        if (technologyResponseList.size()==0)
-            throw new NotFoundException("Any Technology record isn't found");
-        return technologyResponseList;
     }
 }

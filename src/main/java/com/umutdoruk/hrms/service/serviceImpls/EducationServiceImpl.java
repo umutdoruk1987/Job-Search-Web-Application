@@ -3,7 +3,6 @@ package com.umutdoruk.hrms.service.serviceImpls;
 import com.umutdoruk.hrms.DTO.request.EducationRequest;
 import com.umutdoruk.hrms.DTO.response.EducationResponse;
 import com.umutdoruk.hrms.entities.Education;
-import com.umutdoruk.hrms.entities.Resume;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.EducationRepository;
 import com.umutdoruk.hrms.service.services.EducationService;
@@ -81,16 +80,10 @@ public class EducationServiceImpl implements EducationService {
     @Override
     public List<EducationResponse> getAllEducationResponsesInResume(Long resumeId) {
 
-        Resume resume = resumeService.getResumeById(resumeId);
-
-        List<EducationResponse> educationResponseList = resume.getEducationList()
+        return educationRepository.findAllByResumeId(resumeId)
                 .stream()
                 .map(education -> EducationResponse.of(education))
                 .collect(Collectors.toList());
-
-        if (educationResponseList.size()==0)
-            throw new NotFoundException("Any Education record isn't found");
-        return educationResponseList;
     }
 
     @Override
