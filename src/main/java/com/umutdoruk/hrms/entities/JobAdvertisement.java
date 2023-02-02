@@ -40,22 +40,22 @@ public class JobAdvertisement {
     @Column(name = "active")
     private boolean active;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_id")
+    /*@OneToOne(mappedBy = "jobAdvertisement" , cascade = CascadeType.ALL)
+    *//*@JoinColumn(name = "city_id")*//*
     private City city;
 
-    @OneToOne
-    @JoinColumn(name = "job_position_id")
+    @OneToOne(mappedBy = "jobAdvertisement" , cascade = CascadeType.ALL)
+    *//*@JoinColumn(name = "job_position_id")*//*
     private JobPosition jobPosition;
 
-    @OneToOne()
-    @JoinColumn(name = "job_type_id")
+    @OneToOne(mappedBy = "jobAdvertisement" , cascade = CascadeType.ALL)
+    *//*@JoinColumn(name = "job_type_id")*//*
     private JobType jobType;
 
-    @OneToOne()
-    @JoinColumn(name = "type_of_work_id")
+    @OneToOne(mappedBy = "jobAdvertisement" , cascade = CascadeType.ALL)
+    *//*@JoinColumn(name = "type_of_work_id")*//*
     private TypeOfWork typeOfWork;
-
+*/
     @ManyToOne()
     @JoinColumn(name = "employer_id")
     private Employer employer;
