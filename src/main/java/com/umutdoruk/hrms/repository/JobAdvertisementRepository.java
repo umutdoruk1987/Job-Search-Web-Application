@@ -12,4 +12,9 @@ public interface JobAdvertisementRepository extends JpaRepository<JobAdvertiseme
     List<JobAdvertisement> findByActiveTrueOrderByCreatedDateAsc();
     List<JobAdvertisement> findByActiveTrueOrderByCreatedDateDesc();
     List<JobAdvertisement> findByActiveTrueAndEmployerId(Long employerId);
+    List<JobAdvertisement> findAllByEmployerId (Long employerId);
+
+   /* @Query(value = "SELECT * FROM job_advertisements ja where ja.employer_id = :employerId", nativeQuery = true)
+    List<JobAdvertisement> findAllByEmployerId (@Param("employerId")Long employerId);*/
+
 }

@@ -20,9 +20,10 @@ public class JobAdvertisementRequest {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate applicationDeadline;
     private Boolean active;
-    private Long cityId;
+    private Long employerId;
+    /*private Long cityId;
     private Long jobPositionId;
     private Long jobTypeId;
-    private Long typeOfWorkId;
-    private Long employerId;
+    private Long typeOfWorkId;*/
+
 }

@@ -27,9 +27,13 @@ public class JobAdvertisementResponse {
     private JobPositionResponse jobPositionResponse;
     private JobTypeResponse jobTypeResponse;
     private TypeOfWorkResponse typeOfWorkResponse;
-    private Long employerId;
+    /*private Long employerId;*/
 
-    public static JobAdvertisementResponse of(JobAdvertisement jobAdvertisement){
+    public static JobAdvertisementResponse of(JobAdvertisement jobAdvertisement,
+                                              CityResponse cityResponse,
+                                              JobPositionResponse jobPositionResponse,
+                                              JobTypeResponse jobTypeResponse,
+                                              TypeOfWorkResponse typeOfWorkResponse){
         JobAdvertisementResponse jobAdvertisementResponse =  new JobAdvertisementResponse();
         jobAdvertisementResponse.setJobAdvertisementId(jobAdvertisement.getId());
         jobAdvertisementResponse.setDescription(jobAdvertisement.getDescription());
@@ -39,11 +43,22 @@ public class JobAdvertisementResponse {
         jobAdvertisementResponse.setApplicationDeadline(jobAdvertisement.getApplicationDeadline());
         jobAdvertisementResponse.setCreatedDate(jobAdvertisement.getCreatedDate());
         jobAdvertisementResponse.setActive(jobAdvertisement.isActive());
-        jobAdvertisementResponse.setEmployerId(jobAdvertisement.getEmployer().getId());
-        if (jobAdvertisement.getCity()!=null) CityResponse.of(jobAdvertisement.getCity());
-        if (jobAdvertisement.getJobPosition()!=null) JobPositionResponse.of(jobAdvertisement.getJobPosition());
-        if (jobAdvertisement.getJobType()!=null)JobTypeResponse.of(jobAdvertisement.getJobType());
-        if (jobAdvertisement.getTypeOfWork()!=null)TypeOfWorkResponse.of(jobAdvertisement.getTypeOfWork());
+        /*jobAdvertisementResponse.setEmployerId(jobAdvertisement.getEmployer().getId());*/
+
+        /*if (jobAdvertisement.getCity()!=null)
+            jobAdvertisementResponse.setCityResponse(CityResponse.of(jobAdvertisement.getCity()));
+        if (jobAdvertisement.getJobPosition()!=null)
+            jobAdvertisementResponse.setJobPositionResponse(JobPositionResponse.of(jobAdvertisement.getJobPosition()));
+        if (jobAdvertisement.getJobType()!=null)
+            jobAdvertisementResponse.setJobTypeResponse(JobTypeResponse.of(jobAdvertisement.getJobType()));
+        if (jobAdvertisement.getTypeOfWork()!=null)
+            jobAdvertisementResponse.setTypeOfWorkResponse(TypeOfWorkResponse.of(jobAdvertisement.getTypeOfWork()));*/
+
+        jobAdvertisementResponse.setCityResponse(cityResponse);
+        jobAdvertisementResponse.setJobPositionResponse(jobPositionResponse);
+        jobAdvertisementResponse.setJobTypeResponse(jobTypeResponse);
+        jobAdvertisementResponse.setTypeOfWorkResponse(typeOfWorkResponse);
+
         return jobAdvertisementResponse;
     }
 

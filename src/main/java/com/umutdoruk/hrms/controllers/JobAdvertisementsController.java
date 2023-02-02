@@ -75,4 +75,10 @@ public class JobAdvertisementsController {
         return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
     }
 
+    @GetMapping("getAllByEmployerId")
+    public ResponseEntity<List<JobAdvertisementResponse>> getAllJobAdvertisementsByEmployerId(@RequestParam Long employerId){
+        List<JobAdvertisementResponse> jobAdvertisementResponseList = jobAdvertisementService.getAllJobAdvertisementsByEmployerId(employerId);
+        return new ResponseEntity<>(jobAdvertisementResponseList, HttpStatus.OK);
+    }
+
 }
