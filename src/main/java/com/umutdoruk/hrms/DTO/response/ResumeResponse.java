@@ -20,29 +20,30 @@ public class ResumeResponse {
     private String imageUrl;
     private Boolean active;
     private LocalDate createdDate;
-    private CandidateResponse candidate;
     private List<EducationResponse> educationList;
     private List<TechnologyResponse> technologyList;
     private List<WorkExperienceResponse> workExperienceList;
     private List<ForeignLanguageResponse> foreignLanguageList;
 
     public static ResumeResponse of(Resume resume,
-                                    CandidateResponse candidate,
                                     List<EducationResponse> educationList,
                                     List<TechnologyResponse> technologyList,
                                     List<WorkExperienceResponse> workExperienceList,
                                     List<ForeignLanguageResponse> foreignLanguageList){
-        return new ResumeResponse(resume.getId(),
-                resume.getCoverLetter(),
-                resume.getGithubUrl(),
-                resume.getLinkedinUrl(),
-                resume.getImageUrl(),
-                resume.isActive(),
-                resume.getCreateDate(),
-                candidate,
-                educationList,
-                technologyList,
-                workExperienceList,
-                foreignLanguageList);
+         ResumeResponse resumeResponse = new ResumeResponse();
+         resumeResponse.setResumeId(resume.getId());
+         resumeResponse.setCoverLetter(resume.getCoverLetter());
+         resumeResponse.setGithubUrl(resume.getGithubUrl());
+         resumeResponse.setLinkedinUrl(resume.getLinkedinUrl());
+         resumeResponse.setImageUrl(resume.getImageUrl());
+         resumeResponse.setActive(resume.isActive());
+         resumeResponse.setCreatedDate(resume.getCreateDate());
+         /*resumeResponse.setCandidate(candidate);*/
+         if (resume.getEducationList()!=null)resumeResponse.setEducationList(educationList);
+         if (resume.getTechnologyList()!= null) resumeResponse.setTechnologyList(technologyList);
+         if (resume.getWorkExperienceList()!=null)resumeResponse.setWorkExperienceList(workExperienceList);
+         if (resume.getForeignLanguageList()!=null)resumeResponse.setForeignLanguageList(foreignLanguageList);
+
+         return resumeResponse;
     }
 }

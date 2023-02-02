@@ -12,6 +12,7 @@ public interface ResumeService {
     void update(ResumeRequest resumeRequest);
     void delete(Long id);
     Resume getResumeById(Long id);
+    Resume getResumeByCandidateId (Long candidateId);
     ResumeResponse getResumeResponseById(Long id);
     List<ResumeResponse> getAllResumeResponses();
 }

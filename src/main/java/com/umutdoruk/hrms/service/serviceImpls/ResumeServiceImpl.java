@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ResumeServiceImpl implements ResumeService {
@@ -30,21 +29,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Autowired
     private ForeignLanguageService foreignLanguageService;
 
-    /*@Autowired
-    public ResumeServiceImpl(ResumeRepository resumeRepository,
-                             CandidateService candidateService,
-                             EducationService educationService,
-                             TechnologyService technologyService,
-                             WorkExperienceService workExperienceService,
-                             ForeignLanguageService foreignLanguageService) {
-        this.resumeRepository = resumeRepository;
-        this.candidateService = candidateService;
-        this.educationService = educationService;
-        this.technologyService = technologyService;
-        this.workExperienceService = workExperienceService;
-        this.foreignLanguageService = foreignLanguageService;
-    }*/
-
     @Override
     public void create(ResumeRequest resumeRequest) {
         if (resumeRequest == null) {
@@ -58,19 +42,12 @@ public class ResumeServiceImpl implements ResumeService {
         resume.setImageUrl(resumeRequest.getImageUrl());
         resume.setCreateDate(LocalDate.now());
         resume.setActive(resumeRequest.getActive());
-        /*resume.setEducationList(createEducationListFromIdList(resumeRequest));
-        resume.setTechnologyList(createTechnologyListFromIdList(resumeRequest));
-        resume.setWorkExperienceList(createWorkExperienceListFromIdList(resumeRequest));
-        resume.setForeignLanguageList(createForeignLanguageListFromIdList(resumeRequest));*/
-
+        resume.setCandidate(candidateService.getCandidateById(resumeRequest.getCandidateId()));
         resumeRepository.save(resume);
     }
 
     @Override
     public void update(ResumeRequest resumeRequest) {
-
-        if (resumeRequest == null)
-            throw new NotFoundException("No Resume record found to update");
 
         Resume resume = resumeRepository.findById(resumeRequest.getResumeId())
                 .orElseThrow(()-> new NotFoundException("No Resume with this Id in Repository"));
@@ -81,11 +58,6 @@ public class ResumeServiceImpl implements ResumeService {
         resume.setLinkedinUrl(resumeRequest.getLinkedinUrl());
         resume.setImageUrl(resumeRequest.getImageUrl());
         resume.setActive(resumeRequest.getActive());
-        /*resume.setEducationList(createEducationListFromIdList(resumeRequest));
-        resume.setTechnologyList(createTechnologyListFromIdList(resumeRequest));
-        resume.setWorkExperienceList(createWorkExperienceListFromIdList(resumeRequest));
-        resume.setForeignLanguageList(createForeignLanguageListFromIdList(resumeRequest));*/
-
         resumeRepository.save(resume);
     }
 
@@ -104,12 +76,17 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public Resume getResumeByCandidateId(Long candidateId) {
+        return resumeRepository.findResumeByCandidateId(candidateId)
+                .orElseThrow(()-> new NotFoundException("Resume is not found"));
+    }
+
+    @Override
     public ResumeResponse getResumeResponseById(Long id) {
 
         Resume resume = getResumeById(id);
 
         return ResumeResponse.of(resume,
-                candidateService.getCandidateResponseById(resume.getCandidate().getId()),
                 educationService.getAllEducationResponsesInResume(id),
                 technologyService.getAllTechnologiesResponsesInResume(id),
                 workExperienceService.getAllWorkExperienceResponsesInResume(id),
@@ -133,7 +110,6 @@ public class ResumeServiceImpl implements ResumeService {
                     candidateService.getCandidateResponseById(resume.getCandidate().getId());
 
             resumeResponseList.add(ResumeResponse.of(resume,
-                    candidateResponse,
                     educationResponseList,
                     technologyResponseList,
                     workExperienceResponseList,
@@ -141,32 +117,4 @@ public class ResumeServiceImpl implements ResumeService {
 
         return resumeResponseList;
     }
-
-    /*private List<Education> createEducationListFromIdList (ResumeRequest resumeRequest){
-        return resumeRequest.getEducationIdList()
-                .stream()
-                .map(educationId ->educationService.getEducationById(educationId))
-                .collect(Collectors.toList());
-    }
-
-    private List<Technology> createTechnologyListFromIdList (ResumeRequest resumeRequest){
-        return resumeRequest.getTechnologyIdList()
-                .stream()
-                .map(technologyId -> technologyService.getTechnologyById(technologyId))
-                .collect(Collectors.toList());
-    }
-
-    private List<WorkExperience> createWorkExperienceListFromIdList (ResumeRequest resumeRequest){
-        return resumeRequest.getWorkExperienceIdList()
-                .stream()
-                .map(workExperienceId-> workExperienceService.getWorkExperienceById(workExperienceId))
-                .collect(Collectors.toList());
-    }
-
-    private List<ForeignLanguage> createForeignLanguageListFromIdList (ResumeRequest resumeRequest){
-        return resumeRequest.getForeignLanguageIdList()
-                .stream()
-                .map(foreignLanguageId -> foreignLanguageService.getForeignLanguageById(foreignLanguageId))
-                .collect(Collectors.toList());
-    }*/
 }
