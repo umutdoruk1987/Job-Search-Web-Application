@@ -12,11 +12,10 @@ public class JobPositionResponse {
 
     private Long jobPositionId;
     private String name;
-    private Long jobAdvertisementId;
 
     public static JobPositionResponse of(JobPosition jobPosition){
-        return new JobPositionResponse(jobPosition.getId(),
-                jobPosition.getName(),
-                jobPosition.getJobAdvertisement().getId());
+
+        if (jobPosition!=null) return new JobPositionResponse(jobPosition.getId(),jobPosition.getName());
+        else return new JobPositionResponse();
     }
 }

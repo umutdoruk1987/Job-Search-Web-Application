@@ -23,11 +23,12 @@ public class WorkExperienceResponse {
     private Long resumeId;
 
     public static WorkExperienceResponse of(WorkExperience workExperience){
-        return new WorkExperienceResponse(workExperience.getId(),
+        if (workExperience!=null) return new WorkExperienceResponse(workExperience.getId(),
                 workExperience.getJobName(),
                 workExperience.getJobPositionName(),
                 workExperience.getStartDate(),
                 workExperience.getEndDate(),
                 workExperience.getResume().getId());
+        else return new WorkExperienceResponse();
     }
 }

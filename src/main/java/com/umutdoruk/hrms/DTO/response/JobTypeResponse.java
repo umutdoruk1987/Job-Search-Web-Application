@@ -14,6 +14,8 @@ public class JobTypeResponse {
     private String name;
 
     public static JobTypeResponse of(JobType jobType){
-        return new JobTypeResponse(jobType.getId(),jobType.getName());
+
+        if(jobType!=null)return new JobTypeResponse(jobType.getId(),jobType.getName());
+        else return new JobTypeResponse();
     }
 }

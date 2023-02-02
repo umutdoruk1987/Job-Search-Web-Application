@@ -15,6 +15,8 @@ public class TypeOfWorkResponse {
     private String technologyName;
 
     public static TypeOfWorkResponse of(TypeOfWork typeOfWork){
-        return new TypeOfWorkResponse(typeOfWork.getId(), typeOfWork.getName());
+
+        if (typeOfWork!=null)return new TypeOfWorkResponse(typeOfWork.getId(), typeOfWork.getName());
+        else return new TypeOfWorkResponse();
     }
 }
