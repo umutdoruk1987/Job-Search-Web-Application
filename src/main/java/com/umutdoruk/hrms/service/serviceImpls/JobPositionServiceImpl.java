@@ -3,6 +3,7 @@ package com.umutdoruk.hrms.service.serviceImpls;
 import com.umutdoruk.hrms.DTO.request.JobPositionRequest;
 import com.umutdoruk.hrms.DTO.response.JobPositionResponse;
 import com.umutdoruk.hrms.entities.JobPosition;
+import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.JobPositionRepository;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
@@ -37,9 +38,10 @@ public class JobPositionServiceImpl implements JobPositionService {
 
     @Override
     public void create(JobPositionRequest jobPositionRequest) {
-        if (jobPositionRequest == null) {
-            throw new NotFoundException("No Job Position record found to add");
-        }
+        if (jobPositionRequest == null) throw new NotFoundException("No Job Position record found to add");
+
+        if (getJobPositionByJobAdvertisementId(jobPositionRequest.getJobAdvertisementId())!= null)
+            throw new BadRequestException("You have already created a job position. You can update it.");
 
         JobPosition jobPosition = new JobPosition();
         jobPosition.setName(jobPositionRequest.getName());
@@ -54,12 +56,9 @@ public class JobPositionServiceImpl implements JobPositionService {
         if (jobPositionRequest == null)
             throw new NotFoundException("No Job Position record found to update");
 
-        JobPosition jobPosition = jobPositionRepository.findById(jobPositionRequest.getJobPositionId())
-                .orElseThrow(()-> new NotFoundException("No Job Position with this Id in Repository"));
-
+        JobPosition jobPosition = getJobPositionById(jobPositionRequest.getJobPositionId());
         jobPosition.setName(jobPositionRequest.getName());
         jobPosition.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobPositionRequest.getJobAdvertisementId()));
-
         jobPositionRepository.save(jobPosition);
     }
 
@@ -74,6 +73,11 @@ public class JobPositionServiceImpl implements JobPositionService {
     public JobPosition getJobPositionById(Long jobPositionId) {
         return jobPositionRepository.findById(jobPositionId)
                 .orElseThrow(()-> new NotFoundException("Job Position is not found"));
+    }
+
+    @Override
+    public JobPosition getJobPositionByJobAdvertisementId(Long id) {
+        return jobPositionRepository.findByJobAdvertisementId(id);
     }
 
     @Override

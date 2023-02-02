@@ -12,6 +12,7 @@ public interface JobTypeService {
     void update (JobTypeRequest jobTypeRequest);
     void delete (Long id);
     JobType getJobTypeById(Long id);
+    JobType getJobTypeByJobAdvertisementId(Long id);
     JobTypeResponse getJobTypeResponseById(Long id);
     List<JobTypeResponse> getAllJobTypeResponses();
 }

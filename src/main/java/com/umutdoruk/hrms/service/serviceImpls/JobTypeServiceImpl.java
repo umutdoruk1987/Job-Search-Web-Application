@@ -3,6 +3,7 @@ package com.umutdoruk.hrms.service.serviceImpls;
 import com.umutdoruk.hrms.DTO.request.JobTypeRequest;
 import com.umutdoruk.hrms.DTO.response.JobTypeResponse;
 import com.umutdoruk.hrms.entities.JobType;
+import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.JobTypeRepository;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
@@ -28,9 +29,10 @@ public class JobTypeServiceImpl implements JobTypeService {
 
     @Override
     public void create(JobTypeRequest jobTypeRequest) {
-        if (jobTypeRequest == null) {
-            throw new NotFoundException("No Job Type record found to add");
-        }
+        if (jobTypeRequest == null)  throw new NotFoundException("No Job Type record found to add");
+
+        if (getJobTypeByJobAdvertisementId(jobTypeRequest.getJobAdvertisementId())!= null)
+            throw new BadRequestException("You have already created a job type. You can update it.");
 
         JobType jobType = new JobType();
         jobType.setName(jobTypeRequest.getName());
@@ -45,12 +47,9 @@ public class JobTypeServiceImpl implements JobTypeService {
         if (jobTypeRequest == null)
             throw new NotFoundException("No Job Type record found to update");
 
-        JobType jobType = jobTypeRepository.findById(jobTypeRequest.getTypeOfWorksId())
-                .orElseThrow(()-> new NotFoundException("No Job Type with this Id in Repository"));
-
+        JobType jobType = getJobTypeById(jobTypeRequest.getTypeOfWorksId());
         jobType.setName(jobTypeRequest.getName());
         jobType.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobTypeRequest.getJobAdvertisementId()));
-
         jobTypeRepository.save(jobType);
     }
 
@@ -65,6 +64,11 @@ public class JobTypeServiceImpl implements JobTypeService {
     public JobType getJobTypeById(Long id) {
         return jobTypeRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Job Type is not found"));
+    }
+
+    @Override
+    public JobType getJobTypeByJobAdvertisementId(Long id) {
+        return jobTypeRepository.findByJobAdvertisementId(id);
     }
 
     @Override

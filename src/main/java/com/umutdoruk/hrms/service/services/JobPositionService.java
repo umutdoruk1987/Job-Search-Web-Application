@@ -11,6 +11,7 @@ public interface JobPositionService {
     void update (JobPositionRequest jobPositionRequest);
     void delete (Long id);
     JobPosition getJobPositionById(Long jobPositionId);
+    JobPosition getJobPositionByJobAdvertisementId(Long id);
     JobPositionResponse getJobPositionResponseById(Long jobPositionId);
     List<JobPositionResponse> getJobPositionResponseByName(String jobPositionName);
     List<JobPositionResponse> getAllJobPositionResponses();

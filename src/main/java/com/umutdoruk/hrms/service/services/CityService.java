@@ -10,6 +10,7 @@ public interface CityService {
     void update(CityRequest cityRequest);
     void delete(Long id);
     City getCityById(Long id);
+    City getCityByJobAdvertisementId(Long id);
     CityResponse getCityResponseById(Long id);
 
 }

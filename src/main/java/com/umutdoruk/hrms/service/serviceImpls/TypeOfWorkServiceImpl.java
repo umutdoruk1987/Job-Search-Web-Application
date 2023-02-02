@@ -3,6 +3,7 @@ package com.umutdoruk.hrms.service.serviceImpls;
 import com.umutdoruk.hrms.DTO.request.TypeOfWorkRequest;
 import com.umutdoruk.hrms.DTO.response.TypeOfWorkResponse;
 import com.umutdoruk.hrms.entities.TypeOfWork;
+import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.TypeOfWorkRepository;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
@@ -27,8 +28,11 @@ public class TypeOfWorkServiceImpl implements TypeOfWorkService {
 
     @Override
     public void create(TypeOfWorkRequest typeOfWorkRequest) {
-        if (typeOfWorkRequest == null)
-            throw new NotFoundException("No Type of Work record found to add");
+
+        if (typeOfWorkRequest == null) throw new NotFoundException("No Type of Work record found to add");
+
+        if (getTypeOfWorkByJobAdvertisementId(typeOfWorkRequest.getJobAdvertisementId())!= null)
+            throw new BadRequestException("You have already created a type of work. You can update it.");
 
         TypeOfWork typeOfWork = new TypeOfWork();
         typeOfWork.setName(typeOfWorkRequest.getName());
@@ -43,13 +47,9 @@ public class TypeOfWorkServiceImpl implements TypeOfWorkService {
         if (typeOfWorkRequest == null)
             throw new NotFoundException("No Type of Work record found to update");
 
-        TypeOfWork typeOfWork = typeOfWorkRepository.findById(typeOfWorkRequest.getTypeOfWorksId())
-                .orElseThrow(()-> new NotFoundException("No Type of Work with this Id in Repository"));
-
-
+        TypeOfWork typeOfWork = getTypeOfWorkById(typeOfWorkRequest.getTypeOfWorksId());
         typeOfWork.setName(typeOfWorkRequest.getName());
         typeOfWork.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(typeOfWorkRequest.getJobAdvertisementId()));
-
         typeOfWorkRepository.save(typeOfWork);
     }
 
@@ -64,6 +64,11 @@ public class TypeOfWorkServiceImpl implements TypeOfWorkService {
     public TypeOfWork getTypeOfWorkById(Long id) {
         return typeOfWorkRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Type of Work is not found"));
+    }
+
+    @Override
+    public TypeOfWork getTypeOfWorkByJobAdvertisementId(Long id) {
+        return typeOfWorkRepository.findByJobAdvertisementId(id);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.umutdoruk.hrms.service.serviceImpls;
 import com.umutdoruk.hrms.DTO.request.CityRequest;
 import com.umutdoruk.hrms.DTO.response.CityResponse;
 import com.umutdoruk.hrms.entities.City;
-import com.umutdoruk.hrms.entities.JobAdvertisement;
+import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.CityRepository;
 import com.umutdoruk.hrms.service.services.CityService;
@@ -19,22 +19,17 @@ public class CityServiceImpl implements CityService {
     @Autowired
     private JobAdvertisementService jobAdvertisementService;
 
-   /* @Autowired
-    public CityServiceImpl(CityRepository cityRepository, JobAdvertisementService jobAdvertisementService) {
-        this.cityRepository = cityRepository;
-        this.jobAdvertisementService = jobAdvertisementService;
-    }*/
-
     @Override
     public void create(CityRequest cityRequest) {
 
-        if (cityRequest == null)
-            throw new NotFoundException("No City record found to add");
+        if (cityRequest == null)  throw new NotFoundException("No City record found to add");
+
+        if (getCityByJobAdvertisementId(cityRequest.getJobAdvertisementId())!= null)
+            throw new BadRequestException ("You have already created a city. You can update it.");
 
         City city = new City();
         city.setCityName(cityRequest.getCityName());
-        JobAdvertisement jobAdvertisement = jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId());
-        city.setJobAdvertisement(jobAdvertisement);
+        city.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId()));
 
         cityRepository.save(city);
     }
@@ -46,10 +41,8 @@ public class CityServiceImpl implements CityService {
             throw new NotFoundException("No City record found to update");
 
         City city = getCityById(cityRequest.getCityId());
-
         city.setCityName(cityRequest.getCityName());
         city.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId()));
-
         cityRepository.save(city);
     }
 
@@ -64,6 +57,11 @@ public class CityServiceImpl implements CityService {
     public City getCityById(Long id) {
         return cityRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("City is not found"));
+    }
+
+    @Override
+    public City getCityByJobAdvertisementId(Long id) {
+        return cityRepository.findByJobAdvertisementId(id);
     }
 
     @Override

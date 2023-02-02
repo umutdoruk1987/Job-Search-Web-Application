@@ -6,5 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeOfWorkRepository extends JpaRepository<TypeOfWork,Long> {
+
+    TypeOfWork findByJobAdvertisementId(Long jobAdvertisementId);
 }
 
