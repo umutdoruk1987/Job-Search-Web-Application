@@ -10,6 +10,7 @@ public interface EmployerService {
     void create(EmployerRequest employerRequest);
     void update(EmployerRequest employerRequest);
     Employer getEmployerById(Long id);
+    Employer getEmployerByUserId(Long userId);
     EmployerResponse getEmployerResponseById(Long id);
     List<EmployerResponse> getAllEmployerResponses();
 

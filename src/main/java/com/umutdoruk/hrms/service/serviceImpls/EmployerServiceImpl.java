@@ -7,6 +7,7 @@ import com.umutdoruk.hrms.entities.Employer;
 import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.EmployerRepository;
+import com.umutdoruk.hrms.service.services.CandidateService;
 import com.umutdoruk.hrms.service.services.EmployerService;
 import com.umutdoruk.hrms.service.services.JobAdvertisementService;
 import com.umutdoruk.hrms.service.services.UserService;
@@ -18,18 +19,23 @@ import java.util.List;
 
 @Service
 public class EmployerServiceImpl implements EmployerService {
-    private final EmployerRepository employerRepository;
-    private final UserService userService;
-    private final JobAdvertisementService jobAdvertisementService;
-
     @Autowired
-    public EmployerServiceImpl(EmployerRepository employerRepository,
+    private EmployerRepository employerRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private CandidateService candidateService;
+    @Autowired
+    private JobAdvertisementService jobAdvertisementService;
+
+    /*@Autowired*/
+    /*public EmployerServiceImpl(EmployerRepository employerRepository,
                                UserService userService,
                                JobAdvertisementService jobAdvertisementService) {
         this.employerRepository = employerRepository;
         this.userService = userService;
         this.jobAdvertisementService=jobAdvertisementService;
-    }
+    }*/
 
     @Override
     public void create(EmployerRequest employerRequest) {
@@ -47,6 +53,11 @@ public class EmployerServiceImpl implements EmployerService {
     public Employer getEmployerById(Long id) {
         return employerRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Employer is not found"));
+    }
+
+    @Override
+    public Employer getEmployerByUserId(Long userId) {
+        return employerRepository.findEmployerByUserId(userId);
     }
 
     @Override
@@ -78,7 +89,7 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     private void employerCreateValidator(EmployerRequest employerRequest){
-        if (employerRequest.getWebsite()!=null && !employerRequest.getWebsite().substring(0,4).equals("www."))
+        if (employerRequest.getWebsite()!=null && !employerRequest.getWebsite().startsWith("www."))
             throw new BadRequestException("Website name has to start with www.");
         if (employerRequest.getWebsite()==null)
             throw new BadRequestException("Website field have to be filled");
@@ -86,6 +97,11 @@ public class EmployerServiceImpl implements EmployerService {
             throw new BadRequestException("Company name field have to be filled");
         if (employerRequest.getCompanyTelephoneNumber()!=null && employerRequest.getCompanyTelephoneNumber().length()!=11)
             throw new BadRequestException("Company telephone number can only have 11 digits.");
+        if (getEmployerByUserId(employerRequest.getUserId())!=null)
+            throw new BadRequestException("A user cannot have more than one account");
+        if (candidateService.getCandidateByUserId(employerRequest.getUserId())!=null)
+            throw new BadRequestException("A user cannot have more than one role");
+
     }
 
     private Employer employerCreator(EmployerRequest employerRequest) {
@@ -105,7 +121,7 @@ public class EmployerServiceImpl implements EmployerService {
             throw new NotFoundException("No Employer record found to update");
         if (employerRequest.getCompanyTelephoneNumber()!=null && employerRequest.getCompanyTelephoneNumber().length()!=11)
             throw new BadRequestException("Company telephone number can only have 11 digits.");
-        if (employerRequest.getWebsite()!=null && !employerRequest.getWebsite().substring(0,4).equals("www."))
+        if (employerRequest.getWebsite()!=null && !employerRequest.getWebsite().startsWith("www."))
             throw new BadRequestException("Website name has to start with www.");
     }
 

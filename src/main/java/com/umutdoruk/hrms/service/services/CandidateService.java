@@ -11,9 +11,7 @@ public interface CandidateService {
     void create(CandidateRequest candidateRequest);
     void update(CandidateRequest candidateRequest);
     Candidate getCandidateById(Long id);
+    Candidate getCandidateByUserId(Long userId);
     CandidateResponse getCandidateResponseById(Long id);
     List<CandidateResponse> getAllCandidateResponses();
-
-
-
 }

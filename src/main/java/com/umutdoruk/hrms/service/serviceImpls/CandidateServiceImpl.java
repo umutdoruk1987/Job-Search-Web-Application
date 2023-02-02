@@ -7,13 +7,10 @@ import com.umutdoruk.hrms.entities.Resume;
 import com.umutdoruk.hrms.exception.BadRequestException;
 import com.umutdoruk.hrms.exception.NotFoundException;
 import com.umutdoruk.hrms.repository.CandidatesRepository;
-import com.umutdoruk.hrms.service.services.CandidateService;
-import com.umutdoruk.hrms.service.services.ResumeService;
-import com.umutdoruk.hrms.service.services.UserService;
+import com.umutdoruk.hrms.service.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,21 +22,28 @@ public class CandidateServiceImpl implements CandidateService {
     @Autowired
     private UserService userService;
     @Autowired
+    private EmployerService employerService;
+    @Autowired
     private ResumeService resumeService;
-
-   /* @Autowired
-    public CandidateServiceImpl(CandidatesRepository candidatesRepository,
-                                UserService userService,
-                                ResumeService resumeService) {
-        this.candidatesRepository = candidatesRepository;
-        this.userService = userService;
-        this.resumeService = resumeService;
-    }*/
+    @Autowired
+    private EducationService educationService;
+    @Autowired
+    private ForeignLanguageService foreignLanguageService;
+    @Autowired
+    private WorkExperienceService workExperienceService;
+    @Autowired
+    private TechnologyService technologyService;
 
     @Override
     public void create(CandidateRequest candidateRequest) {
 
-        candidatesRepository.save(candidateCreator(candidateRequest));
+        Candidate candidate = candidateCreator(candidateRequest);
+        candidatesRepository.save(candidate);
+       /* Resume resume = resumeService.getResumeById(candidate.getResume().getId());
+        resume.setCandidate(candidate);
+        ResumeRequest resumeRequest = new ResumeRequest();
+        resumeRequest.setResumeId(resume.getId());
+        resumeService.update(resumeRequest);*/
     }
 
     @Override
@@ -55,10 +59,20 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    public Candidate getCandidateByUserId(Long userId) {
+        return candidatesRepository.findCandidateByUserId(userId);
+    }
+
+    @Override
     public CandidateResponse getCandidateResponseById(Long id) {
 
         Candidate candidate = getCandidateById(id);
-        ResumeResponse resumeResponse = resumeService.getResumeResponseById(candidate.getResume().getId());
+        Resume resume = resumeService.getResumeByCandidateId(candidate.getId());
+        Long resumeId = resume.getId();
+        ResumeResponse resumeResponse = ResumeResponse.of(resume,educationService.getAllEducationResponsesInResume(resumeId),
+                technologyService.getAllTechnologiesResponsesInResume(resumeId),
+                workExperienceService.getAllWorkExperienceResponsesInResume(resumeId),
+                foreignLanguageService.getAllForeignLanguageResponsesInResume(resumeId));
         return CandidateResponse.of(candidate,resumeResponse);
     }
 
@@ -77,8 +91,11 @@ public class CandidateServiceImpl implements CandidateService {
             throw new BadRequestException("First name and surname fields have to be filled");
         if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
             throw new BadRequestException("Telephone number can only have 11 digits.");
+        if (getCandidateByUserId(candidateRequest.getUserId())!=null)
+            throw new BadRequestException("A user cannot have more than one account");
+        if (employerService.getEmployerByUserId(candidateRequest.getUserId())!=null)
+            throw new BadRequestException("A user cannot have more than one role");
     }
-
     private Candidate candidateCreator (CandidateRequest candidateRequest){
 
         candidateCreateValidator(candidateRequest);
@@ -88,7 +105,9 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setLastName(candidateRequest.getLastName());
         candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
         candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
-        candidate.setResume(new Resume());
+        /*resumeService.create(new ResumeRequest());*/
+       /* candidate.setResume(new Resume());*/
+
         candidate.setUser(userService.getUserById(candidateRequest.getUserId()));
 
         return candidate;
@@ -100,7 +119,6 @@ public class CandidateServiceImpl implements CandidateService {
         if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
             throw new BadRequestException("Telephone number can only have 11 digits.");
     }
-
     private Candidate candidateUpdater(CandidateRequest candidateRequest){
 
        candidateUpdateValidator(candidateRequest);

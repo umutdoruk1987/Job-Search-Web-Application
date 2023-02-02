@@ -14,7 +14,8 @@ public class CityResponse {
     private Long cityId;
 
     public static CityResponse of (City city){
-        return new CityResponse( city.getCityName(), city.getId());
+        if (city!=null)return new CityResponse(city.getCityName(), city.getId());
+        else return new CityResponse();
     }
 
 }

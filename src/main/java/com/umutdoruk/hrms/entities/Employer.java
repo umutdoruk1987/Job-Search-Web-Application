@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,8 +27,8 @@ public class Employer{
     @Column(name = "company_telephone_number")
     private String companyTelephoneNumber;
 
-    @OneToMany(mappedBy = "employer")
-    private List<JobAdvertisement> jobAdvertisements;
+    /*@OneToMany(mappedBy = "employer")
+    private List<JobAdvertisement> jobAdvertisements;*/
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
