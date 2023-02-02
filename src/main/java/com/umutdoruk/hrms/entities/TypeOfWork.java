@@ -20,7 +20,8 @@ public class TypeOfWork {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(mappedBy = "typeOfWork")
+    @OneToOne(/*mappedBy = "typeOfWork"*/)
+    @JoinColumn (name = "jobAdvertisement_id")
     private JobAdvertisement jobAdvertisement;
 
 }
