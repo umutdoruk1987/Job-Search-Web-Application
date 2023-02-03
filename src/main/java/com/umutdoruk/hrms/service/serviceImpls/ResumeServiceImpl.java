@@ -31,17 +31,8 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void create(ResumeRequest resumeRequest) {
-        if (resumeRequest == null) {
-            throw new NotFoundException("No Resume record found to add");
-        }
-
         Resume resume = new Resume();
-        resume.setCoverLetter(resumeRequest.getCoverLetter());
-        resume.setGithubUrl(resumeRequest.getGithubUrl());
-        resume.setLinkedinUrl(resumeRequest.getLinkedinUrl());
-        resume.setImageUrl(resumeRequest.getImageUrl());
         resume.setCreateDate(LocalDate.now());
-        resume.setActive(resumeRequest.getActive());
         resume.setCandidate(candidateService.getCandidateById(resumeRequest.getCandidateId()));
         resumeRepository.save(resume);
     }
@@ -49,15 +40,12 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public void update(ResumeRequest resumeRequest) {
 
-        Resume resume = resumeRepository.findById(resumeRequest.getResumeId())
-                .orElseThrow(()-> new NotFoundException("No Resume with this Id in Repository"));
-
-
-        resume.setCoverLetter(resumeRequest.getCoverLetter());
-        resume.setGithubUrl(resumeRequest.getGithubUrl());
-        resume.setLinkedinUrl(resumeRequest.getLinkedinUrl());
-        resume.setImageUrl(resumeRequest.getImageUrl());
-        resume.setActive(resumeRequest.getActive());
+        Resume resume = resumeRepository.findById(resumeRequest.getResumeId()).get();
+        if(resumeRequest.getCoverLetter()!=null)resume.setCoverLetter(resumeRequest.getCoverLetter());
+        if(resumeRequest.getGithubUrl()!=null)resume.setGithubUrl(resumeRequest.getGithubUrl());
+        if(resumeRequest.getLinkedinUrl()!=null)resume.setLinkedinUrl(resumeRequest.getLinkedinUrl());
+        if(resumeRequest.getImageUrl()!=null)resume.setImageUrl(resumeRequest.getImageUrl());
+        if(resumeRequest.getActive()!=null)resume.setActive(resumeRequest.getActive());
         resumeRepository.save(resume);
     }
 
@@ -106,8 +94,6 @@ public class ResumeServiceImpl implements ResumeService {
                     workExperienceService.getAllWorkExperienceResponsesInResume(resume.getId());
             List<ForeignLanguageResponse> foreignLanguageResponseList =
                     foreignLanguageService.getAllForeignLanguageResponsesInResume(resume.getId());
-            CandidateResponse candidateResponse =
-                    candidateService.getCandidateResponseById(resume.getCandidate().getId());
 
             resumeResponseList.add(ResumeResponse.of(resume,
                     educationResponseList,

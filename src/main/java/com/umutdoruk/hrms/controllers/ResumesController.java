@@ -19,12 +19,7 @@ public class ResumesController {
     public ResumesController(ResumeService resumeService) {
         this.resumeService = resumeService;
     }
-    // ROLE_CANDIDATE
-    @PostMapping("/create")
-    public HttpStatus create(@RequestBody ResumeRequest resumeRequest){
-        resumeService.create(resumeRequest);
-        return HttpStatus.CREATED;
-    }
+
     // ROLE_CANDIDATE
     @PutMapping("/update")
     public HttpStatus update(@RequestBody ResumeRequest resumeRequest){

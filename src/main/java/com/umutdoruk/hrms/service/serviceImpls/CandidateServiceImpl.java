@@ -1,6 +1,7 @@
 package com.umutdoruk.hrms.service.serviceImpls;
 
 import com.umutdoruk.hrms.DTO.request.CandidateRequest;
+import com.umutdoruk.hrms.DTO.request.ResumeRequest;
 import com.umutdoruk.hrms.DTO.response.*;
 import com.umutdoruk.hrms.entities.Candidate;
 import com.umutdoruk.hrms.entities.Resume;
@@ -39,11 +40,13 @@ public class CandidateServiceImpl implements CandidateService {
 
         Candidate candidate = candidateCreator(candidateRequest);
         candidatesRepository.save(candidate);
-       /* Resume resume = resumeService.getResumeById(candidate.getResume().getId());
-        resume.setCandidate(candidate);
+
+        //User user = new User() Burada login olan user i alacaz. Daha sonra onun userId sini alip asagi verecez/
+        Long userId = 2L;
+        Candidate candidateForResume =  getCandidateByUserId(userId);
         ResumeRequest resumeRequest = new ResumeRequest();
-        resumeRequest.setResumeId(resume.getId());
-        resumeService.update(resumeRequest);*/
+        resumeRequest.setCandidateId(candidateForResume.getId());
+        resumeService.create(resumeRequest);
     }
 
     @Override
@@ -68,12 +71,15 @@ public class CandidateServiceImpl implements CandidateService {
 
         Candidate candidate = getCandidateById(id);
         Resume resume = resumeService.getResumeByCandidateId(candidate.getId());
-        Long resumeId = resume.getId();
-        ResumeResponse resumeResponse = ResumeResponse.of(resume,educationService.getAllEducationResponsesInResume(resumeId),
-                technologyService.getAllTechnologiesResponsesInResume(resumeId),
-                workExperienceService.getAllWorkExperienceResponsesInResume(resumeId),
-                foreignLanguageService.getAllForeignLanguageResponsesInResume(resumeId));
-        return CandidateResponse.of(candidate,resumeResponse);
+        if(resume!=null) {
+            Long resumeId = resume.getId();
+            ResumeResponse resumeResponse = ResumeResponse.of(resume, educationService.getAllEducationResponsesInResume(resumeId),
+                    technologyService.getAllTechnologiesResponsesInResume(resumeId),
+                    workExperienceService.getAllWorkExperienceResponsesInResume(resumeId),
+                    foreignLanguageService.getAllForeignLanguageResponsesInResume(resumeId));
+            return CandidateResponse.of(candidate, resumeResponse);
+        }
+        return CandidateResponse.of(candidate,null);
     }
 
     @Override
@@ -105,8 +111,6 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setLastName(candidateRequest.getLastName());
         candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
         candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
-        /*resumeService.create(new ResumeRequest());*/
-       /* candidate.setResume(new Resume());*/
 
         candidate.setUser(userService.getUserById(candidateRequest.getUserId()));
 
