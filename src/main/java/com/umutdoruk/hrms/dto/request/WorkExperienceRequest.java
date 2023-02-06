@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.DTO.request;
+package com.umutdoruk.hrms.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,16 +10,15 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EducationRequest {
+public class WorkExperienceRequest {
 
-    private Long educationId;
-    private String schoolName;
+    private Long workExperienceId;
     private Long resumeId;
+    private String jobName;
+    private String jobPositionName;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate startDate;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
-    private LocalDate graduationDate;
-
+    private LocalDate endDate;
 
 }
-

@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.DTO.request;
+package com.umutdoruk.hrms.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

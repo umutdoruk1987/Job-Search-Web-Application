@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.DTO.response;
+package com.umutdoruk.hrms.dto.response;
 
 import com.umutdoruk.hrms.entities.Resume;
 import lombok.AllArgsConstructor;

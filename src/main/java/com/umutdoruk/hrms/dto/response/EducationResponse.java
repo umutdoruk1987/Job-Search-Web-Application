@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.DTO.response;
+package com.umutdoruk.hrms.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.umutdoruk.hrms.entities.Education;
