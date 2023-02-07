@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.entities;
+package com.umutdoruk.jobSearch.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "job_positions")
-public class JobPosition {
+@Table(name = "working_time")
+public class WorkingTime {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "job_position_id")
+    @Column(name = "working_time_id")
     private Long id;
 
     @Column(name = "name")
