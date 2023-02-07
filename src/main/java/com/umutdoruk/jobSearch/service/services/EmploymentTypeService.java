@@ -1,0 +1,18 @@
+package com.umutdoruk.jobSearch.service.services;
+
+import com.umutdoruk.jobSearch.dto.request.EmploymentTypeRequest;
+import com.umutdoruk.jobSearch.dto.response.EmploymentTypeResponse;
+import com.umutdoruk.jobSearch.entities.EmploymentType;
+
+import java.util.List;
+
+public interface EmploymentTypeService {
+
+    void create(EmploymentTypeRequest employmentTypeRequest);
+    void update(EmploymentTypeRequest employmentTypeRequest);
+    void delete(Long id);
+    EmploymentType getEmploymentTypeById(Long id);
+    EmploymentType getEmploymentTypeByJobAdvertisementId(Long id);
+    EmploymentTypeResponse getEmploymentTypeResponseById(Long id);
+    List<EmploymentTypeResponse> getAllEmploymentTypeResponses();
+}
