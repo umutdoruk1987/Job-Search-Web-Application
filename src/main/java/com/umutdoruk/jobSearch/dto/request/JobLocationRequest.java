@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.dto.request;
+package com.umutdoruk.jobSearch.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CityRequest {
+public class JobLocationRequest {
 
-    private Long cityId;
-    private String cityName;
+    private Long jobLocationId;
+    private String jobLocationName;
     private Long jobAdvertisementId;
 }

@@ -1,4 +1,4 @@
-package com.umutdoruk.hrms.entities;
+package com.umutdoruk.jobSearch.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cities")
-public class City {
+@Table(name = "JobLocations")
+public class JobLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "city_id")
+    @Column(name = "Job_location_id")
     private Long id;
 
-    @Column(name = "city_name")
-    private String cityName;
+    @Column(name = "Job_location_name")
+    private String jobLocationName;
 
     @OneToOne(/*cascade = CascadeType.ALL*//*mappedBy = "city"*/)
     @JoinColumn (name = "jobAdvertisement_id")
