@@ -1,17 +1,17 @@
-package com.umutdoruk.hrms.service.serviceImpls;
+package com.umutdoruk.jobSearch.service.serviceImpls;
 
-import com.umutdoruk.hrms.DTO.request.CandidateRequest;
-import com.umutdoruk.hrms.DTO.request.ResumeRequest;
-import com.umutdoruk.hrms.DTO.response.*;
-import com.umutdoruk.hrms.entities.Candidate;
-import com.umutdoruk.hrms.entities.Resume;
-import com.umutdoruk.hrms.exception.BadRequestException;
-import com.umutdoruk.hrms.exception.NotFoundException;
-import com.umutdoruk.hrms.repository.CandidatesRepository;
-import com.umutdoruk.hrms.service.services.*;
+import com.umutdoruk.jobSearch.dto.request.CandidateRequest;
+import com.umutdoruk.jobSearch.dto.response.*;
+import com.umutdoruk.jobSearch.entities.Candidate;
+import com.umutdoruk.jobSearch.entities.Resume;
+import com.umutdoruk.jobSearch.exception.BadRequestException;
+import com.umutdoruk.jobSearch.exception.NotFoundException;
+import com.umutdoruk.jobSearch.repository.CandidatesRepository;
+import com.umutdoruk.jobSearch.service.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,23 +36,35 @@ public class CandidateServiceImpl implements CandidateService {
     private TechnologyService technologyService;
 
     @Override
-    public void create(CandidateRequest candidateRequest) {
-
-        Candidate candidate = candidateCreator(candidateRequest);
-        candidatesRepository.save(candidate);
-
+    public CandidateResponse create(CandidateRequest candidateRequest) {
+        Candidate candidate = candidatesRepository.save(candidateCreator(candidateRequest));
+        ResumeResponse resumeResponse = resumeService.getResumeResponseByCandidateId(candidate.getId());
+        return CandidateResponse.of(candidate,resumeResponse);
         //User user = new User() Burada login olan user i alacaz. Daha sonra onun userId sini alip asagi verecez/
-        Long userId = 2L;
+        /*Long userId = 2L;
         Candidate candidateForResume =  getCandidateByUserId(userId);
         ResumeRequest resumeRequest = new ResumeRequest();
         resumeRequest.setCandidateId(candidateForResume.getId());
-        resumeService.create(resumeRequest);
+        resumeService.create(resumeRequest);*/
     }
 
     @Override
-    public void update(CandidateRequest candidateRequest) {
+    public CandidateResponse update(CandidateRequest candidateRequest) {
+        Candidate candidate = candidateUpdater(candidateRequest);
+        candidatesRepository.save(candidate);
 
-        candidatesRepository.save(candidateUpdater(candidateRequest));
+        Resume resume = resumeService.getResumeByCandidateId(candidate.getId());
+        ResumeResponse resumeResponse = resumeService.getResumeResponseById(resume.getId());
+        return CandidateResponse.of(candidate,resumeResponse);
+    }
+
+    @Override
+    public void delete() {
+
+        Candidate candidate = candidatesRepository
+                .findCandidateByUserId(userService.getUserByUsername(UserServiceImpl.getUsernameFromAuthentication()).getId());
+        resumeService.delete();
+        candidatesRepository.deleteById(candidate.getId());
     }
 
     @Override
@@ -92,19 +104,12 @@ public class CandidateServiceImpl implements CandidateService {
             throw new NotFoundException("Any Candidate record isn't found");*/
     }
 
-    private void candidateCreateValidator(CandidateRequest candidateRequest){
-        if (candidateRequest.getFirstName()==null || candidateRequest.getLastName()==null)
-            throw new BadRequestException("First name and surname fields have to be filled");
-        if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
-            throw new BadRequestException("Telephone number can only have 11 digits.");
-        if (getCandidateByUserId(candidateRequest.getUserId())!=null)
-            throw new BadRequestException("A user cannot have more than one account");
-        if (employerService.getEmployerByUserId(candidateRequest.getUserId())!=null)
-            throw new BadRequestException("A user cannot have more than one role");
-    }
+   /* private void candidateCreateValidator(CandidateRequest candidateRequest){
+
+    }*/
     private Candidate candidateCreator (CandidateRequest candidateRequest){
 
-        candidateCreateValidator(candidateRequest);
+        //candidateCreateValidator(candidateRequest);
 
         Candidate candidate = new Candidate();
         candidate.setFirstName(candidateRequest.getFirstName());
@@ -120,18 +125,31 @@ public class CandidateServiceImpl implements CandidateService {
     private void candidateUpdateValidator(CandidateRequest candidateRequest){
         if (candidateRequest == null)
             throw new NotFoundException("No Candidate record found to update");
-        if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()!=11)
+        if (candidateRequest.getFirstName()==null || candidateRequest.getLastName()==null)
+            throw new BadRequestException("First name and surname fields have to be filled");
+        if (candidateRequest.getTelephoneNumber()==null)
+            throw new BadRequestException("Telephone number have to be filled");
+        if (candidateRequest.getTelephoneNumber().length()!=11)
             throw new BadRequestException("Telephone number can only have 11 digits.");
+        if (candidateRequest.getYearOfBirth()==null)
+            throw new BadRequestException("Date of Birth have to be filled");
+        if ((candidateRequest.getYearOfBirth().plusYears(16).isAfter(LocalDate.now())))
+            throw new BadRequestException("Candidates under 16 cannot seek employment.");
+        if (getCandidateByUserId(candidateRequest.getUserId())!=null)
+            throw new BadRequestException("A user cannot have more than one account");
+        if (employerService.getEmployerByUserId(candidateRequest.getUserId())!=null)
+            throw new BadRequestException("A user cannot have more than one role");
     }
     private Candidate candidateUpdater(CandidateRequest candidateRequest){
 
        candidateUpdateValidator(candidateRequest);
-       Candidate candidate = getCandidateById(candidateRequest.getCandidateId());
+       candidateRequest.setUserId(userService.getUserByUsername(UserServiceImpl.getUsernameFromAuthentication()).getId());
+       Candidate candidate = getCandidateByUserId(candidateRequest.getUserId());
 
-       if (candidateRequest.getFirstName()!=null)candidate.setFirstName(candidateRequest.getFirstName());
-       if (candidateRequest.getLastName()!=null)candidate.setLastName(candidateRequest.getLastName());
-       if (candidateRequest.getYearOfBirth()!=null)candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
-       if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()==11)
+       /*if (candidateRequest.getFirstName()!=null)*/candidate.setFirstName(candidateRequest.getFirstName());
+       /*if (candidateRequest.getLastName()!=null)*/candidate.setLastName(candidateRequest.getLastName());
+       /*if (candidateRequest.getYearOfBirth()!=null)*/candidate.setYearOfBirth(candidateRequest.getYearOfBirth());
+       /*if (candidateRequest.getTelephoneNumber()!=null && candidateRequest.getTelephoneNumber().length()==11)*/
             candidate.setTelephoneNumber(candidateRequest.getTelephoneNumber());
 
         return candidate;

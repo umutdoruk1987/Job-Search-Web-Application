@@ -1,8 +1,8 @@
-package com.umutdoruk.hrms.controllers;
+package com.umutdoruk.jobSearch.controllers;
 
-import com.umutdoruk.hrms.DTO.request.CandidateRequest;
-import com.umutdoruk.hrms.DTO.response.CandidateResponse;
-import com.umutdoruk.hrms.service.services.CandidateService;
+import com.umutdoruk.jobSearch.dto.request.CandidateRequest;
+import com.umutdoruk.jobSearch.dto.response.CandidateResponse;
+import com.umutdoruk.jobSearch.service.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,28 +21,28 @@ public class CandidatesController {
         this.candidateService=candidateService;
     }
 
-    // ROLE_CANDIDATE
-    @PostMapping("/create")
-    public HttpStatus create (@RequestBody CandidateRequest candidateRequest){
-        candidateService.create(candidateRequest);
-        return HttpStatus.CREATED;
-    }
-    // ROLE_CANDIDATE
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody CandidateRequest candidateRequest) {
-        candidateService.update(candidateRequest);
-        return HttpStatus.OK;
+
+    @PutMapping("/update") // ROLE_CANDIDATE
+    public ResponseEntity<CandidateResponse> update(@RequestBody CandidateRequest candidateRequest) {
+        CandidateResponse candidateResponse = candidateService.update(candidateRequest);
+        return new ResponseEntity<>(candidateResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") //ROLE_CANDIDATE , ROLE_EMPLOYER
     public ResponseEntity<CandidateResponse> getCandidateResponseById(@PathVariable("id") Long id){
         CandidateResponse candidateResponse = candidateService.getCandidateResponseById(id);
         return new ResponseEntity<>(candidateResponse,HttpStatus.OK);
     }
 
-    // ROLE_EMPLOYER
-    @GetMapping("/getAll")
+    @GetMapping("/getAll")//ROLE_CANDIDATE , ROLE_EMPLOYER
     public ResponseEntity<List<CandidateResponse>> getAllCandidateResponses(){
         return ResponseEntity.ok(candidateService.getAllCandidateResponses());
     }
+
+     /*
+    @PostMapping("/create") // ROLE_CANDIDATE
+    public HttpStatus create (@RequestBody CandidateRequest candidateRequest){
+        candidateService.create(candidateRequest);
+        return HttpStatus.CREATED;
+    }*/
 }

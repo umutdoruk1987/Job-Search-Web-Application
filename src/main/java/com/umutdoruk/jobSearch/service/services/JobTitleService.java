@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface JobTitleService {
 
-    void create(JobTitleRequest jobTitleRequest);
-    void update (JobTitleRequest jobTitleRequest);
+    JobTitleResponse create(JobTitleRequest jobTitleRequest);
+    JobTitleResponse update (JobTitleRequest jobTitleRequest);
     void delete (Long id);
     JobTitle getJobTitleById(Long id);
     JobTitle getJobTitleByJobAdvertisementId(Long id);

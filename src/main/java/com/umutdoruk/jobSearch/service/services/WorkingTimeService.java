@@ -7,8 +7,8 @@ import com.umutdoruk.jobSearch.entities.WorkingTime;
 import java.util.List;
 
 public interface WorkingTimeService {
-    void create(WorkingTimeRequest workingTimeRequest);
-    void update (WorkingTimeRequest workingTimeRequest);
+    WorkingTimeResponse create(WorkingTimeRequest workingTimeRequest);
+    WorkingTimeResponse update (WorkingTimeRequest workingTimeRequest);
     void delete (Long id);
     WorkingTime getWorkingTimeById(Long workingTimeId);
     WorkingTime getWorkingTimeByJobAdvertisementId(Long id);

@@ -20,38 +20,38 @@ public class WorkingTimeController {
     public WorkingTimeController(WorkingTimeService workingTimeService) {
         this.workingTimeService = workingTimeService;
     }
-    // ROLE_EMPLOYER
-    @PostMapping("/create")
-    public HttpStatus create(@RequestBody WorkingTimeRequest workingTimeRequest){
-        workingTimeService.create(workingTimeRequest);
-        return HttpStatus.CREATED;
+
+    @PostMapping("/create") // ROLE_EMPLOYER
+    public ResponseEntity<WorkingTimeResponse> create(@RequestBody WorkingTimeRequest workingTimeRequest){
+        WorkingTimeResponse workingTimeResponse = workingTimeService.create(workingTimeRequest);
+        return new ResponseEntity<>(workingTimeResponse,HttpStatus.CREATED);
     }
-    // ROLE_EMPLOYER
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody WorkingTimeRequest workingTimeRequest) {
-        workingTimeService.update(workingTimeRequest);
-        return HttpStatus.OK;
+
+    @PutMapping("/update") // ROLE_EMPLOYER
+    public ResponseEntity<WorkingTimeResponse> update(@RequestBody WorkingTimeRequest workingTimeRequest) {
+        WorkingTimeResponse workingTimeResponse = workingTimeService.update(workingTimeRequest);
+        return new ResponseEntity<>(workingTimeResponse, HttpStatus.OK);
     }
-    // ROLE_EMPLOYER
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")  // ROLE_EMPLOYER
     public HttpStatus delete(@PathVariable("id") Long id) {
         workingTimeService.delete(id);
         return HttpStatus.OK;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}") // ROLE_EMPLOYER
     public ResponseEntity<WorkingTimeResponse> getWorkingTimeResponseById (@PathVariable("id") Long id){
         WorkingTimeResponse workingTimeResponse = workingTimeService.getWorkingTimeResponseById(id);
         return new ResponseEntity<>(workingTimeResponse,HttpStatus.OK);
     }
 
-    @GetMapping("/{WorkingTimeName}")
-    public ResponseEntity<List<WorkingTimeResponse>> getJobPositionResponseByName (@PathVariable("workingTimeName") String workingTimeName){
+    @GetMapping("/name/{WorkingTimeName}")  // ROLE_EMPLOYER
+    public ResponseEntity<List<WorkingTimeResponse>> getWorkingTimeResponseByName (@PathVariable("workingTimeName") String workingTimeName){
         List<WorkingTimeResponse> workingTimeResponseList = workingTimeService.getWorkingTimeResponseByName(workingTimeName);
         return new ResponseEntity<>(workingTimeResponseList, HttpStatus.OK);
     }
-    // ROLE_CANDIDATE
-    @GetMapping("/getAll")
+
+    @GetMapping("/getAll") // ROLE_EMPLOYER
     public ResponseEntity<List<WorkingTimeResponse>> getAllWorkingTimeResponses(){
         List<WorkingTimeResponse> workingTimeResponseList = workingTimeService.getAllWorkingTimeResponses();
         return new ResponseEntity<>(workingTimeResponseList, HttpStatus.OK);

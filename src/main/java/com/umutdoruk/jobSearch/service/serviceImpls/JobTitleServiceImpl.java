@@ -36,7 +36,7 @@ public class JobTitleServiceImpl implements JobTitleService {
     }
 
     @Override
-    public void create(JobTitleRequest jobTitleRequest) {
+    public JobTitleResponse create(JobTitleRequest jobTitleRequest) {
         if (jobTitleRequest == null)  throw new NotFoundException("No Job Title record found to add");
 
         if (getJobTitleByJobAdvertisementId(jobTitleRequest.getJobAdvertisementId())!= null)
@@ -46,11 +46,11 @@ public class JobTitleServiceImpl implements JobTitleService {
         jobTitle.setName(jobTitleRequest.getName());
         jobTitle.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobTitleRequest.getJobAdvertisementId()));
 
-        jobTitleRepository.save(jobTitle);
+        return JobTitleResponse.of(jobTitleRepository.save(jobTitle));
     }
 
     @Override
-    public void update(JobTitleRequest jobTitleRequest) {
+    public JobTitleResponse update(JobTitleRequest jobTitleRequest) {
 
         if (jobTitleRequest == null)
             throw new NotFoundException("No Job Title record found to update");
@@ -60,7 +60,7 @@ public class JobTitleServiceImpl implements JobTitleService {
         JobTitle jobTitle = getJobTitleById(jobTitleRequest.getJobTitleId());
         jobTitle.setName(jobTitleRequest.getName());
        /* jobType.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobTypeRequest.getJobAdvertisementId()));*/
-        jobTitleRepository.save(jobTitle);
+        return JobTitleResponse.of(jobTitleRepository.save(jobTitle));
     }
 
     @Override

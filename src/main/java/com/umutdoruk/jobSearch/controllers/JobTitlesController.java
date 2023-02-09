@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/jobTitles")
+@RequestMapping("/api/job_titles")
 public class JobTitlesController {
 
     private final JobTitleService jobTitleService;
@@ -20,32 +20,32 @@ public class JobTitlesController {
     public JobTitlesController(JobTitleService jobTitleService) {
         this.jobTitleService = jobTitleService;
     }
-    // ROLE_EMPLOYER
-    @PostMapping ("/create")
-    public HttpStatus create (@RequestBody JobTitleRequest jobTitleRequest){
-        jobTitleService.create(jobTitleRequest);
-        return HttpStatus.CREATED;
+
+    @PostMapping ("/create") // ROLE_EMPLOYER
+    public ResponseEntity<JobTitleResponse> create (@RequestBody JobTitleRequest jobTitleRequest){
+        JobTitleResponse jobTitleResponse = jobTitleService.create(jobTitleRequest);
+        return new ResponseEntity<>(jobTitleResponse, HttpStatus.CREATED);
     }
-    // ROLE_EMPLOYER
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobTitleRequest jobTitleRequest) {
-        jobTitleService.update(jobTitleRequest);
-        return HttpStatus.OK;
+
+    @PutMapping("/update") // ROLE_EMPLOYER
+    public ResponseEntity<JobTitleResponse> update(@RequestBody JobTitleRequest jobTitleRequest) {
+        JobTitleResponse jobTitleResponse =jobTitleService.update(jobTitleRequest);
+        return new ResponseEntity<>(jobTitleResponse, HttpStatus.OK);
     }
-    // ROLE_EMPLOYER
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}") // ROLE_EMPLOYER
     public HttpStatus delete(@PathVariable("id") Long id) {
         jobTitleService.delete(id);
         return HttpStatus.OK;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ROLE_EMPLOYER
     public ResponseEntity<JobTitleResponse> getJobTitleResponseById (@PathVariable("id") Long id){
         JobTitleResponse jobTitleResponse = jobTitleService.getJobTitleResponseById(id);
         return new ResponseEntity<>(jobTitleResponse,HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAll") // ROLE_EMPLOYER
     public ResponseEntity<List<JobTitleResponse>> getAllJobTitleResponses (){
         List<JobTitleResponse> jobTitleResponseList = jobTitleService.getAllJobTitleResponses();
         return new ResponseEntity<>(jobTitleResponseList,HttpStatus.OK);

@@ -28,7 +28,7 @@ public class JobLocationServiceImpl implements JobLocationService {
     private UserService userService;
 
     @Override
-    public void create(JobLocationRequest jobLocationRequest) {
+    public JobLocationResponse create(JobLocationRequest jobLocationRequest) {
 
         if (jobLocationRequest == null)  throw new NotFoundException("No Job Location record found to add");
 
@@ -43,11 +43,11 @@ public class JobLocationServiceImpl implements JobLocationService {
         jobLocation.setJobLocationName(jobLocationRequest.getJobLocationName());
         jobLocation.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobLocationRequest.getJobAdvertisementId()));
 
-        jobLocationRepository.save(jobLocation);
+        return JobLocationResponse.of(jobLocationRepository.save(jobLocation));
     }
 
     @Override
-    public void update(JobLocationRequest jobLocationRequest) {
+    public JobLocationResponse update(JobLocationRequest jobLocationRequest) {
 
         if (jobLocationRequest == null)
             throw new NotFoundException("No Job Location record found to update");
@@ -57,7 +57,7 @@ public class JobLocationServiceImpl implements JobLocationService {
         JobLocation jobLocation = getJobLocationById(jobLocationRequest.getJobLocationId());
         jobLocation.setJobLocationName(jobLocationRequest.getJobLocationName());
         /*city.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(cityRequest.getJobAdvertisementId()));*/
-        jobLocationRepository.save(jobLocation);
+        return JobLocationResponse.of(jobLocationRepository.save(jobLocation));
     }
 
     @Override

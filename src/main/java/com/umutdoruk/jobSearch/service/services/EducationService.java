@@ -1,15 +1,15 @@
-package com.umutdoruk.hrms.service.services;
+package com.umutdoruk.jobSearch.service.services;
 
-import com.umutdoruk.hrms.DTO.request.EducationRequest;
-import com.umutdoruk.hrms.DTO.response.EducationResponse;
-import com.umutdoruk.hrms.entities.Education;
+import com.umutdoruk.jobSearch.dto.request.EducationRequest;
+import com.umutdoruk.jobSearch.dto.response.EducationResponse;
+import com.umutdoruk.jobSearch.entities.Education;
 
 import java.util.List;
 
 public interface EducationService {
 
-    void create(EducationRequest educationRequest);
-    void update(EducationRequest educationRequest);
+    EducationResponse create(EducationRequest educationRequest);
+    EducationResponse update(EducationRequest educationRequest);
     void delete(Long id);
     Education getEducationById(Long id);
     EducationResponse getEducationResponseById(Long id);

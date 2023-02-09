@@ -1,8 +1,8 @@
-package com.umutdoruk.hrms.controllers;
+package com.umutdoruk.jobSearch.controllers;
 
-import com.umutdoruk.hrms.DTO.request.EmployerRequest;
-import com.umutdoruk.hrms.DTO.response.EmployerResponse;
-import com.umutdoruk.hrms.service.services.EmployerService;
+import com.umutdoruk.jobSearch.dto.request.EmployerRequest;
+import com.umutdoruk.jobSearch.dto.response.EmployerResponse;
+import com.umutdoruk.jobSearch.service.services.EmployerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +20,29 @@ public class EmployersController {
     public EmployersController(EmployerService employerService) {
         this.employerService = employerService;
     }
-    // ROLE_EMPLOYER
-    @PostMapping("/create")
+
+    /*@PostMapping("/create")  // ROLE_EMPLOYER
     public HttpStatus create(@RequestBody EmployerRequest employerRequest){
         employerService.create(employerRequest);
         return HttpStatus.CREATED;
-    }
-    // ROLE_EMPLOYER
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody EmployerRequest employerRequest) {
-        employerService.update(employerRequest);
-        return HttpStatus.OK;
+    }*/
+
+    @PutMapping("/update")  // ROLE_EMPLOYER
+    public ResponseEntity<EmployerResponse> update(@RequestBody EmployerRequest employerRequest) {
+        EmployerResponse employerResponse = employerService.update(employerRequest);
+        return new ResponseEntity<>(employerResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ROLE_CANDIDATE, ROLE_EMPLOYER
     public ResponseEntity<EmployerResponse> getEmployerResponseById (@PathVariable("id") Long id){
         EmployerResponse employerResponse = employerService.getEmployerResponseById(id);
         return new ResponseEntity<>(employerResponse,HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAll") //ROLE_CANDIDATE , ROLE_EMPLOYER
     public ResponseEntity<List<EmployerResponse>> getAllEmployerResponses (){
         List<EmployerResponse> employerList = employerService.getAllEmployerResponses();
         return new ResponseEntity<>(employerList, HttpStatus.OK);
     }
-
 
 }

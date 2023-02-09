@@ -2,6 +2,7 @@ package com.umutdoruk.jobSearch.controllers;
 
 import com.umutdoruk.jobSearch.dto.request.JobLocationRequest;
 import com.umutdoruk.jobSearch.dto.response.JobLocationResponse;
+import com.umutdoruk.jobSearch.repository.JobLocationRepository;
 import com.umutdoruk.jobSearch.service.services.JobLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,31 +14,34 @@ import org.springframework.web.bind.annotation.*;
 public class JobLocationsController {
 
     private final JobLocationService jobLocationService;
+    private final JobLocationRepository jobLocationRepository;
 
     @Autowired
-    public JobLocationsController(JobLocationService jobLocationService) {
+    public JobLocationsController(JobLocationService jobLocationService,
+                                  JobLocationRepository jobLocationRepository) {
         this.jobLocationService = jobLocationService;
+        this.jobLocationRepository = jobLocationRepository;
     }
-    // ROLE_EMPLOYER
-    @PostMapping("/create")
-    public HttpStatus create(@RequestBody JobLocationRequest jobLocationRequest) {
-        jobLocationService.create(jobLocationRequest);
-        return HttpStatus.CREATED;
+
+    @PostMapping("/create") // ROLE_EMPLOYER
+    public ResponseEntity<JobLocationResponse> create(@RequestBody JobLocationRequest jobLocationRequest) {
+        JobLocationResponse jobLocationResponse = jobLocationService.create(jobLocationRequest);
+        return new ResponseEntity<>(jobLocationResponse,HttpStatus.CREATED);
     }
-    // ROLE_EMPLOYER
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody JobLocationRequest jobLocationRequest) {
-        jobLocationService.update(jobLocationRequest);
-        return HttpStatus.OK;
+
+    @PutMapping("/update") // ROLE_EMPLOYER
+    public ResponseEntity<JobLocationResponse> update(@RequestBody JobLocationRequest jobLocationRequest) {
+        JobLocationResponse jobLocationResponse = jobLocationService.update(jobLocationRequest);
+        return new ResponseEntity<>(jobLocationResponse,HttpStatus.OK);
     }
-    // ROLE_EMPLOYER
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}") // ROLE_EMPLOYER
     public HttpStatus delete(@PathVariable("id") Long id) {
         jobLocationService.delete(id);
         return HttpStatus.OK;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}")   // ROLE_EMPLOYER
     public ResponseEntity<JobLocationResponse> getJobLocationResponseById (@PathVariable("id") Long id){
          JobLocationResponse jobLocationResponse = jobLocationService.getJobLocationResponseById(id);
         return new ResponseEntity<>(jobLocationResponse,HttpStatus.OK);

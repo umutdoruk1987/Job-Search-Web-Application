@@ -1,8 +1,8 @@
-package com.umutdoruk.hrms.controllers;
+package com.umutdoruk.jobSearch.controllers;
 
-import com.umutdoruk.hrms.DTO.request.ForeignLanguageRequest;
-import com.umutdoruk.hrms.DTO.response.ForeignLanguageResponse;
-import com.umutdoruk.hrms.service.services.ForeignLanguageService;
+import com.umutdoruk.jobSearch.dto.request.ForeignLanguageRequest;
+import com.umutdoruk.jobSearch.dto.response.ForeignLanguageResponse;
+import com.umutdoruk.jobSearch.service.services.ForeignLanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,32 +20,32 @@ public class ForeignLanguagesController {
     public ForeignLanguagesController(ForeignLanguageService foreignLanguageService) {
         this.foreignLanguageService = foreignLanguageService;
     }
-    // ROLE_CANDIDATE
-    @PostMapping("/create")
-    public HttpStatus create (@RequestBody ForeignLanguageRequest foreignLanguageRequest){
-        foreignLanguageService.create(foreignLanguageRequest);
-        return HttpStatus.CREATED;
+
+    @PostMapping("/create")  // ROLE_CANDIDATE
+    public ResponseEntity<ForeignLanguageResponse> create (@RequestBody ForeignLanguageRequest foreignLanguageRequest){
+        ForeignLanguageResponse foreignLanguageResponse = foreignLanguageService.create(foreignLanguageRequest);
+        return new ResponseEntity<>(foreignLanguageResponse,HttpStatus.CREATED);
     }
-    // ROLE_CANDIDATE
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody ForeignLanguageRequest foreignLanguageRequest) {
-        foreignLanguageService.update(foreignLanguageRequest);
-        return HttpStatus.OK;
+
+    @PutMapping("/update")  // ROLE_CANDIDATE
+    public ResponseEntity<ForeignLanguageResponse> update(@RequestBody ForeignLanguageRequest foreignLanguageRequest) {
+        ForeignLanguageResponse foreignLanguageResponse =foreignLanguageService.update(foreignLanguageRequest);
+        return new ResponseEntity<>(foreignLanguageResponse,HttpStatus.OK);
     }
-    // ROLE_CANDIDATE
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}") // ROLE_CANDIDATE
     public HttpStatus delete(@PathVariable("id") Long id) {
         foreignLanguageService.delete(id);
         return HttpStatus.OK;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ROLE_CANDIDATE
     public ResponseEntity<ForeignLanguageResponse> getForeignLanguageResponseById (@PathVariable("id") Long id){
         ForeignLanguageResponse foreignLanguageResponse = foreignLanguageService.getForeignLanguageResponseById(id);
         return new ResponseEntity<>(foreignLanguageResponse,HttpStatus.OK);
     }
-    // ROLE_CANDIDATE
-    @GetMapping("/getAllByResumeId")
+
+    @GetMapping("/getAllByResumeId") // ROLE_CANDIDATE
     public ResponseEntity<List<ForeignLanguageResponse>> getAllForeignLanguageResponsesInResume (@RequestParam Long resumeId){
         List<ForeignLanguageResponse> foreignLanguageResponsesList = foreignLanguageService.getAllForeignLanguageResponsesInResume(resumeId);
         return new ResponseEntity<>(foreignLanguageResponsesList, HttpStatus.OK);

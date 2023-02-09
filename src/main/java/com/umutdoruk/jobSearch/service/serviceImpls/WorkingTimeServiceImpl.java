@@ -5,6 +5,7 @@ import com.umutdoruk.jobSearch.dto.response.WorkingTimeResponse;
 import com.umutdoruk.jobSearch.entities.Employer;
 import com.umutdoruk.jobSearch.entities.WorkingTime;
 import com.umutdoruk.jobSearch.entities.User;
+import com.umutdoruk.jobSearch.enums.WorkingTimeConstants;
 import com.umutdoruk.jobSearch.exception.BadRequestException;
 import com.umutdoruk.jobSearch.exception.NotFoundException;
 import com.umutdoruk.jobSearch.repository.WorkingTimeRepository;
@@ -46,21 +47,21 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
     }
 
     @Override
-    public void create(WorkingTimeRequest workingTimeRequest) {
+    public WorkingTimeResponse create(WorkingTimeRequest workingTimeRequest) {
         if (workingTimeRequest == null) throw new NotFoundException("No Working Time record found to add");
 
         if (getWorkingTimeByJobAdvertisementId(workingTimeRequest.getJobAdvertisementId())!= null)
             throw new BadRequestException("You have already created a Working Time. You can update it.");
 
         WorkingTime workingTime = new WorkingTime();
-        workingTime.setName(workingTimeRequest.getName());
+        workingTime.setName(WorkingTimeConstants.findByName(workingTimeRequest.getName()));
         workingTime.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(workingTimeRequest.getJobAdvertisementId()));
 
-        workingTimeRepository.save(workingTime);
+        return  WorkingTimeResponse.of(workingTimeRepository.save(workingTime));
     }
 
     @Override
-    public void update(WorkingTimeRequest workingTimeRequest) {
+    public WorkingTimeResponse update(WorkingTimeRequest workingTimeRequest) {
 
         if (workingTimeRequest == null)
             throw new NotFoundException("No Working Time record found to update");
@@ -68,9 +69,9 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
             throw new BadRequestException("You have no such job position");
 
         WorkingTime workingTime = getWorkingTimeById(workingTimeRequest.getWorkingTimeId());
-        workingTime.setName(workingTimeRequest.getName());
+        workingTime.setName(WorkingTimeConstants.findByName(workingTimeRequest.getName()));
         /*jobPosition.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(jobPositionRequest.getJobAdvertisementId()));*/
-        workingTimeRepository.save(workingTime);
+        return  WorkingTimeResponse.of(workingTimeRepository.save(workingTime));
     }
 
     @Override

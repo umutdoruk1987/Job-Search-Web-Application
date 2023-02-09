@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface EmploymentTypeService {
 
-    void create(EmploymentTypeRequest employmentTypeRequest);
-    void update(EmploymentTypeRequest employmentTypeRequest);
+    EmploymentTypeResponse create(EmploymentTypeRequest employmentTypeRequest);
+    EmploymentTypeResponse update(EmploymentTypeRequest employmentTypeRequest);
     void delete(Long id);
     EmploymentType getEmploymentTypeById(Long id);
     EmploymentType getEmploymentTypeByJobAdvertisementId(Long id);

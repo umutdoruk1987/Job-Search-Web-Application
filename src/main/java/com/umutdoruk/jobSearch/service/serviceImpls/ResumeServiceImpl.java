@@ -1,11 +1,11 @@
-package com.umutdoruk.hrms.service.serviceImpls;
+package com.umutdoruk.jobSearch.service.serviceImpls;
 
-import com.umutdoruk.hrms.DTO.request.ResumeRequest;
-import com.umutdoruk.hrms.DTO.response.*;
-import com.umutdoruk.hrms.entities.*;
-import com.umutdoruk.hrms.exception.NotFoundException;
-import com.umutdoruk.hrms.repository.ResumeRepository;
-import com.umutdoruk.hrms.service.services.*;
+import com.umutdoruk.jobSearch.dto.request.ResumeRequest;
+import com.umutdoruk.jobSearch.dto.response.*;
+import com.umutdoruk.jobSearch.entities.*;
+import com.umutdoruk.jobSearch.exception.NotFoundException;
+import com.umutdoruk.jobSearch.repository.ResumeRepository;
+import com.umutdoruk.jobSearch.service.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,33 +28,36 @@ public class ResumeServiceImpl implements ResumeService {
     private WorkExperienceService workExperienceService;
     @Autowired
     private ForeignLanguageService foreignLanguageService;
+    @Autowired
+    private UserService userService;
 
     @Override
-    public void create(ResumeRequest resumeRequest) {
+    public ResumeResponse create(ResumeRequest resumeRequest) {
         Resume resume = new Resume();
         resume.setCreateDate(LocalDate.now());
         resume.setCandidate(candidateService.getCandidateById(resumeRequest.getCandidateId()));
-        resumeRepository.save(resume);
+        return ResumeResponse.of(resumeRepository.save(resume),null,null,null,null);
     }
 
     @Override
-    public void update(ResumeRequest resumeRequest) {
-
-        Resume resume = resumeRepository.findById(resumeRequest.getResumeId()).get();
-        if(resumeRequest.getCoverLetter()!=null)resume.setCoverLetter(resumeRequest.getCoverLetter());
-        if(resumeRequest.getGithubUrl()!=null)resume.setGithubUrl(resumeRequest.getGithubUrl());
-        if(resumeRequest.getLinkedinUrl()!=null)resume.setLinkedinUrl(resumeRequest.getLinkedinUrl());
-        if(resumeRequest.getImageUrl()!=null)resume.setImageUrl(resumeRequest.getImageUrl());
-        if(resumeRequest.getActive()!=null)resume.setActive(resumeRequest.getActive());
+    public ResumeResponse update(ResumeRequest resumeRequest) {
+        Resume resume = resumeUpdater(resumeRequest);
         resumeRepository.save(resume);
+        return getResumeResponseById(resume.getId());
     }
 
     @Override
-    public void delete(Long id) {
-
-        if (!(resumeRepository.existsById(id)))
-            throw new NotFoundException("Resume is not found");
-        resumeRepository.deleteById(id);
+    public void delete(/*Long id*/) {
+        Resume resume = getResumeFromAuthentication();
+        educationService.getAllEducationResponsesInResume(resume.getId())
+                .forEach(educationResponse -> educationService.delete(educationResponse.getEducationId()));
+        workExperienceService.getAllWorkExperienceResponsesInResume(resume.getId())
+                .forEach(workExperienceResponse -> workExperienceService.delete(workExperienceResponse.getWorkExperienceId()));
+        foreignLanguageService.getAllForeignLanguageResponsesInResume(resume.getId())
+                .forEach(foreignLanguageResponse -> foreignLanguageService.delete(foreignLanguageResponse.getForeignLanguageId()));
+        technologyService.getAllTechnologiesResponsesInResume(resume.getId())
+                .forEach(technologyResponse -> technologyService.delete(technologyResponse.getTechnologyId()));
+        resumeRepository.deleteById(resume.getId());
     }
 
     @Override
@@ -67,6 +70,12 @@ public class ResumeServiceImpl implements ResumeService {
     public Resume getResumeByCandidateId(Long candidateId) {
         return resumeRepository.findResumeByCandidateId(candidateId)
                 .orElseThrow(()-> new NotFoundException("Resume is not found"));
+    }
+
+    @Override
+    public ResumeResponse getResumeResponseByCandidateId(Long candidateId) {
+        Resume resume = getResumeByCandidateId(candidateId);
+        return getResumeResponseById(resume.getId());
     }
 
     @Override
@@ -103,4 +112,21 @@ public class ResumeServiceImpl implements ResumeService {
 
         return resumeResponseList;
     }
+
+    private Resume resumeUpdater(ResumeRequest resumeRequest){
+        Resume resume = getResumeFromAuthentication();
+        if(resumeRequest.getCoverLetter()!=null)resume.setCoverLetter(resumeRequest.getCoverLetter());
+        if(resumeRequest.getGithubUrl()!=null)resume.setGithubUrl(resumeRequest.getGithubUrl());
+        if(resumeRequest.getLinkedinUrl()!=null)resume.setLinkedinUrl(resumeRequest.getLinkedinUrl());
+        if(resumeRequest.getImageUrl()!=null)resume.setImageUrl(resumeRequest.getImageUrl());
+        if(resumeRequest.getActive()!=null)resume.setActive(resumeRequest.getActive());
+        return resume;
+    }
+
+    public Resume getResumeFromAuthentication(){
+        User user = userService.getUserByUsername(UserServiceImpl.getUsernameFromAuthentication());
+        Candidate candidate = candidateService.getCandidateByUserId(user.getId());
+        return getResumeByCandidateId(candidate.getId());
+    }
+
 }

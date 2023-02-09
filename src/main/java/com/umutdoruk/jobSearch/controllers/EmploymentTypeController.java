@@ -20,32 +20,32 @@ public class EmploymentTypeController {
     public EmploymentTypeController(EmploymentTypeService employmentTypeService) {
         this.employmentTypeService = employmentTypeService;
     }
-    // ROLE_EMPLOYER
-    @PostMapping("/create")
-    public HttpStatus create (@RequestBody EmploymentTypeRequest employmentTypeRequest){
-        employmentTypeService.create(employmentTypeRequest);
-        return HttpStatus.CREATED;
+
+    @PostMapping("/create") // ROLE_EMPLOYER
+    public ResponseEntity<EmploymentTypeResponse> create (@RequestBody EmploymentTypeRequest employmentTypeRequest){
+        EmploymentTypeResponse employmentTypeResponse = employmentTypeService.create(employmentTypeRequest);
+        return new ResponseEntity<>(employmentTypeResponse,HttpStatus.CREATED);
     }
-    // ROLE_EMPLOYER
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody EmploymentTypeRequest employmentTypeRequest){
-        employmentTypeService.update(employmentTypeRequest);
-        return HttpStatus.OK;
+
+    @PutMapping("/update") // ROLE_EMPLOYER
+    public ResponseEntity<EmploymentTypeResponse> update(@RequestBody EmploymentTypeRequest employmentTypeRequest){
+        EmploymentTypeResponse employmentTypeResponse = employmentTypeService.update(employmentTypeRequest);
+        return new ResponseEntity<>(employmentTypeResponse,HttpStatus.OK);
     }
-    // ROLE_EMPLOYER
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}") // ROLE_EMPLOYER
     public HttpStatus delete(@PathVariable("id") Long id){
         employmentTypeService.delete(id);
         return HttpStatus.OK;
     }
 
-    @GetMapping("/{id}}")
+    @GetMapping("/{id}}") // ROLE_EMPLOYER
     public ResponseEntity<EmploymentTypeResponse> getEmploymentTypeResponseById (@PathVariable ("id") Long id){
          EmploymentTypeResponse employmentTypeResponse = employmentTypeService.getEmploymentTypeResponseById(id);
         return new ResponseEntity<>(employmentTypeResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAll") // ROLE_EMPLOYER
     public ResponseEntity<List<EmploymentTypeResponse>> getAllEmploymentTypeResponses(){
         List<EmploymentTypeResponse> employmentTypeResponseList = employmentTypeService.getAllEmploymentTypeResponses();
         return new ResponseEntity<>(employmentTypeResponseList, HttpStatus.OK);

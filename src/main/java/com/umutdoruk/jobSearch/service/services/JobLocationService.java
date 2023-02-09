@@ -6,8 +6,8 @@ import com.umutdoruk.jobSearch.entities.JobLocation;
 
 public interface JobLocationService {
 
-    void create(JobLocationRequest jobLocationRequest);
-    void update(JobLocationRequest jobLocationRequest);
+    JobLocationResponse create(JobLocationRequest jobLocationRequest);
+    JobLocationResponse update(JobLocationRequest jobLocationRequest);
     void delete(Long id);
     JobLocation getJobLocationById(Long id);
     JobLocation getJobLocationByJobAdvertisementId(Long id);

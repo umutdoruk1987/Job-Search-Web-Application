@@ -1,8 +1,8 @@
-package com.umutdoruk.hrms.controllers;
+package com.umutdoruk.jobSearch.controllers;
 
-import com.umutdoruk.hrms.DTO.request.EducationRequest;
-import com.umutdoruk.hrms.DTO.response.EducationResponse;
-import com.umutdoruk.hrms.service.services.EducationService;
+import com.umutdoruk.jobSearch.dto.request.EducationRequest;
+import com.umutdoruk.jobSearch.dto.response.EducationResponse;
+import com.umutdoruk.jobSearch.service.services.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,44 +20,44 @@ public class EducationsController {
     public EducationsController(EducationService educationService) {
         this.educationService = educationService;
     }
-    // ROLE_CANDIDATE
-    @PostMapping("/create")
-    public HttpStatus create (@RequestBody EducationRequest educationRequest){
-        educationService.create(educationRequest);
-        return HttpStatus.CREATED;
+
+    @PostMapping("/create") // ROLE_CANDIDATE
+    public ResponseEntity<EducationResponse> create (@RequestBody EducationRequest educationRequest){
+        EducationResponse educationResponse = educationService.create(educationRequest);
+        return new ResponseEntity<>(educationResponse, HttpStatus.CREATED);
     }
-    // ROLE_CANDIDATE
-    @PutMapping("/update")
-    public HttpStatus update(@RequestBody EducationRequest educationRequest) {
-        educationService.update(educationRequest);
-        return HttpStatus.OK;
+
+    @PutMapping("/update") // ROLE_CANDIDATE
+    public ResponseEntity<EducationResponse> update(@RequestBody EducationRequest educationRequest) {
+        EducationResponse educationResponse =educationService.update(educationRequest);
+        return new ResponseEntity<>(educationResponse, HttpStatus.OK);
     }
-    // ROLE_CANDIDATE
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}") // ROLE_CANDIDATE
     public HttpStatus delete(@PathVariable("id") Long id) {
         educationService.delete(id);
         return HttpStatus.OK;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ROLE_CANDIDATE
     public ResponseEntity<EducationResponse> getEducationResponseById (@PathVariable("id") Long id){
         EducationResponse educationResponse = educationService.getEducationResponseById(id);
         return new ResponseEntity<>(educationResponse,HttpStatus.OK);
     }
-    // ROLE_CANDIDATE
-    @GetMapping("/getAllByResumeId")
+
+    @GetMapping("/getAllByResumeId")  // ROLE_CANDIDATE
     public ResponseEntity<List<EducationResponse>> getAllEducationResponsesInResume (@RequestParam Long resumeId){
         List<EducationResponse> educationList = educationService.getAllEducationResponsesInResume(resumeId);
         return new ResponseEntity<>(educationList, HttpStatus.OK);
     }
-    // ROLE_CANDIDATE
-    @GetMapping("/findAllByOrderByGraduationDateAsc")
+
+    @GetMapping("/findAllByOrderByGraduationDateAsc") // ROLE_CANDIDATE
     public ResponseEntity<List<EducationResponse>> getAllByOrderByGraduationDateAsc(){
         List<EducationResponse> educationList = educationService.findAllByOrderByGraduationDateAsc();
         return new ResponseEntity<>(educationList,HttpStatus.OK);
     }
-    // ROLE_CANDIDATE
-    @GetMapping("/findAllByOrderByGraduationDateDesc")
+
+    @GetMapping("/findAllByOrderByGraduationDateDesc") // ROLE_CANDIDATE
     public ResponseEntity<List<EducationResponse>> getAllByOrderByGraduationDateDesc(){
         List<EducationResponse> educationList = educationService.findAllByOrderByGraduationDateDesc();
         return new ResponseEntity<>(educationList,HttpStatus.OK);

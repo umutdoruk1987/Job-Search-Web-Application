@@ -5,6 +5,7 @@ import com.umutdoruk.jobSearch.dto.response.EmploymentTypeResponse;
 import com.umutdoruk.jobSearch.entities.Employer;
 import com.umutdoruk.jobSearch.entities.EmploymentType;
 import com.umutdoruk.jobSearch.entities.User;
+import com.umutdoruk.jobSearch.enums.EmploymentTypeConstants;
 import com.umutdoruk.jobSearch.exception.BadRequestException;
 import com.umutdoruk.jobSearch.exception.NotFoundException;
 import com.umutdoruk.jobSearch.repository.EmploymentTypeRepository;
@@ -36,22 +37,22 @@ public class EmploymentTypeServiceImpl implements EmploymentTypeService {
     }
 
     @Override
-    public void create(EmploymentTypeRequest employmentTypeRequest) {
+    public EmploymentTypeResponse create(EmploymentTypeRequest employmentTypeRequest) {
 
-        if (employmentTypeRequest == null) throw new NotFoundException("No Employment Type record found to add");
-
+        if (employmentTypeRequest == null)
+            throw new NotFoundException("No Employment Type record found to add");
         if (getEmploymentTypeByJobAdvertisementId(employmentTypeRequest.getJobAdvertisementId())!= null)
             throw new BadRequestException("You have already created a Employment Type. You can update it.");
 
         EmploymentType employmentType = new EmploymentType();
-        employmentType.setName(employmentTypeRequest.getName());
+        employmentType.setTypeName(EmploymentTypeConstants.findByName(employmentTypeRequest.getName()));
         employmentType.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(employmentTypeRequest.getJobAdvertisementId()));
 
-        employmentTypeRepository.save(employmentType);
+        return EmploymentTypeResponse.of(employmentTypeRepository.save(employmentType));
     }
 
     @Override
-    public void update(EmploymentTypeRequest employmentTypeRequest) {
+    public EmploymentTypeResponse update(EmploymentTypeRequest employmentTypeRequest) {
 
         if (employmentTypeRequest == null)
             throw new NotFoundException("No Employment Type record found to update");
@@ -59,9 +60,9 @@ public class EmploymentTypeServiceImpl implements EmploymentTypeService {
             throw new BadRequestException("You have no such Employment Type");
 
         EmploymentType employmentType = getEmploymentTypeById(employmentTypeRequest.getEmploymentTypeId());
-        employmentType.setName(employmentTypeRequest.getName());
+        employmentType.setTypeName(EmploymentTypeConstants.findByName(employmentTypeRequest.getName()));
         /*typeOfWork.setJobAdvertisement(jobAdvertisementService.getJobAdvertisementById(typeOfWorkRequest.getJobAdvertisementId()));*/
-        employmentTypeRepository.save(employmentType);
+        return EmploymentTypeResponse.of(employmentTypeRepository.save(employmentType));
     }
 
     @Override
