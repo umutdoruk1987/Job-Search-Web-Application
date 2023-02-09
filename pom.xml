@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.umutdoruk</groupId>
-	<artifactId>hrms</artifactId>
+	<artifactId>jobSearch</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hrms</name>
 	<description>Job Search Web Application</description>

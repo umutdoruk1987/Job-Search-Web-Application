@@ -16,7 +16,9 @@ public class EmploymentTypeResponse {
 
     public static EmploymentTypeResponse of(EmploymentType employmentType){
 
-        if (employmentType !=null)return new EmploymentTypeResponse(employmentType.getId(), employmentType.getName());
-        else return new EmploymentTypeResponse();
+        if (employmentType !=null)
+            return new EmploymentTypeResponse(employmentType.getId(), employmentType.getTypeName().name());
+
+        return new EmploymentTypeResponse();
     }
 }

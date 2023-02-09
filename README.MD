@@ -6,7 +6,7 @@ This application has been developed to bring together candidates and employers.
 
 **1-** can register as a candidate in this web application,create their own CV and keep - update - delete - inactivate it,
 
-**2-** can find all active job adverts of an employer and active job adverts in a city,
+**2-** can find all active job adverts of an employer and active job adverts in a jobLocation,
 
 **3-** can filter all job adverts according to a Type Of Work, Job Position, Job Type, by creation date and by application deadline.
 

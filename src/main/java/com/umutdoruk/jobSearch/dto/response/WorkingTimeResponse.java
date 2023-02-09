@@ -15,7 +15,7 @@ public class WorkingTimeResponse {
 
     public static WorkingTimeResponse of(WorkingTime workingTime){
 
-        if (workingTime !=null) return new WorkingTimeResponse(workingTime.getId(), workingTime.getName());
+        if (workingTime !=null) return new WorkingTimeResponse(workingTime.getId(), workingTime.getName().name());
         else return new WorkingTimeResponse();
     }
 }
