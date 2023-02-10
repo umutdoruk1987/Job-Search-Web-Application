@@ -1,6 +1,7 @@
-package com.umutdoruk.hrms.entities;
+package com.umutdoruk.jobSearch.entities;
 
 
+import com.umutdoruk.jobSearch.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,8 +36,9 @@ public class User {
     private LocalDate createdDate;
 
     @Column(name = "active")
-    private boolean active;
+    private Boolean active;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
-    private String roleName;
+    private Role role;
 }

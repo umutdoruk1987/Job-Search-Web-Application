@@ -1,5 +1,6 @@
 package com.umutdoruk.jobSearch.entities;
 
+import com.umutdoruk.jobSearch.enums.EmploymentTypeConstants;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +18,9 @@ public class EmploymentType {
     @Column(name = "employment_type_id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_name")
+    private EmploymentTypeConstants typeName;
 
     @OneToOne(/*mappedBy = "typeOfWork"*/)
     @JoinColumn (name = "jobAdvertisement_id")

@@ -1,9 +1,12 @@
-package com.umutdoruk.hrms.entities;
+package com.umutdoruk.jobSearch.entities;
 
+import com.umutdoruk.jobSearch.enums.LanguageLevelConstants;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @Entity
@@ -20,10 +23,12 @@ public class ForeignLanguage {
     @Column(name = "language_name")
     private String languageName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "language_level")
-    private String languageLevel;
+    private LanguageLevelConstants languageLevel;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "resume_id")
     private Resume resume;
 }

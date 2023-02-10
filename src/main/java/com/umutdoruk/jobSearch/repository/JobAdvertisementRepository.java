@@ -1,7 +1,9 @@
-package com.umutdoruk.hrms.repository;
+package com.umutdoruk.jobSearch.repository;
 
-import com.umutdoruk.hrms.entities.JobAdvertisement;
+import com.umutdoruk.jobSearch.entities.JobAdvertisement;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +19,7 @@ public interface JobAdvertisementRepository extends JpaRepository<JobAdvertiseme
    /* @Query(value = "SELECT * FROM job_advertisements ja where ja.employer_id = :employerId", nativeQuery = true)
     List<JobAdvertisement> findAllByEmployerId (@Param("employerId")Long employerId);*/
 
+    @Query(value = "SELECT CASE WHEN COUNT(j) > 0 THEN true ELSE false END FROM job_advertisements j inner join employers e on j.employer_id = e.employer_id " +
+            "where j.job_advertisement_id = :jobAdvertisementId and e.user_id= (select user_id from users where username= :username)", nativeQuery = true)
+    boolean isJobAdvertisementBelongToEmployer(@Param("jobAdvertisementId")Long jobAdvertisementId, @Param("username")String username);
 }
